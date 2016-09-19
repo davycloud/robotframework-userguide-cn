@@ -7,14 +7,17 @@
 Robot Framework用户手册
 ========================
 
+  Version |version|
+---------------------
 
 .. toctree::
    :maxdepth: 2
 
-   GettingStarted/Install
-   GettingStarted/CopyrightAndLicense
-   GettingStarted/Introduction
+   about
+   
+   GettingStarted/index
+   CreatingTestData/index
 
    ExtendingRobotFramework/CreatingTestLibraries
 
-
+.. _Python: http://python.org
