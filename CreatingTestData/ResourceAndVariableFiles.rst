@@ -185,12 +185,7 @@ __ `Setting variables in command line`_
 基础语法
 ''''''''''''
 
-When variable files are taken into use, they are imported as Python
-modules and all their global attributes that do not start with an
-underscore (`_`) are considered to be variables. Because variable
-names are case-insensitive, both lower- and upper-case names are
-possible, but in general, capital letters are recommended for global
-variables and attributes.
+当使用变量文件时, 它们像Python的模块一样被导入, 其中的非下划线(`_`)开头的全局属性均被视作变量. 因为变量的名字是不区分大小写的, 所以不管小写还是大写字母都是可以的, 通常推荐大写字母用作全局变量和属性.
 
 .. sourcecode:: python
 
@@ -209,9 +204,9 @@ dictionary also a `list variable`_ like `@{STRINGS}` (in the dictionary's case
 that variable would only contain keys), and the dictionary also as a
 `dictionary variable`_ like `&{MAPPING}`.
 
-To make creating a list variable or a dictionary variable more explicit,
-it is possible to prefix the variable name with `LIST__` or `DICT__`,
-respectively:
+在上面的例子中, 创建了 `${VARIABLE}`, `${ANOTHER VARIABLE}` 等变量. 前面2个是字符串, 第3个是整数, 接下来是两个列表, 最后一个是字典. 这些变量都可以用作 `scalar variable`_, 列表和字典还可以当作 `list variable`_ 如 `@{STRINGS}` (注字典当列表变量使用时只包含字典的键), 而字典显然可以被当作 `dictionary variable`_ 如 `&{MAPPING}`_.
+
+如果想让列表和字典类型的变量显得更明确, 可以分别使用前缀 `LIST__` 和 `DICT__`来区分(注意后面是两个下划线):
 
 .. sourcecode:: python
 
@@ -219,6 +214,10 @@ respectively:
 
    LIST__ANIMALS = ["cat", "dog"]
    DICT__FINNISH = OrderedDict([("cat", "kissa"), ("dog", "koira")])
+
+这些前缀最终不会被视作变量名称的一部分, 只是使得Robot Framework校验变量的值的类型是否符合. 对字典来说, 变量值还将转换为特殊的字典类型, 就像 `creating dictionary variables`_ 中使用的一样. 这样这些字典之中的值就可以像访问属性一样获取, 如 `${FINNISH.cat}`. 同时这些字典还是排序的, 不过保持源顺序要求初始的字典是排序的.
+
+上面例子中的变量同样可以使用下面的方式在变量表中创建. 
 
 These prefixes will not be part of the final variable name, but they cause
 Robot Framework to validate that the value actually is list-like or
@@ -244,20 +243,17 @@ Variable table below.
    @{ANIMALS}             cat          dog
    &{FINNISH}             cat=kissa    dog=koira
 
-.. note:: Variables are not replaced in strings got from variable files.
-          For example, `VAR = "an ${example}"` would create
-          variable `${VAR}` with a literal string value
-          `an ${example}` regardless would variable `${example}`
-          exist or not.
+.. note:: 变量文件中的字符串中的变量格式是不会当变量替换的. 例如, 
+          `VAR = "an ${example}"` 将创建变量 `${VAR}`, 其值为 `an ${example}`.
+          是否存在变量 `${example}` 都不会影响.
 
-Using objects as values
+
+.. Using objects as values
+
+使用对象
 '''''''''''''''''''''''
 
-Variables in variable files are not limited to having only strings or
-other base types as values like variable tables. Instead, their
-variables can contain any objects. In the example below, the variable
-`${MAPPING}` contains a Java Hashtable with two values (this
-example works only when running tests on Jython).
+变量文件中变量定义突破了变量表格中只能定义字符串和基础类型的限制, 现在变量可以包含任意类型的对象. 在下面的例子中, 变量 `${MAPPING}` 包含了一个Java哈希表, 其中包含两个值(该例子只适用于Jython上运行).
 
 .. sourcecode:: python
 
@@ -267,9 +263,7 @@ example works only when running tests on Jython).
     MAPPING.put("one", 1)
     MAPPING.put("two", 2)
 
-The second example creates `${MAPPING}` as a Python dictionary
-and also has two variables created from a custom object implemented in
-the same file.
+第二个例子创建了Python的字典 `${MAPPING}`, 同样包含两个值, 且这两个值是该文件中自定义类的实例.
 
 .. sourcecode:: python
 
@@ -282,11 +276,12 @@ the same file.
     OBJ1 = MyObject('John')
     OBJ2 = MyObject('Jane')
 
-Creating variables dynamically
+.. Creating variables dynamically
+
+动态创建变量
 ''''''''''''''''''''''''''''''
 
-Because variable files are created using a real programming language,
-they can have dynamic logic for setting variables.
+因为变量文件就是真正的编程语言, 其中几乎可以包含任意的代码逻辑来设置变量.
 
 .. sourcecode:: python
 
@@ -308,6 +303,10 @@ example below illustrates the concept, but similarly, your code could
 read the data from a database, from an external file or even ask it from
 the user.
 
+上面的例子中使用了Python标准库来设置不同的变量, 你也可以使用自己的代码来构造这些值.
+
+下面的例子展示了概念, 类似地, 真实的代码中的数据可以是来自数据库, 或者外部文件, 甚至是要求用户输入.
+
 .. sourcecode:: python
 
     import math
@@ -320,21 +319,14 @@ the user.
     AREA1 = get_area(1)
     AREA2 = get_area(2)
 
-Selecting which variables to include
+.. Selecting which variables to include
+
+选择性的包含变量
 ''''''''''''''''''''''''''''''''''''
 
-When Robot Framework processes variable files, all their attributes
-that do not start with an underscore are expected to be
-variables. This means that even functions or classes created in the
-variable file or imported from elsewhere are considered variables. For
-example, the last example would contain the variables `${math}`
-and `${get_area}` in addition to `${AREA1}` and
-`${AREA2}`.
+当 Robot Framework 处理变量文件时, 这些文件(模块)中所有的属性只要不是以下划线开头, 都会被视作变量, 这其中甚至包括函数或类, 不管是在文件中创建的还是从其它模块导入的. 例如, 上面最后一个例子中除了 `${AREA1}` 和 `${AREA2}` 这两个我们预期的变量外, 最终还包含了 `${math}` 和 `${get_area}` 这两个变量.
 
-Normally the extra variables do not cause problems, but they
-could override some other variables and cause hard-to-debug
-errors. One possibility to ignore other attributes is prefixing them
-with an underscore:
+虽然通常情况下这些额外的变量不会造成什么问题, 但是它们有可能会无意覆盖其它的变量名, 由此引发的错误将难以定位. 一个可行的解决办法是通过加下划线作为前缀来忽略这些属性:
 
 .. sourcecode:: python
 
@@ -348,10 +340,7 @@ with an underscore:
     AREA1 = _get_area(1)
     AREA2 = _get_area(2)
 
-If there is a large number of other attributes, instead of prefixing
-them all, it is often easier to use a special attribute
-`__all__` and give it a list of attribute names to be processed
-as variables.
+但是如果属性的数量非常多, 这样做就很不方便(同时, 这种做法也不符合Python的编码风格). 推荐的做法是使用特殊属性 `__all__`, 将要作为变量暴露的属性名放在列表中赋值给它.
 
 .. sourcecode:: python
 
@@ -367,23 +356,20 @@ as variables.
     AREA1 = get_area(1)
     AREA2 = get_area(2)
 
-.. Note:: The `__all__` attribute is also, and originally, used
-          by Python to decide which attributes to import
-          when using the syntax `from modulename import *`.
+.. note:: `__all__` 属性在Python中最初就是用来设置哪些属性可以在
+          `from modulename import *` 的语法中被导入.
 
-Getting variables from a special function
+
+.. Getting variables from a special function
+
+通过特殊函数获取变量
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-An alternative approach for getting variables is having a special
-`get_variables` function (also camelCase syntax
-`getVariables` is possible) in a variable file. If such a function
-exists, Robot Framework calls it and expects to receive variables as
-a Python dictionary or a Java `Map` with variable names as keys
-and variable values as values. Created variables can be used as scalars,
-lists, and dictionaries exactly like when `creating variables directly`_,
-and it is possible to use `LIST__` and `DICT__` prefixes to make creating
-list and dictionary variables more explicit. The example below is functionally
-identical to the first `creating variables directly`_ example.
+在变量文件中获取变量的另一种方法是通过特殊的函数 `get_variables`(或 `getVariables`). 如果这个函数存在, Robot Framework将调用该函数, 并且预期返回的结果是Python的字典类型或者Java中的 `Map` 类型, 其中变量的名称是键, 而值就是变量的值. 
+
+创建的变量可以用作标量, 列表和字典, 就和 `creating variables directly`_ 完全一样, 同样可以使用前缀 `LIST__` 和 `DICT__` 来明确表示创建的是列表和字典. 
+
+下面的例子和 `creating variables directly`_ 中的第一个例子在功能上完全相同.
 
 .. sourcecode:: python
 
@@ -396,16 +382,10 @@ identical to the first `creating variables directly`_ example.
                      "MAPPING": {"one": 1, "two": 2, "three": 3}}
         return variables
 
-`get_variables` can also take arguments, which facilitates changing
-what variables actually are created. Arguments to the function are set just
-as any other arguments for a Python function. When `taking variable files
-into use`_ in the test data, arguments are specified in cells after the path
-to the variable file, and in the command line they are separated from the
-path with a colon or a semicolon.
+`get_variables` 可以接受参数, 这样可以很方便的改变实际要创建什么样的变量. 参数的数量和类型和普通的Python函数并无二致. 当在测试数据中 `taking variable files into use`_ 时, 调用参数跟在变量文件后面的表格里, 而在命令行中则通过冒号或分号和文件路径分开.
 
-The dummy example below shows how to use arguments with variable files. In a
-more realistic example, the argument could be a path to an external text file
-or database where to read variables from.
+
+下面这个傻傻的例子展示了变量文件如何使用参数. 在更真实的场景中, 这些参数可能是一个用来读取参数的外部文件的路径, 或者是数据库的地址.
 
 .. sourcecode:: python
 
@@ -421,40 +401,34 @@ or database where to read variables from.
         else:
             return variables2
 
-Implementing variable file as Python or Java class
+.. Implementing variable file as Python or Java class
+
+用类实现变量文件
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Starting from Robot Framework 2.7, it is possible to implement variables files
-as Python or Java classes.
+从Robot Framework 2.7版本开始, 还可以使用Python或Java之中的类来实现变量文件.
 
-Implementation
+.. Implementation
+
+具体实现
 ''''''''''''''
 
-Because variable files are always imported using a file system path, creating
-them as classes has some restrictions:
+因为变量导入时使用的文件路径, 所有使用类实现的时候有一些限制:
 
-  - Python classes must have the same name as the module they are located.
-  - Java classes must live in the default package.
-  - Paths to Java classes must end with either :file:`.java` or :file:`.class`.
-    The class file must exists in both cases.
+  - Python的类名必须和所在的模块名相同.
+  - Java类必须在默认包中.
+  - 指向Java类的路径必须以 :file:`.java` 或 :file:`.class` 结尾, class文件必须存在.
 
-Regardless the implementation language, the framework will create an instance
-of the class using no arguments and variables will be gotten from the instance.
-Similarly as with modules, variables can be defined as attributes directly
-in the instance or gotten from a special `get_variables`
-(or `getVariables`) method.
+不管以何种语言实现, 框架都将不带参数的构造一个实例, 通过该实例获取变量. 和使用模块类似, 变量可以直接定义为实例的属性, 也可以使用特殊的 `get_variables`(或 `getVariables`) 方法.
 
-When variables are defined directly in an instance, all attributes containing
-callable values are ignored to avoid creating variables from possible methods
-the instance has. If you would actually need callable variables, you need
-to use other approaches to create variable files.
+当直接定义变量时, 会忽略所有可调用的(callable)的属性以避免调用实例的方法. 如果需要可调用的变量, 需要使用其它的方法来创建变量文件.
 
-Examples
+.. Examples
+
+示例
 ''''''''
 
-The first examples create variables from attributes using both Python and Java.
-Both of them create variables `${VARIABLE}` and `@{LIST}` from class
-attributes and `${ANOTHER VARIABLE}` from an instance attribute.
+第一个例子通过属性直接创建变量, 同时以Python和Java两种语言实现. 两个例子的效果相同, 都通过类的属性创建了变量 `${VARIABLE}` and `@{LIST}`, 并通过实例的属性创建变量 `${ANOTHER VARIABLE}`.
 
 .. sourcecode:: python
 
@@ -479,8 +453,7 @@ attributes and `${ANOTHER VARIABLE}` from an instance attribute.
         }
     }
 
-The second examples utilizes dynamic approach for getting variables. Both of
-them create only one variable `${DYNAMIC VARIABLE}`.
+第二个例子通过动态的方法来获取变量. 同样, 两种语言的效果一样, 都创建了唯一的变量 `${DYNAMIC VARIABLE}`.
 
 .. sourcecode:: python
 
@@ -503,12 +476,12 @@ them create only one variable `${DYNAMIC VARIABLE}`.
         }
     }
 
-Variable file as YAML
+.. Variable file as YAML
+
+YAML格式的变量文件
 ~~~~~~~~~~~~~~~~~~~~~
 
-Variable files can also be implemented as `YAML <http://yaml.org>`_ files.
-YAML is a data serialization language with a simple and human-friendly syntax.
-The following example demonstrates a simple YAML file:
+变量文件还可以使用  `YAML <http://yaml.org>`_ 文件. YAML是一种数据序列化的标记语言, 拥有简单的语法和友好的可读性. 下面的例子展示了一个简单的YAML文件:
 
 .. sourcecode:: yaml
 
@@ -522,23 +495,15 @@ The following example demonstrates a simple YAML file:
       two: kaksi
       with spaces: kolme
 
-.. note:: Using YAML files with Robot Framework requires `PyYAML
-          <http://pyyaml.org>`_ module to be installed. If you have
-          pip_ installed, you can install it simply by running
+.. note:: 在Robot Framework中使用YAML文件要求安装 `PyYAML
+          <http://pyyaml.org>`_ 模块. 如果已经有了 pip_, 则使用下面的命令即可安装
           `pip install pyyaml`.
 
-          YAML support is new in Robot Framework 2.9. Starting from
-          version 2.9.2, the `standalone JAR distribution`_ has
-          PyYAML included by default.
+          Robot Framework从2.9版本开始支持YAML. 从2.9.2版本开始, `standalone JAR distribution`_ 已经默认包含了PyYAML.
 
-YAML variable files can be used exactly like normal variable files
-from the command line using :option:`--variablefile` option, in the settings
-table using :setting:`Variables` setting, and dynamically using the
-:name:`Import Variables` keyword. The only thing to remember is that paths to
-YAML files must always end with :file:`.yaml` extension.
+YAML 变量文件的使用和其它变量文件完全一样, 既可以使用命令行选项 :option:`--variablefile`, 也可以使用配置 :setting:`Variables`, 或者使用关键字 :name:`Import Variables` 动态导入. 唯一需要记住的是, 导入YAML文件的路径名必须以 :file:`.yaml` 扩展名结尾.
 
-If the above YAML file is imported, it will create exactly the same
-variables as the following variable table:
+上例中的YAML文件创建的变量和下面的变量表格创建的变量完全一样.
 
 .. sourcecode:: robotframework
 
@@ -548,17 +513,7 @@ variables as the following variable table:
    @{LIST}       one         two
    &{DICT}       one=yksi    two=kaksi
 
-YAML files used as variable files must always be mappings in the top level.
-As the above example demonstrates, keys and values in the mapping become
-variable names and values, respectively. Variable values can be any data
-types supported by YAML syntax. If names or values contain non-ASCII
-characters, YAML variables files must be UTF-8 encoded.
+使用YAML文件作为变量文件必须总是使用顶层的映射(mappings). 如上例所示, 映射中的键和值分别是变量的名称和值. 变量的值可以是YAML语法支持的任意数据类型. 如果名称或值中包含了non-ASCII的字符, 则YAML文件必须使用UTF-8编码格式.
 
-Mappings used as values are automatically converted to special dictionaries
-that are used also when `creating dictionary variables`_ in the variable table.
-Most importantly, values of these dictionaries are accessible as attributes
-like `${DICT.one}`, assuming their names are valid as Python attribute names.
-If the name contains spaces or is otherwise not a valid attribute name, it is
-always possible to access dictionary values using syntax like
-`&{DICT}[with spaces]` syntax. The created dictionaries are also ordered, but
-unfortunately the original source order of in the YAML file is not preserved.
+如果值是mapping类型, 则最终将转换为特殊的字典, 这一点等同于在变量表格中 `creating dictionary variables`_. 这样就可以使用 `${DICT.one}` 这样的属性访问方法来获取到字典的值. 当然, 这里要求键的名字必须是合法的Python属性名称, 如果其中包含了空格或者其他非法的名称, 则还是可以使用 `&{DICT}[with spaces]` 语法来获取字典的值. 这个生成的字典也是有序的, 不过遗憾的是, 原始的YAML文件中的顺序没法保留下来.
+
