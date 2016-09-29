@@ -1,148 +1,87 @@
-Advanced features
+.. Advanced features
+
+高级特性
 =================
 
 .. contents::
    :depth: 2
    :local:
 
-Handling keywords with same names
+.. Handling keywords with same names
+
+处理同名关键字
 ---------------------------------
 
-Keywords that are used with Robot Framework are either `library
-keywords`_ or `user keywords`_. The former come from `standard
-libraries`_ or `external libraries`_, and the latter are either
-created in the same file where they are used or then imported from
-`resource files`_. When many keywords are in use, it is quite common
-that some of them have the same name, and this section describes how to
-handle possible conflicts in these situations.
+Robot Framework中的关键字分为 `库关键字`_ 和 `用户关键字`_. 前者来自 `标准库`_ 或 `外部库`_, 后者则要么在当前调用的文件中创建, 要么从 `资源文件`_ 中导入. 当用到的关键字变得很多时, 难免会遇到重名的情况, 本节将说明如何处理这种冲突状况.
 
-Keyword scopes
+.. Keyword scopes
+
+关键字的范围
 ~~~~~~~~~~~~~~
 
-When only a keyword name is used and there are several keywords with
-that name, Robot Framework attempts to determine which keyword has the
-highest priority based on its scope. The keyword's scope is determined
-on the basis of how the keyword in question is created:
+当仅使用关键字名称时, 如果存在若干同名的关键字, Robot Framework将试图决定哪个关键字的优先级最高. 关键字的优先级将由关键字的创建方式决定:
 
-1. Created as a user keyword in the same file where it is used. These
-   keywords have the highest priority and they are always used, even
-   if there are other keywords with the same name elsewhere.
+1. 在调用关键字的相同文件中创建. 此关键字拥有最高的优先级.
 
-2. Created in a resource file and imported either directly or
-   indirectly from another resource file. This is the second-highest
-   priority.
+2. 在资源文件中创建并引入(可以是直接引入,也可以是导入的别的资源文件). 此是第二高优先级.
 
-3. Created in an external test library. These keywords are used, if
-   there are no user keywords with the same name. However, if there is
-   a keyword with the same name in the standard library, a warning is
-   displayed.
+3. 在外部库中创建. 只有在没有其它同名的用户关键字存在的情况下才会用到. 而且,  
+   如果标准库中存在了同名的关键字, 将显示警告.
 
-4. Created in a standard library. These keywords have the lowest
-   priority.
+4. 标准库中创建关键字. 这些关键字的优先级最低.
 
-Specifying a keyword explicitly
+.. Specifying a keyword explicitly
+
+显式指定关键字
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Scopes alone are not a sufficient solution, because there can be
-keywords with the same name in several libraries or resources, and
-thus, they provide a mechanism to use only the keyword of the
-highest priority. In such cases, it is possible to use *the full name
-of the keyword*, where the keyword name is prefixed with the name of
-the resource or library and a dot is a delimiter.
+光靠作用域不能完美的解决重名问题, 因为相同作用域的若干库或者资源中也会有同名的关键字. 此时只能使用 *关键字全名*, 所谓全名就是在关键字名称的前面加上其所在的资源或库的名称作为前缀, 中间使用点(`.`)作为分隔.
 
-With library keywords, the long format means only using the format
-:name:`LibraryName.Keyword Name`. For example, the keyword :name:`Run`
-from the OperatingSystem_ library could be used as
-:name:`OperatingSystem.Run`, even if there was another :name:`Run`
-keyword somewhere else. If the library is in a module or package, the
-full module or package name must be used (for example,
-:name:`com.company.Library.Some Keyword`). If a custom name is given
-to a library using the `WITH NAME syntax`_, the specified name must be
-used also in the full keyword name.
+对于库中的关键字, 长名称的格式是 :name:`LibraryName.Keyword Name`. 例如, 标准库 OperatingSystem_ 中的关键字 :name:`Run` 可以写作 :name:`OperatingSystem.Run`. 如果库是一个模块或者包, 则必须使用模块或包的全名(例如: :name:`com.company.Library.Some Keyword`). 如果在引用库的时候使用了 `WITH NAME syntax`_, 则前缀名称必须是该自定义的名称.
 
-Resource files are specified in the full keyword name, similarly as
-library names. The name of the resource is derived from the basename
-of the resource file without the file extension. For example, the
-keyword :name:`Example` in a resource file :file:`myresources.html` can
-be used as :name:`myresources.Example`. Note that this syntax does not
-work, if several resource files have the same basename. In such
-cases, either the files or the keywords must be renamed. The full name
-of the keyword is case-, space- and underscore-insensitive, similarly
-as normal keyword names.
+资源文件中的关键字全名指定格式也是类似. 资源的名称取自资源文件的基础名称(basename)并去掉文件扩展名. 例如, 资源文件 :file:`myresources.html` 中的关键字 :name:`Example` 可以写作 :name:`myresources.Example`. 注意, 这种语法如果遇到多个资源文件的基础名称相同, 则必须修改文件名或者关键字名. 
 
-Specifying explicit priority between libraries and resources
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+关键字的全名和关键字的普通名称一样, 同时忽略大小写, 空格和下划线.
 
-If there are multiple conflicts between keywords, specifying all the keywords
-in the long format can be quite a lot work. Using the long format also makes it
-impossible to create dynamic test cases or user keywords that work differently
-depending on which libraries or resources are available. A solution to both of
-these problems is specifying the keyword priorities explicitly using the keyword
-:name:`Set Library Search Order` from the BuiltIn_ library.
+.. Specifying explicit priority between libraries and resources
 
- .. note:: Although the keyword has the word *library* in its name, it works
-           also with resource files. As discussed above, keywords in resources
-           always have higher priority than keywords in libraries, though.
+为库和资源显式指定优先级
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The :name:`Set Library Search Order` accepts an ordered list or libraries and
-resources as arguments. When a keyword name in the test data matches multiple
-keywords, the first library or resource containing the keyword is selected and
-that keyword implementation used. If the keyword is not found from any of the
-specified libraries or resources, execution fails for conflict the same way as
-when the search order is not set.
+如果重名冲突的情况比较多, 全部使用全名称格式可能需要不少的工作量. 同时, 全名称格式将难以创建动态的(依赖可用库或资源的)测试用例和用户关键字. 一个针对这两个问题的解决方案是通过一个内置的关键字 :name:`Set Library Search Order` 显式地指定关键字的优先级.
 
-For more information and examples, see the documentation of the keyword.
+.. note:: 虽然该关键字的名字中包含了 *library*, 但是它不仅作用于库, 还对资源文件有效.
 
-Timeouts
+:name:`Set Library Search Order` 接受一个有序列表作为参数, 列表中是库和资源的名称. 当关键字名称遭遇到重名的情况, 将依次在这个列表中的库或资源中查找, 一旦找到即被采用. 如果列表内指定的库和资源没有找到关键字, 则重名冲突造成的执行失败和正常情况一样.
+
+更多的信息和示例请参阅该关键字的文档.
+
+.. Timeouts
+
+超时处理
 --------
 
-Keywords may be problematic in situations where they take
-exceptionally long to execute or just hang endlessly. Robot Framework
-allows you to set timeouts both for `test cases`_ and `user
-keywords`_, and if a test or keyword is not finished within the
-specified time, the keyword that is currently being executed is
-forcefully stopped. Stopping keywords in this manner may leave the
-library or system under test to an unstable state, and timeouts are
-recommended only when there is no safer option available. In general,
-libraries should be implemented so that keywords cannot hang or that
-they have their own timeout mechanism, if necessary.
+关键字有可能会遇到执行时间超长或者执行被挂起的情况. Robot Framework允许为 `测试用例`_ 和 `用户关键字`_ 设置超时时长, 如果用例或者关键字没有在指定时长内结束, 则当前还在执行的关键字会被强行终止. 这种情况有可能会导致测试库或系统进入不稳定的状态, 因此, 超时设置只在没有其它更好更安全的办法下才推荐使用. 
 
-Test case timeout
+通常用户在设计和实现库时, 应该仔细设计以避免出现关键字挂起的情况, 或者实现自身的超时处理机制.
+
+.. Test case timeout
+
+测试用例的超时
 ~~~~~~~~~~~~~~~~~
 
-The test case timeout can be set either by using the :setting:`Test
-Timeout` setting in the Setting table or the :setting:`[Timeout]`
-setting in the Test Case table. :setting:`Test Timeout` in the Setting
-table defines a default test timeout value for all the test cases in
-the test suite, whereas :setting:`[Timeout]` in the Test Case table
-applies a timeout to an individual test case and overrides the
-possible default value.
+测试用例的超时设置可以通过设置表格中的 :setting:`Test Timeout` 设置项, 或者用例表格中的 :setting:`[Timeout]` 设置项. 前者是为当前用例集下的所有的测试用例设定一个默认的超时时长, 而后者则只应用当前单个用例, 并且会覆盖可能存在的默认值.
 
-Using an empty :setting:`[Timeout]` means that the test has no
-timeout even when :setting:`Test Timeout` is used. It is also possible
-to use value `NONE` for this purpose.
+使用空白的 :setting:`[Timeout]` 设置意味着测试永不超时, 即使已经设置了 :setting:`Test Timeout`. 除了空白还可以使用 `NONE`, 结果一样.
 
-Regardless of where the test timeout is defined, the first cell after
-the setting name contains the duration of the timeout. The duration
-must be given in Robot Framework's `time format`_, that is,
-either directly in seconds or in a format like `1 minute
-30 seconds`. It must be noted that there is always some overhead by the
-framework, and timeouts shorter than one second are thus not
-recommended.
+不管在哪里定义超时, 跟在设置项名称后面的第一个格子中包含的就是超时的时长. 该时长必须使用Robot Framework中的 `时间格式`_, 可以是直接的秒数, 也可以是诸如 `1 minute 30 seconds` 这种格式. 值得注意的是, 框架本身总是会有时间消耗的, 所以不建议将超时时长设置短于1秒. 
 
-The default error message displayed when a test timeout occurs is
-`Test timeout <time> exceeded`. It is also possible to use custom
-error messages, and these messages are written into the cells
-after the timeout duration. The message can be split into multiple
-cells, similarly as documentations. Both the timeout value and the
-error message may contain variables.
 
-If there is a timeout, the keyword running is stopped at the
-expiration of the timeout and the test case fails. However, keywords
-executed as `test teardown`_ are not interrupted if a test timeout
-occurs, because they are normally engaged in important clean-up
-activities. If necessary, it is possible to interrupt also these
-keywords with `user keyword timeouts`_.
+当超时发生时, 默认的错误提示信息是 `Test timeout <time> exceeded`. 用户可以自定义错误消息, 只需要将错误消息跟在超时时长的后面格子中. 这里的消息设置和文档类似, 可以跨多个单元格.
+
+超时值和错误消息中都可以包含变量.
+
+如果有超时, 运行中的关键字被终止, 当前用例执行失败. 不过, 作为 `test teardown`_ 运行的关键字不会被中断, 因为teardown操作一般都是重要的清理动作. 如果有必要的话, 可以通过设置 `用户关键字的超时`_ 来中断这些关键字.
 
 .. sourcecode:: robotframework
 
@@ -179,19 +118,16 @@ keywords with `user keyword timeouts`_.
        [Timeout]    NONE
        Some Keyword    argument
 
-User keyword timeout
+.. User keyword timeout
+
+用户关键字的超时
 ~~~~~~~~~~~~~~~~~~~~
 
-A timeout can be set for a user keyword using the :setting:`[Timeout]`
-setting in the Keyword table. The syntax for setting it, including how
-timeout values and possible custom messages are given, is
-identical to the syntax used with `test case timeouts`_. If no custom
-message is provided, the default error message `Keyword timeout
-<time> exceeded` is used if a timeout occurs.
+在关键字表格中通过设置项 :setting:`[Timeout]` 可以为用户关键字设定超时. 使用的语法格式, 包括时长的值的格式和自定义错误都和 `测试用例的超时`_ 完全一样. 
 
-Starting from Robot Framework 3.0, timeout can be specified as a variable
-so that the variable value is given as an argument. Using global variables
-works already with previous versions.
+稍有不同的地方在于当超时发生且没有自定义错误提示信息时, 默认的错误提示信息是 `Keyword timeout <time> exceeded`.
+
+从Robot Framework3.0版本开始, 超时设置可以由一个变量来指定, 既而该变量可以是由参数来指定. 以前的版本中已经支持使用全局变量来指定超时时长.
 
 .. sourcecode:: robotframework
 
@@ -214,49 +150,31 @@ works already with previous versions.
        [Timeout]    ${timeout}
        Original Keyword    @{args}
 
-A user keyword timeout is applicable during the execution of that user
-keyword. If the total time of the whole keyword is longer than the
-timeout value, the currently executed keyword is stopped. User keyword
-timeouts are applicable also during a test case teardown, whereas test
-timeouts are not.
+用户关键字的超时可以在其执行的过程中应用. 如果整个关键字的执行时长长于指定的超时时长, 则当前正在执行的关键字会被终止. 用户关键字的超时在测试用例的teardown中同样生效, 而测试用例中的超时则不会影响teardown.
 
-If both the test case and some of its keywords (or several nested
-keywords) have a timeout, the active timeout is the one with the least
-time left.
+如果用例和关键字(包括嵌套调用的关键字)都设置了超时, 则其中所余时间最短的将首先触发超时.
 
 .. _for loop:
 
-For loops
+.. For loops
+
+FOR循环
 ---------
 
-Repeating same actions several times is quite a common need in test
-automation. With Robot Framework, test libraries can have any kind of
-loop constructs, and most of the time loops should be implemented in
-them. Robot Framework also has its own for loop syntax, which is
-useful, for example, when there is a need to repeat keywords from
-different libraries.
+在自动化测试中, 将某些操作重复执行若干次是一个很常见的需求. 在Robot Framework中, 测试库中可以有任意形式的循环结构, 大多数时候循环操作本应该就在测试库中实现. 
 
-For loops can be used with both test cases and user keywords. Except for
-really simple cases, user keywords are better, because they hide the
-complexity introduced by for loops. The basic for loop syntax,
-`FOR item IN sequence`, is derived from Python, but similar
-syntax is possible also in shell scripts or Perl.
+Robot Framework也提供了for循环的语法, 这在重复执行来自不同测试库中的关键字的时候很有用.
 
-Normal for loop
+for循环既可用于测试用例, 也可以在用户关键字中使用. 除非场景特别简单, 不然还是推荐在用户关键字中使用, 这样可以隐藏for循环带来的复杂度. 基本的for循环语法 `FOR item IN sequence` 借鉴于Python, 不过其它脚本如Perl也有类似的语法. 
+
+.. Normal for loop
+
+普通for循环
 ~~~~~~~~~~~~~~~
 
-In a normal for loop, one variable is assigned from a list of values,
-one value per iteration. The syntax starts with `:FOR`, where
-colon is required to separate the syntax from normal keywords. The
-next cell contains the loop variable, the subsequent cell must have
-`IN`, and the final cells contain values over which to iterate.
-These values can contain variables_, including `list variables`_.
+普通的for循环语法中, 每次迭代都从列表中取一个值赋给变量. 语法以 `:FOR` 开始, 注意开始的冒号是必需的, 以便和其它普通关键字区分开. 跟在后面单元格中的是循环变量, 接下来的格子则必须是 `IN`, 后面的格子(可能是多个)里则包含的是待迭代的值. 这些值中可以包含 变量_, 包括 列表变量_.
 
-The keywords used in the for loop are on the following rows and they must
-be indented one cell to the right. When using the `plain text format`_,
-the indented cells must be `escaped with a backslash`__, but with other
-data formats the cells can be just left empty. The for loop ends
-when the indentation returns back to normal or the table ends.
+for循环中使用的关键字跟在下面的行中, 必须向右缩进一格. 当使用的是 `plain text format`_, 缩进单元格必须使用 `escaped with a backslash`__, 而其它的数据格式则只需要保持空白就行. for循环结束于正常缩进(即不再缩进)的行, 或者是整个表格的结尾. 
 
 .. sourcecode:: robotframework
 
@@ -272,16 +190,9 @@ when the indentation returns back to normal or the table ends.
        ...     ${3}    four    ${last}
        \    Log    ${var}
 
-The for loop in :name:`Example 1` above is executed twice, so that first
-the loop variable `${animal}` has the value `cat` and then
-`dog`. The loop consists of two :name:`Log` keywords. In the
-second example, loop values are `split into two rows`__ and the
-loop is run altogether five times.
+上面 :name:`Example 1` 将迭代执行两次, 第一次循环变量 `${animal}` 被赋值 `cat`, 接下来是 `dog`. 循环体包含了两次 :name:`Log` 关键字调用. 第二个例子中, 循环值 `分成了多行`__, 循环迭代了5次.
 
-It is often convenient to use for loops with `list variables`_. This is
-illustrated by the example below, where `@{ELEMENTS}` contains
-an arbitrarily long list of elements and keyword :name:`Start Element` is
-used with all of them one by one.
+在for循环中使用 `列表变量`_ 更方便. 如下面的例子, `@{ELEMENTS}` 是任意长度的列表, 每次迭代会依次对列表中的元素调用 :name:`Start Element`.
 
 .. sourcecode:: robotframework
 
@@ -290,11 +201,12 @@ used with all of them one by one.
        :FOR    ${element}    IN    @{ELEMENTS}
        \    Start Element  ${element}
 
-Nested for loops
+.. Nested for loops
+
+for循环的嵌套
 ~~~~~~~~~~~~~~~~
 
-Having nested for loops is not supported directly, but it is possible to use
-a user keyword inside a for loop and have another for loop there.
+Robot Framework的for语法并不支持嵌套, 不过可以通过用户关键字封装for循环, 然后在另一个for循环中调用.
 
 .. sourcecode:: robotframework
 
@@ -312,17 +224,14 @@ a user keyword inside a for loop and have another for loop there.
 __ `Dividing test data to several rows`_
 __ Escaping_
 
-Using several loop variables
+.. Using several loop variables
+
+使用多个循环变量
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is also possible to use several loop variables. The syntax is the
-same as with the normal for loop, but all loop variables are listed in
-the cells between `:FOR` and `IN`. There can be any number of loop
-variables, but the number of values must be evenly dividable by the number of
-variables.
+和Python的for语句类似, 循环变量可以有多个. 该语法和正常的循环语句一样, 只是在 `:FOR` 和 `IN` 之间有多个循环变量, 每个变量占一格. 循环变量的个数可以是任意个, 但是它们必须能够被值的个数整除.
 
-If there are lot of values to iterate, it is often convenient to organize
-them below the loop variables, as in the first loop of the example below:
+如果有很多值需要迭代, 通常会把它们在循环变量的下面组织对齐, 以提高可读性, 如下面例子中第一个循环:
 
 .. sourcecode:: robotframework
 
@@ -336,35 +245,20 @@ them below the loop variables, as in the first loop of the example below:
        :FOR    ${name}    ${id}    IN    @{EMPLOYERS}
        \    Create    ${name}    ${id}
 
-For-in-range loop
+.. For-in-range loop
+
+for-in-range 循环
 ~~~~~~~~~~~~~~~~~
 
-Earlier for loops always iterated over a sequence, and this is also the most
-common use case. Sometimes it is still convenient to have a for loop
-that is executed a certain number of times, and Robot Framework has a
-special `FOR index IN RANGE limit` syntax for this purpose. This
-syntax is derived from the similar Python idiom.
+前面的for循环总是迭代一个序列, 这是最常见的形式, 但是有时候, 针对某个特定次数的for循环也很有用. Robot Framework提高了特殊的 `FOR index IN RANGE limit` 语法来实现这种目的. 同样, 该语法借鉴于Python.
 
-Similarly as other for loops, the for-in-range loop starts with
-`:FOR` and the loop variable is in the next cell. In this format
-there can be only one loop variable and it contains the current loop
-index. The next cell must contain `IN RANGE` and the subsequent
-cells loop limits.
+和普通的for循环类似, for-in-range循环同样始于 `:FOR`, 后面跟循环变量. 只是这种情况下, 循环变量只能有一个, 该变量将包含当前循环的下标(index). 循环变量后的格子中必须包含 `IN RANGE`, 后面的格子包含的是循环的限定范围.
 
-In the simplest case, only the upper limit of the loop is
-specified. In this case, loop indexes start from zero and increase by one
-until, but excluding, the limit. It is also possible to give both the
-start and end limits. Then indexes start from the start limit, but
-increase similarly as in the simple case. Finally, it is possible to give
-also the step value that specifies the increment to use. If the step
-is negative, it is used as decrement.
+最简单的情况是只给出循环的上限, 这种情况下, 循环下标从0开始, 逐次递加1, 直到上限为止(不包括上限). 还可以同时给出起始值(start)和结束值(end), 这种情况下, 循环从start开始, 逐次递加1, 直到end-1. 再复杂一点的情况是通过第3个参数指定每次递进的值(step), 该值可以为负数. 
 
-It is possible to use simple arithmetics such as addition and subtraction
-with the range limits. This is especially useful when the limits are
-specified with variables.
+对上下限值可以使用简单的算术操作, 如加法和减法, 这在这些值是变量的时候特别有用.
 
-Starting from Robot Framework 2.8.7, it is possible to use float values for
-lower limit, upper limit and step.
+从Robot Framework 2.8.7版本开始, start, end 和 step 都可以使用浮点数.
 
 .. sourcecode:: robotframework
 
@@ -399,22 +293,16 @@ lower limit, upper limit and step.
        :FOR    ${index}    IN RANGE    3.14    6.09    1.2
        \    Log    ${index}
 
-For-in-enumerate loop
+.. For-in-enumerate loop
+
+for-in-enumerate 循环
 ~~~~~~~~~~~~~~~~~~~~~
 
-Sometimes it is useful to loop over a list and also keep track of your location
-inside the list.  Robot Framework has a special
-`FOR index ... IN ENUMERATE ...` syntax for this situation.
-This syntax is derived from the
-`Python built-in function <https://docs.python.org/2/library/functions.html#enumerate>`_.
+有时候循环迭代某个列表的时候, 同时又想跟踪当前元素在列表中的位置, 这时候就可以用到Robot Framework的 `FOR index ... IN ENUMERATE ...` 语法. 该语法源于 `Python built-in function <https://docs.python.org/2/library/functions.html#enumerate>`_.
 
-For-in-enumerate loops work just like regular for loops,
-except the cell after its loop variables must say `IN ENUMERATE`,
-and they must have an additional index variable before any other loop-variables.
-That index variable has a value of `0` for the first iteration, `1` for the
-second, etc.
+For-in-enumerate循环和普通for循环一样, 只是在循环变量的前面增加一个额外的索引变量, 循环变量后面跟着的是 `IN ENUMERATE` 而不是 `IN`. 索引值从`0`开始.
 
-For example, the following two test cases do the same thing:
+例如, 下面例子中两个测试用例做得是同一件事:
 
 .. sourcecode:: robotframework
 
@@ -432,9 +320,7 @@ For example, the following two test cases do the same thing:
        : FOR    ${index}    ${item}    IN ENUMERATE    @{LIST}
        \    My Keyword    ${index}    ${item}
 
-Just like with regular for loops, you can loop over multiple values per loop
-iteration as long as the number of values in your list is evenly divisible by
-the number of loop-variables (excluding the first, index variable).
+和普通的for循环一样, 一次迭代可以处理多个值, 只要列表元素的总数可以整除一次迭代的变量个数(当然索引变量是不算在内的).
 
 .. sourcecode:: robotframework
 
@@ -446,17 +332,16 @@ the number of loop-variables (excluding the first, index variable).
        ...    horse    hevonen
        \    Add to dictionary    ${english}    ${finnish}    ${index}
 
-For-in-enumerate loops are new in Robot Framework 2.9.
+For-in-enumerate 循环是 Robot Framework 2.9版本新增功能.
 
-For-in-zip loop
+.. For-in-zip loop
+
+for-in-zip循环
 ~~~~~~~~~~~~~~~
 
-Some tests build up several related lists, then loop over them together.
-Robot Framework has a shortcut for this case: `FOR ... IN ZIP ...`, which
-is derived from the
-`Python built-in zip function <https://docs.python.org/2/library/functions.html#zip>`_.
+有时候需要将几个相关的列表并在一起处理, Robot Framework 使用 `FOR ... IN ZIP ...` 语法来处理, 该方法来源于 `Python built-in zip function <https://docs.python.org/2/library/functions.html#zip>`_.
 
-This may be easiest to show with an example:
+来看个例子, 下面两个用例的作用是一样的:
 
 .. sourcecode:: robotframework
 
@@ -474,32 +359,22 @@ This may be easiest to show with an example:
        : FOR    ${number}    ${name}    IN ZIP    ${NUMBERS}    ${NAMES}
        \    Number Should Be Named    ${number}    ${name}
 
-Similarly as for-in-range and for-in-enumerate loops, for-in-zip loops require
-the cell after the loop variables to read `IN ZIP`.
+和其它循环的语法类似, for-in-zip要求跟在循环变量后面格子中的是 `IN ZIP`.
 
-Values used with for-in-zip loops must be lists or list-like objects, and
-there must be same number of loop variables as lists to loop over. Looping
-will stop when the shortest list is exhausted.
+for-in-zip循环的值必须是列表或数组类型的序列, 并且循环变量的数量必须和列表的数量相同. 而迭代的停止取决于其中最短的那个列表.
 
-Note that any lists used with for-in-zip should usually be given as `scalar
-variables`_ like `${list}`. A `list variable`_ only works if its items
-themselves are lists.
+注意, for-in-zip后面用到的列表通常都是以 `scalar variables`_ 的形式给出, 如 `${list}`. 如果是 `list variable`_ 形式, 则要求这个列表中的元素本身也是列表. (这里需要对着两种变量的格式理解充分)
 
-For-in-zip loops are new in Robot Framework 2.9.
+For-in-zip 循环是 Robot Framework 2.9版本新增功能.
 
-Exiting for loop
+.. Exiting for loop
+
+退出for循环
 ~~~~~~~~~~~~~~~~
 
-Normally for loops are executed until all the loop values have been iterated
-or a keyword used inside the loop fails. If there is a need to exit the loop
-earlier,  BuiltIn_ keywords :name:`Exit For Loop` and :name:`Exit For Loop If`
-can be used to accomplish that. They works similarly as `break`
-statement in Python, Java, and many other programming languages.
+通常for循环在所有元素都迭代完成后自然结束, 也有可能当其中的关键字执行失败而退出. 如果需要提前退出循环, 可以调用 BuiltIn_ 关键字 :name:`Exit For Loop` 和 :name:`Exit For Loop If`. 它们的作用类似于编程语言中的 `break` 语句.
 
-:name:`Exit For Loop` and :name:`Exit For Loop If` keywords can be used
-directly inside a for loop or in a keyword that the loop uses. In both cases
-test execution continues after the loop. It is an error to use these keywords
-outside a for loop.
+:name:`Exit For Loop` 和 :name:`Exit For Loop If` 可以直接在for循环内使用, 也可以在for循环中调用的关键字中使用. 这两种情况都可以让测试跳过循环继续往下执行. 不可以在for循环的外面使用了这两个关键字, 否则会引起错误.
 
 .. sourcecode:: robotframework
 
@@ -511,28 +386,18 @@ outside a for loop.
        \    ${text} =    Set Variable    ${text}${var}
        Should Be Equal    ${text}    one
 
-In the above example it would be possible to use :name:`Exit For Loop If`
-instead of using :name:`Exit For Loop` with :name:`Run Keyword If`.
-For more information about these keywords, including more usage examples,
-see their documentation in the BuiltIn_ library.
+上例中, 可以使用 :name:`Exit For Loop If` 来替代  :name:`Exit For Loop` 加 :name:`Run Keyword If` 的用法. 更多的信息和示例请参阅这些关键字的文档.
 
-.. note:: :name:`Exit For Loop If` keyword was added in Robot Framework 2.8.
+.. note:: :name:`Exit For Loop If` 在Robot Framework 2.8版本新增.
 
-Continuing for loop
+.. Continuing for loop
+
+继续for循环
 ~~~~~~~~~~~~~~~~~~~
 
-In addition to exiting a for loop prematurely, it is also possible to
-continue to the next iteration of the loop before all keywords have been
-executed. This can be done using BuiltIn_ keywords :name:`Continue For Loop`
-and :name:`Continue For Loop If`, that work like `continue` statement
-in many programming languages.
+除了退出整个for循环, 有时候需要的是略过本次迭代而进入下一轮迭代. 这时可以使用 BuiltIn_ 关键字 :name:`Continue For Loop` 和 :name:`Continue For Loop If`, 和编程语言中的  `continue` 语句类似.
 
-:name:`Continue For Loop` and :name:`Continue For Loop If` keywords can be used
-directly inside a for loop or in a keyword that the loop uses. In both cases
-rest of the keywords in that iteration are skipped and execution continues
-from the next iteration. If these keywords are used on the last iteration,
-execution continues after the loop. It is an error to use these keywords
-outside a for loop.
+:name:`Continue For Loop` 和 :name:`Continue For Loop If` 可以直接在for循环内使用, 也可以在for循环中调用的关键字中使用. 两种情况下都可以使得本次迭代被跳过, 进入下一次迭代. 如果本次迭代就是最后一次, 则整个循环结束. 同样, 在循环外调用这些关键字是错误的.
 
 .. sourcecode:: robotframework
 
@@ -544,32 +409,26 @@ outside a for loop.
        \    ${text} =    Set Variable    ${text}${var}
        Should Be Equal    ${text}    onethree
 
-For more information about these keywords, including usage examples, see their
-documentation in the BuiltIn_ library.
+关于这些关键字更多的信息和示例请参阅它们在 BuiltIn_ 库的文档
 
-.. note::  Both :name:`Continue For Loop` and :name:`Continue For Loop If`
-           were added in Robot Framework 2.8.
+.. note:: :name:`Continue For Loop` 和 :name:`Continue For Loop If` 
+          都是在Robot Framework 2.8版本新增.
 
-Removing unnecessary keywords from outputs
+.. Removing unnecessary keywords from outputs
+
+去除输出中不必要的关键字
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For loops with multiple iterations often create lots of output and
-considerably increase the size of the generated output_ and log_ files.
-Starting from Robot Framework 2.7, it is possible to `remove unnecessary
-keywords`__ from the outputs using :option:`--RemoveKeywords FOR` command line
-option.
+拥有多次迭代的for循环可以产生大量的输出信息, 从而造成 output_ 和 log_ 文件大小的显著增加. 从Robot Framework 2.7版本开始, 可以使用命令行选项 :option:`--RemoveKeywords FOR` 从输出中 `remove unnecessary keywords`__.
 
 __ `Removing and flattening keywords`_
 
-Repeating single keyword
+.. Repeating single keyword
+
+重复执行单个关键字
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-For loops can be excessive in situations where there is only a need to
-repeat a single keyword. In these cases it is often easier to use
-BuiltIn_ keyword :name:`Repeat Keyword`.  This keyword takes a
-keyword and how many times to repeat it as arguments. The times to
-repeat the keyword can have an optional postfix `times` or `x`
-to make the syntax easier to read.
+当每次循环只需要重复调用一个关键字的时候, 使用for循环显得有点小题大做. 这时候可以使用 BuiltIn_ 关键字 :name:`Repeat Keyword`. 该关键字的第一个参数要重复的次数, 后面是要重复的关键字, 以及它的参数. 重复次数的值可以加上后缀 `times` 或者 `x` 以提高可读性.
 
 .. sourcecode:: robotframework
 
@@ -579,50 +438,39 @@ to make the syntax easier to read.
        Repeat Keyword    42 times    My Keyword
        Repeat Keyword    ${var}    Another Keyword    argument
 
-Conditional execution
+.. Conditional execution
+
+条件执行
 ---------------------
 
-In general, it is not recommended to have conditional logic in test
-cases, or even in user keywords, because it can make them hard to
-understand and maintain. Instead, this kind of logic should be in test
-libraries, where it can be implemented using natural programming
-language constructs. However, some conditional logic can be useful at
-times, and even though Robot Framework does not have an actual if/else
-construct, there are several ways to get the same effect.
+通常来说, 不建议在测试用例中使用条件判断的逻辑, 甚至在用户关键字中也不要用, 因为这会使得用例和关键字变得难以理解和维护. 这种逻辑应该放在测试库中, 这样就可以很自然地使用编程语言的语法结构来实现. 
 
-- The name of the keyword used as a setup or a teardown of both `test
-  cases`__ and `test suites`__ can be specified using a
-  variable. This facilitates changing them, for example, from
-  the command line.
+然而, 总会有些时候会发现条件判断逻辑是有用的, 虽然Robot Framework并没有提供if/else的语法结构, 但是我们可以通过其它几种方式来实现相同的效果.
 
-- The BuiltIn_ keyword :name:`Run Keyword` takes a keyword to actually
-  execute as an argument, and it can thus be a variable. The value of
-  the variable can, for example, be got dynamically from an earlier
-  keyword or given from the command line.
+- 在 `测试用例`__ 和 `测试套件`__ 的setup或teardown中的关键字名称可以使用变量来代替. 
+  这样利于根据条件来改变关键字, 如通过命令行.
 
-- The BuiltIn_ keywords :name:`Run Keyword If` and :name:`Run Keyword
-  Unless` execute a named keyword only if a certain expression is
-  true or false, respectively. They are ideally suited to creating
-  simple if/else constructs. For an example, see the documentation of
-  the former.
+- BuiltIn_ 关键字 :name:`Run Keyword` 把其它关键字作为参数来调用, 自然也可以是变量.
+  这个变量的值就可以动态的确立, 如根据前面的关键字结果或者是命令行.
 
-- Another BuiltIn_ keyword, :name:`Set Variable If`, can be used to set
-  variables dynamically based on a given expression.
+- BuiltIn_ 关键字 :name:`Run Keyword If` 和 :name:`Run Keyword Unless` 只在
+  特定的表达式结果是true或false的情况才调用指定的关键字. 所以简单的 if/else 结构,
+  完全可以由它们来完成. 详细的例子可以参考关键字的文档.
 
-- There are several BuiltIn_ keywords that allow executing a named
-  keyword only if a test case or test suite has failed or passed.
+- 另一个 BuiltIn_ 关键字 :name:`Set Variable If` 可以根据条件表达式的结果, 动态的
+  为变量赋值.
+
+- 还有几个 BuiltIn_ 关键字可以在测试用例/套件执行失败或成功的时候才调用指定的关键字.
 
 __ `Test setup and teardown`_
 __ `Suite setup and teardown`_
 
 
-Parallel execution of keywords
+.. Parallel execution of keywords
+
+关键字的并发执行
 ------------------------------
 
-When parallel execution is needed, it must be implemented in test library
-level so that the library executes the code on background. Typically this
-means that the library needs a keyword like :name:`Start Something` that
-starts the execution and returns immediately, and another keyword like
-:name:`Get Results From Something` that waits until the result is available
-and returns it. See OperatingSystem_ library keywords :name:`Start Process`
-and :name:`Read Process Output` for an example.
+如果有并发执行的需求, 必须在测试库中实现, 并且代码应该运行在后台. 通常这意味着测试库应该有一个关键字如 :name:`Start Something` 来启动执行, 并且立即返回, 然后通过另一个关键字如 :name:`Get Results From Something`, 等待获取执行的结果并返回. 
+
+可以参考 OperatingSystem_ 库中的 :name:`Start Process` 和 :name:`Read Process Output` 实现.
