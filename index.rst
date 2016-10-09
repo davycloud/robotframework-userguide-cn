@@ -17,7 +17,7 @@ Robot Framework用户手册
    
    GettingStarted/index
    CreatingTestData/index
-
+   ExecutingTestCases/index
    ExtendingRobotFramework/CreatingTestLibraries
 
 .. _Python: http://python.org
