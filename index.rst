@@ -3,20 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Robotframework用户手册中文版
-===========================
+========================
+Robot Framework用户手册
+========================
 
-Contents:
+  Version |version|
+---------------------
 
 .. toctree::
    :maxdepth: 2
 
+   about
+   
+   GettingStarted/index
+   CreatingTestData/index
+   ExecutingTestCases/index
+   ExtendingRobotFramework/CreatingTestLibraries
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+.. _Python: http://python.org

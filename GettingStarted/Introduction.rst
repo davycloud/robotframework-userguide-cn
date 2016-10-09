@@ -5,7 +5,7 @@ Robot Framework 是一个基于Python的、可扩展的、关键字驱动的测�
 
 
 为什么选择Robot Framework
-------------------------
+-------------------------
 
 * 表格式的语法简单易用，以统一的方式创建测试用例
 * 可以通过现有关键字创建可复用的高层关键字
@@ -22,17 +22,33 @@ Robot Framework 是一个基于Python的、可扩展的、关键字驱动的测�
 * 模块化的架构，支持针对不同接口的应用程序创建测试
   
 
- 整体架构
- --------
+整体架构
+--------
 
- Robot Framework是一个通用的，应用和技术无关的框架。它的高度模块化的架构如下图所示：
+Robot Framework是一个通用的，应用和技术无关的框架。它的高度模块化的架构如下图所示：
+
+.. image:: architecture.png
 
 
- `test data`_ 使用非常简单、易于编辑的表格格式. 当Robot Framework启动时,它开始处理test data, 执行test case, 并生成日志和报告. 框架本身对测试对象一无所知, 是通过测试库 `test libraries`__ 与其交互. Libraries可以直接使用被测应用程序的接口,也可以使用底层的测试工具作为驱动.
+`test data` 使用非常简单、易于编辑的表格格式. 当Robot Framework启动时,它开始处理test data, 执行test case, 并生成日志和报告. 框架本身对测试对象一无所知, 是通过测试库 `test libraries` 与其交互. Libraries可以直接使用被测应用程序的接口,也可以使用底层的测试工具作为驱动.
 
 
- 示例截图
- --------
+示例截图
+--------
+
+以下是
+
+.. figure:: testdata_screenshots.png
+   :alt:	testdata_screenshots
+
+   测试用例文件
+
+
+.. figure:: screenshots.png
+   :alt:	screenshots
+
+   执行报告和日志
+
 
 
 如何获取更多信息
@@ -41,14 +57,13 @@ Robot Framework 是一个基于Python的、可扩展的、关键字驱动的测�
 项目页面
 ~~~~~~~
 
-获取Robot Framework更多权威资讯的首要地方当然是其官网, http://robotframework.org. 
+获取Robot Framework更多权威资讯的首要地方当然是其官网, http://robotframework.org. 项目源码是托管在  `GitHub`_ 
 
-而项目本身是托管在  GitHub__.
+.. _GitHub: https://github.com/robotframework/robotframework
 
-__ https://github.com/robotframework/robotframework
 
 邮件列表
-~~~~~~~
+~~~~~~~~
 
 There are several Robot Framework mailing lists where to ask and
 search for more information. The mailing list archives are open for
