@@ -189,17 +189,9 @@ __ `Getting general library documentation`_
 远程关键字的执行
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When the Remote library wants the server to execute some keyword, it
-calls remote server's `run_keyword` method and passes it the
-keyword name, a list of arguments, and possibly a dictionary of
-`free keyword arguments`__. Base types can be used as
-arguments directly, but more complex types are `converted to supported
-types`__.
+当Remote库想要远程服务器执行某个关键字时, 调用远程服务器的的 `run_keyword` 方法, 并传入关键字的名字, 一系列参数, 还可能有字典表示的 `自由命名参数`__. 基础类型参数可以直接使用, 复杂的类型 `被转换为支持的类型`__.
 
-The server must return results of the execution in a result dictionary
-(or map, depending on terminology) containing items explained in the
-following table. Notice that only the `status` entry is mandatory,
-others can be omitted if they are not applicable.
+远程服务器的执行结果必须以字典形式返回, 其中包含的项参见下表. 注意, 其中只有 `status` 字段是必须的, 其它如果用不上的都可忽略.
 
 .. table:: Entries in the remote result dictionary
    :class: tabular
@@ -240,28 +232,16 @@ __ `Reporting keyword status`_
 __ `Continue on failure`_
 __ `Stopping test execution gracefully`_
 
-Different argument syntaxes
+.. Different argument syntaxes
+
+参数语法
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Remote library is a `dynamic library`_, and in general it handles
-different argument syntaxes `according to the same rules`__ as any other
-dynamic library.
-This includes mandatory arguments, default values, varargs, as well
-as `named argument syntax`__.
+Remote库是一个 `动态库`_, 因此它和其它动态库一样, `遵从相同的规则`__, 处理不同的参数语法. 包括必填参数, 默认值, varargs, 以及 `命名参数语法`__.
 
-Also free keyword arguments (`**kwargs`) works mostly the `same way
-as with other dynamic libraries`__. First of all, the
-`get_keyword_arguments` must return an argument specification that
-contains `**kwargs` exactly like with any other dynamic library.
-The main difference is that
-remote servers' `run_keyword` method must have optional third argument
-that gets the kwargs specified by the user. The third argument must be optional
-because, for backwards-compatibility reasons, the Remote library passes kwargs
-to the `run_keyword` method only when they have been used in the test data.
+自由命名参数(`**kwargs`)主要也和`其它动态库一样`__. 首先, `get_keyword_arguments` 需要返回参数列表的规范, 其中必须包含 `**kwargs`, 这点和其它动态库是一样的. 主要的不同在于远程服务器的 `run_keyword` 方法必须包含一个可选的第3个参数, 用来接收用户指定的kwargs. 为了向后兼容, 这个参数必须设置为可选的(optional), 因为Remote库只在测试数据用到时才会传递kwargs到  `run_keyword` 方法.
 
-In practice `run_keyword` should look something like the following
-Python and Java examples, depending on how the language handles optional
-arguments.
+实际上 `run_keyword` 和下面的Python和Java示例看上去差不多, 差别在于程序语言是怎么处理可选参数的.
 
 .. sourcecode:: python
 
