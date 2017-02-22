@@ -317,6 +317,7 @@ accepts arguments, all its public constructors are shown.
 资源文件的文档
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+<<<<<<< HEAD
 资源文件中的关键字可以使用 :setting:`[Documentation]` 来设置文档.
 
 文档的第一行(直到 `implicit newline`__ 或显式地 `\n`)被视作关键字的简短介绍, 和测试库类似.
@@ -324,6 +325,18 @@ accepts arguments, all its public constructors are shown.
 资源文件还可以在Setting表格中通过 :setting:`Documentation` 为整个资源文件设置文档.
 
 资源文件还可能包含变量, 这些变量不会记入文档.
+=======
+Keywords in resource files can have documentation using
+:setting:`[Documentation]` setting, and this documentation is also used by
+Libdoc. First line of the documentation (until the first
+`implicit newline`__ or explicit `\n`) is considered to be the short
+documentation similarly as with test libraries.
+
+Also the resource file itself can have :setting:`Documentation` in the
+Setting table for documenting the whole resource file.
+
+Possible variables in resource files can not be documented.
+>>>>>>> refs/remotes/origin/master
 
 .. sourcecode:: robotframework
 
@@ -347,9 +360,13 @@ accepts arguments, all its public constructors are shown.
 
 __ `Newlines in test data`_
 
+<<<<<<< HEAD
 .. Documentation syntax
 
 文档的语法
+=======
+Documentation syntax
+>>>>>>> refs/remotes/origin/master
 --------------------
 
 Libdoc supports documentation in Robot Framework's own `documentation
