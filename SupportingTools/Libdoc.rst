@@ -100,12 +100,6 @@ Python库和动态库的名字或路径
 
 当测试库是用Python实现的, 或者使用了 `动态库API`_, 那么可以通过库的名字或者库源码所在路径来指定. 当使用名字时, 将在 `模块搜索路径`_ 内搜索测试库, 并且格式必须和在Robot Framework的测试数据中一样.
 
-When documenting libraries implemented with Python or that use the
-`dynamic library API`_, it is possible to specify the library either by
-using just the library name or path to the library source code.
-In the former case the library is searched using the `module search path`_
-and its name must be in the same format as in Robot Framework test data.
-
 如果测试库的导入需要参数, 这些参数必须跟在名字或路径的后面, 使用双冒号连接, 像 `MyLibrary::arg1::arg2` 这样. 如果参数的变化导致库中关键字变化, 或者是文档变化, 则最好使用 :option:`--name` 相应修改库的名字. (也就是说为不同参数生成不同名字的文档.)
 
 .. Java libraries with path
@@ -113,29 +107,25 @@ and its name must be in the same format as in Robot Framework test data.
 Java库的路径
 ''''''''''''''''''''''''
 
-A Java test library implemented using the `static library API`_ can be
-specified by giving the path to the source code file containing the
-library implementation. Additionally, :file:`tools.jar`, which is part
-of the Java JDK distribution, must be found from ``CLASSPATH`` when
-Libdoc is executed. Notice that generating documentation for Java
-libraries works only with Jython.
+使用 `静态库API`_ 实现的Java测试库可以指定源文件的路径, 此外, 当Libdoc运行时, 必须要能在 ``CLASSPATH``内找到 :file:`tools.jar` (Java JDK的一部分). 
 
-Resource files with path
+注意, 为Java测试库生成文档只能使用Jython.
+
+.. Resource files with path
+
+资源文件的路径
 ''''''''''''''''''''''''
 
-Resource files must always be specified using a path. If the path does
-not exist, resource files are also searched from all directories in
-the `module search path`_ similarly as when executing test cases.
+资源文件必须总是通过路径指定. 如果路径不存在, 资源文件还是会像执行测试用例时一样, 尝试在 `模块搜索路径`_ 内进行搜索.
 
-Generating documentation
+.. Generating documentation
+
+生成文档
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-When generating documentation in HTML or XML format, the output file must
-be specified as the second argument after the library/resource name or path.
-Output format is got automatically from the extension but can also be set
-using the :option:`--format` option.
+当要生成HTML或XML格式的文档时, 输出文件必须作为第2参数指定, 跟在测试库/资源文件的名字或路径后面. 输出的格式将自动通过文件扩展名来判断, 也可以通过选项 :option:`--format` 设置.
 
-Examples::
+一些例子::
 
    python -m robot.libdoc OperatingSystem OperatingSystem.html
    python -m robot.libdoc --name MyLibrary Remote::http://10.0.0.42:8270 MyLibrary.xml
@@ -143,17 +133,20 @@ Examples::
    jython -m robot.libdoc --version 1.0 MyJavaLibrary.java MyJavaLibrary.html
    jython -m robot.libdoc my.organization.DynamicJavaLibrary my.organization.DynamicJavaLibrary.xml
 
-Viewing information on console
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. Viewing information on console
 
-Libdoc has three special commands to show information on the console.
-These commands are used instead of the name of the output file, and they can
-also take additional arguments.
+在控制台查看信息
+~~~~~~~~~~~~~~~
+
+Libdoc有3个特别的命令在控制台显示信息. 这些命令被用来取代输出文件的名字, 并且它们也可以带上额外的参数.
 
 `list`
-    List names of the keywords the library/resource contains. Can be
-    limited to show only certain keywords by passing optional patterns
-    as arguments. Keyword is listed if its name contains given pattern.
+    列出测试库或资源文件所包含的关键字列表. 可以传递表示模式的参数来过滤展示结果, 只有那些名字包含了给定模式的关键字才会列出来.
+`show`
+    显示测试库或资源文件的文档. 也可以传递表示名字的参数(可以是多个). 名字匹配上的关键字才会展示. 特殊参数值 `intro` 可用来只显示测试库的介绍(introduction)和导入章节.
+`version`
+    显示测试的版本.
+
 `show`
     Show library/resource documentation. Can be limited to show only
     certain keywords by passing names as arguments. Keyword is shown if
@@ -162,10 +155,9 @@ also take additional arguments.
 `version`
     Show library version
 
-Optional patterns given to `list` and `show` are case and space
-insensitive. Both also accept `*` and `?` as wildcards.
+`list` 和 `show` 命令支持的可选名字模式都是大小写和空格无关的, 并且都支持使用 `*` 和 `?` 作为通配符.
 
-Examples::
+例如::
 
   python -m robot.libdoc Dialogs list
   python -m robot.libdoc Selenium2Library list browser
@@ -174,8 +166,13 @@ Examples::
   python -m robot.libdoc Selenium2Library show intro
   python -m robot.libdoc Selenium2Library version
 
-Writing documentation
+.. Writing documentation
+
+编写文档
 ---------------------
+
+本章讨论如何为基于 Python_ 和 Java_ 的测试库(静态和动态)和 `资源文件`__ 编写文档.
+`创建测试库`_ 和 `资源文件`_ 的更多细节在本手册其它章节讨论.
 
 This section discusses writing documentation for Python__ and Java__ based test
 libraries that use the static library API as well as for `dynamic libraries`_
@@ -186,19 +183,14 @@ __ `Python libraries`_
 __ `Java libraries`_
 __ `Resource file documentation`_
 
-Python libraries
+.. Python libraries
+
+Python测试库
 ~~~~~~~~~~~~~~~~
 
-The documentation for Python libraries that use the `static library API`_
-is written simply as doc strings for the library class or module and for
-methods implementing keywords. The first line of the method documentation is
-considered as a short documentation for the keyword (used, for example, as
-a tool tip in links in the generated HTML documentation), and it should
-thus be as describing as possible, but not too long.
+使用 `静态库API`_ 的Python测试库的文档就是实现关键字的类或模块或方法的文档字符串. 文档的第一行被视作关键字的简短介绍(例如, 可以是某个工具提示的链接), 所以要求尽可能有概括性, 不要太长.  
 
-The simple example below illustrates how to write the documentation in
-general, and there is a `bit longer example`__ at the end of this
-chapter containing also an example of the generated documentation.
+下面这个简单的例子展示了通常文档是怎么写的, 本章最后还有一个 `略长的例子`__.
 
 .. sourcecode:: python
 
@@ -221,28 +213,23 @@ chapter containing also an example of the generated documentation.
             """
             pass
 
-.. tip:: If you want to use non-ASCII charactes in the documentation of
-         Python libraries, you must either use UTF-8 as your `source code
-         encoding`__ or create docstrings as Unicode.
+.. tip:: 如果你要Python库的文档里使用non-ASCII字符(比如中文), 
+         必须设置 `源码的encoding`__ 为UTF-8, 或者以Unicode创建文档字符串.
 
-         For more information on Python documentation strings, see `PEP-257`__.
+         关于Python文档字符串更多内容, 请参阅 `PEP-257`__.
 
 __ `Libdoc example`_
 __ http://www.python.org/dev/peps/pep-0263
 __ http://www.python.org/dev/peps/pep-0257
 
-Java libraries
+.. Java libraries
+
+Java测试库
 ~~~~~~~~~~~~~~
 
-Documentation for Java libraries that use the `static library API`_ is written
-as normal `Javadoc comments`__ for the library class and methods. In this case
-Libdoc actually uses the Javadoc tool internally, and thus
-:file:`tools.jar` containing it must be in ``CLASSPATH``. This jar file is part
-of the normal Java SDK distribution and ought to be found from :file:`bin`
-directory under the Java SDK installation.
+使用 `静态库API`_ 的Java测试库的文档就是实现关键字的类或方法的 `文档注释`__. 此时Libdoc内部实际使用的是Javadoc工具, 因此才要求 :file:`tools.jar` 必须包含在 ``CLASSPATH``. 该jar文件是Java SDK的一部分, 应该可以在SDK安装路径的 :file:`bin` 目录下.
 
-The following simple example has exactly same documentation (and functionality)
-than the earlier Python example.
+下面这个简单例子中的文档和上面的Python例子完全一样(功能也是一样的).
 
 .. sourcecode:: java
 
@@ -272,8 +259,16 @@ than the earlier Python example.
 
 __ http://en.wikipedia.org/wiki/Javadoc
 
-Dynamic libraries
+.. Dynamic libraries
+
+动态测试库
 ~~~~~~~~~~~~~~~~~
+
+为了给动态测试库生成有意义的文档, 测试库必须使用 `get_keyword_arguments` 和 `get_keyword_documentation` 这两个方法返回关键字的参数名字和文档(方法名还可是camelCase命名 `getKeywordArguments` 和 `getKeywordDocumentation`). 
+
+还可以为 `get_keyword_documentation` 设置两个特殊的属性 `__intro__` 和 `__init__` 来实现测试库的通用文档.
+
+更多信息和示例请参见 `Dynamic library API`_ 章节.
 
 To be able to generate meaningful documentation for dynamic libraries,
 the libraries must return keyword argument names and documentation using
@@ -286,8 +281,14 @@ general library documentation via special `__intro__` and
 See the `Dynamic library API`_ section for more information about how to
 create these methods.
 
-Importing section
+.. Importing section
+
+导入部分
 ~~~~~~~~~~~~~~~~~
+
+文档中有一个单独的章节用来说明测试库是如何导入的, 这部分是基于库的初始化方法. 
+
+对Python库而言, 如果 `__init__` 方法除了 `self` 还有其它参数, 则方法的文档和参数都会展示. 对Java库来说, 如果有接受public的构造函数, 所有public构造函数都会展示.
 
 A separate section about how the library is imported is created based on its
 initialization methods. For a Python library, if it has an  `__init__`
@@ -311,7 +312,9 @@ accepts arguments, all its public constructors are shown.
            if self.mode == 'secret':
                 # ...
 
-Resource file documentation
+.. Resource file documentation
+
+资源文件的文档
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Keywords in resource files can have documentation using
