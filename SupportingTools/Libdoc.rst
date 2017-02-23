@@ -352,6 +352,8 @@ __ `Newlines in test data`_
 文档的语法
 --------------------
 
+Libdoc支持的文档语法包括Robot Framework自身的 `文档语法`_, HTML, 纯文本和 reStructuredText_. 测试库文档的格式可以通过在 `测试库源码`__ 中设置属性 `ROBOT_LIBRARY_DOC_FORMAT` 来指定, 也可以通过命令行选项 :option:`--docformat (-F)` 来指定. 这两种情况下, 对应上面4种类型的值分别是: `ROBOT` (默认值), `HTML`, `TEXT` and `reST`. 注意这些值是大小写无关的.
+
 Libdoc supports documentation in Robot Framework's own `documentation
 syntax`_, HTML, plain text, and reStructuredText_. The format to use can be
 specified in `test library source code`__ using `ROBOT_LIBRARY_DOC_FORMAT`
@@ -359,27 +361,20 @@ attribute or given from the command line using :option:`--docformat (-F)` option
 In both cases the possible case-insensitive values are `ROBOT` (default),
 `HTML`, `TEXT` and `reST`.
 
-Robot Framework's own documentation format is the default and generally
-recommended format. Other formats are especially useful when using existing
-code with existing documentation in test libraries. Support for other formats
-was added in Robot Framework 2.7.5.
+Robot Framework自己的文档格式是默认的, 也是推荐使用的格式. 如果测试库代码是已存在并且已经包含了文档, 则其它的格式就会很有用.
+
+其它格式是在 Robot Framework 2.7.5开始支持的.
 
 __ `Specifying documentation format`_
 
-Robot Framework documentation syntax
+.. Robot Framework documentation syntax
+
+Robot Framework文档语法
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Most important features in Robot Framework's `documentation syntax`_ are
-formatting using `*bold*` and `_italic_`, custom links and
-automatic conversion of URLs to links, and the possibility to create tables and
-pre-formatted text blocks (useful for examples) simply with pipe character.
-If documentation gets longer, support for section titles (new in Robot
-Framework 2.7.5) can also be handy.
+Robot Framework自己的 `文档语法`_ 中最最重要的特性就是使用 `*bold*` and `_italic_`, 自定义链接, 自动转换URL, 创建表格, 以及使用竖线的格式化文本块(常用来展示例子). 如果文档篇幅略长, 则Robot Framework 2.7.5版本后开始支持的章节标题功能也很方便.
 
-Some of the most important formatting features are illustrated in the example
-below. Notice that since this is the default format, there is no need to use
-`ROBOT_LIBRARY_DOC_FORMAT` attribute nor give the format from the command
-line.
+下面的例子展示了一些最重要的格式化功能. 注意, 由于这是默认的格式, 所以没有必要设置 `ROBOT_LIBRARY_DOC_FORMAT` 属性, 也无需在命令行指定格式.
 
 .. sourcecode:: python
 
@@ -394,19 +389,16 @@ line.
     def my_keyword():
         """Nothing more to see here."""
 
-HTML documentation syntax
+.. HTML documentation syntax
+
+HTML文档语法
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When using HTML format, you can create documentation pretty much freely using
-any syntax. The main drawback is that HTML markup is not that human friendly,
-and that can make the documentation in the source code hard to maintain and read.
-Documentation in HTML format is used by Libdoc directly without any
-transformation or escaping. The special syntax for `linking to keywords`_ using
-syntax like :codesc:`\`My Keyword\`` is supported, however.
+当使用HTML格式时, 基本上可以自由使用HTML的语法来创建文档. 主要的缺点是HTML的标记符号可读性不高, 所以源代码中的文档维护和阅读会比较困难.
 
-Example below contains the same formatting examples as the previous example.
-Now `ROBOT_LIBRARY_DOC_FORMAT` attribute must be used or format given
-on the command line like `--docformat HTML`.
+以HTML写成的文档Libdoc不做转换和转义处理, 直接使用. 不过还支持一个特殊的语法用来 `链接到关键字`_, 格式如: :codesc:`\`My Keyword\``.
+
+下面的例子包含了前面例子中相同的格式. 这里必须要设定 `ROBOT_LIBRARY_DOC_FORMAT`  属性, 或者要在命令行中给定 `--docformat HTML`.
 
 .. sourcecode:: python
 
@@ -424,14 +416,13 @@ on the command line like `--docformat HTML`.
     def my_keyword():
         """Nothing more to see here."""
 
-Plain text documentation syntax
+.. Plain text documentation syntax
+
+纯文本文档语法
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When the plain text format is used, Libdoc uses the documentation as-is.
-Newlines and other whitespace are preserved except for indentation, and
-HTML special characters (`<>&`) escaped. The only formatting done is
-turning URLs into clickable links and supporting `internal linking`_
-like :codesc:`\`My Keyword\``.
+使用纯文本格式时, Libdoc基本上是照原来的样子使用. 换行和其它空格也保留, 除了缩进. HTML特殊字符 (`<>&`) 将转义处理. 唯一做的格式化操作是将URL转换为可点击的链接, 并且支持 `内部链接` 如  :codesc:`\`My Keyword\``.
+
 
 .. sourcecode:: python
 
@@ -447,15 +438,15 @@ like :codesc:`\`My Keyword\``.
     def my_keyword():
         """Nothing more to see here"""
 
-reStructuredText documentation syntax
+.. reStructuredText documentation syntax
+
+reStructuredText文档语法
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-reStructuredText_ is simple yet powerful markup syntax used widely in Python
-projects (including this User Guide) and elsewhere. The main limitation
-is that you need to have the docutils_ module installed to be able to generate
-documentation using it. Because backtick characters have special meaning in
-reStructuredText, `linking to keywords`_ requires them to be escaped like
-:codesc:`\\\`My Keyword\\\``.
+reStructuredText_ 是一个简单但是又很强大的标记语言, 被广泛用在Python项目的文档中(包括本用户手册). 使用该格式的最大限制是必须要安装 docutils_ 模块才能生成文档. 
+
+因为反引号(backtick)在reStructuredText中也有特殊意义, 所以要使用 `链接到关键字`_ 时, 必须要进行转义, 如: :codesc:`\\\`My Keyword\\\``.
+
 
 .. sourcecode:: python
 
@@ -475,8 +466,12 @@ reStructuredText, `linking to keywords`_ requires them to be escaped like
 
 .. _internal linking:
 
-Internal linking
+.. Internal linking
+
+内部链接
 ----------------
+
+Libdoc支持在文档的不同部分生成关键字的内部链接. 使用反引号将目标的名字括起来即可, 例如 :codesc:`\`target\``. 目标名字是大小写无关的, 支持哪些目标将在下面的章节介绍. 
 
 Libdoc supports internal linking to keywords and different
 sections in the documentation. Linking is done by surrounding the
@@ -484,22 +479,15 @@ target name with backtick characters like :codesc:`\`target\``. Target
 names are case-insensitive and possible targets are explained in the
 subsequent sections.
 
-There is no error or warning if a link target is not found, but instead Libdoc
-just formats the text in italics. Earlier this formatting was recommended to
-be used when referring to keyword arguments, but that was problematic because
-it could accidentally create internal links. Nowadays it is recommended to
-use `inline code style <inline styles_>`__ with double backticks like
-:codesc:`\`\`argument\`\`` instead. The old formatting of single backticks
-may even be removed in the future in favor of giving an error when a link
-target is not found.
+如果要链接的目标没有找到, Libdoc也不会报错或警告, 只是将文字设为斜体. 早期的时候, 曾经推荐使用这种方式来引用关键字的参数, 但是这有可能导致无意中创建了内部链接. 现在则推荐使用双反引号来标示参数, 例如 :codesc:`\`\`argument\`\``. 使用单反引号而没有找到的链接目标的情况在未来的版本中有可能会以报错处理.
 
-In addition to the examples in the following sections, internal linking
-and argument formatting is shown also in the `longer example`__ at the
-end of this chapter.
+除了下面小节中的例子, 内部链接和参数格式化都将在本章结尾的 `长篇实例`__ 中展示.
 
 __ `Libdoc example`_
 
-Linking to keywords
+.. Linking to keywords
+
+链接到关键字
 ~~~~~~~~~~~~~~~~~~~
 
 All keywords the library have automatically create link targets and they can
@@ -527,7 +515,9 @@ the example below where both keywords have links to each others.
 .. note:: When using `reStructuredText documentation syntax`_, backticks must
           be escaped like :codesc:`\\\`Keyword Name\\\``.
 
-Linking to automatic sections
+.. Linking to automatic sections
+
+链接到段落
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The documentation generated by Libdoc always contains sections
