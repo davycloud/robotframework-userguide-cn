@@ -1,24 +1,28 @@
 .. _tidy:
 
-Test data clean-up tool (Tidy)
+.. Test data clean-up tool (Tidy)
+
+测试数据整理工具(Tidy)
 ==============================
 
 .. contents::
    :depth: 1
    :local:
 
-Tidy is Robot Framework's built-in a tool for cleaning up and changing
-the format of Robot Framework test data files.
+Tidy是Robot Framework内置的用于整理和转换测试数据文件的工具.
 
-The output is written into the standard output stream by default, but
-an optional output file can be given starting from Robot Framework 2.7.5.
-Files can also be modified in-place using :option:`--inplace` or
-:option:`--recursive` options.
+工具执行结果的默认输出是标准输出流, 不过自从Robot Framework 2.7.5版本后可以将输出文件作为可选参数给出. 
 
-General usage
+如果使用了选项 :option:`--inplace` 或 :option:`--recursive`, 文件就会就地修改(也就是原文件会被整理后的文件就地覆盖).
+
+.. General usage
+
+用法
 -------------
 
-Synopsis
+.. Synopsis
+
+总览
 ~~~~~~~~
 
 ::
@@ -28,7 +32,9 @@ Synopsis
     python -m robot.tidy --inplace [options] inputfile [more input files]
     python -m robot.tidy --recursive [options] directory
 
-Options
+.. Options
+
+选项
 ~~~~~~~
 
  -i, --inplace    Tidy given file(s) so that original file(s) are overwritten

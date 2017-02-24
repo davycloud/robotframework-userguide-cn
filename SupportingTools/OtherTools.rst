@@ -1,16 +1,12 @@
-External tools
+.. External tools
+
+外部工具
 ==============
 
-There are plenty of external tools that can be used with Robot Framework.
-These tools include test data editor RIDE_, extensions for various IDEs and
-text editors, plugins to continuous integration systems and build tools,
-and so on.
+Robot Framework有很多可用的外部工具, 包括测试数据的编辑器 RIDE_, 各种IDE或文本编辑器的扩展, 持续集成系统的插件, 等等.
 
-These tools are developed as separate projects independently from Robot
-Framework itself. For a list of the available tools see
-http://robotframework.org/#tools.
+这些工具都是作为单独的项目独立于Robot Framework开发, 要获取可用的工具列表请查看: http://robotframework.org/#tools. 
 
-.. note:: Some supporting tools used to be distributed with Robot Framework
-          itself. Nowadays all those tools are also available separately and
-          they were removed both from the repository and source distribution
-          in Robot Framework 2.8.6.
+.. note:: 有些支持工具以前是随着Robot Framework一起分发的. 自从Robot Framework 
+          2.8.6版本之后, 这些工具从代码块和发布包都已经剥离开, 但是仍可单独获取.
+
