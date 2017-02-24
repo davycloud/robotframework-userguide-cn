@@ -147,14 +147,6 @@ Libdoc有3个特别的命令在控制台显示信息. 这些命令被用来取�
 `version`
     显示测试的版本.
 
-`show`
-    Show library/resource documentation. Can be limited to show only
-    certain keywords by passing names as arguments. Keyword is shown if
-    its name matches any given name. Special argument `intro` will show
-    only the library introduction and importing sections.
-`version`
-    Show library version
-
 `list` 和 `show` 命令支持的可选名字模式都是大小写和空格无关的, 并且都支持使用 `*` 和 `?` 作为通配符.
 
 例如::
@@ -270,17 +262,6 @@ __ http://en.wikipedia.org/wiki/Javadoc
 
 更多信息和示例请参见 `Dynamic library API`_ 章节.
 
-To be able to generate meaningful documentation for dynamic libraries,
-the libraries must return keyword argument names and documentation using
-`get_keyword_arguments` and `get_keyword_documentation`
-methods (or using their camelCase variants `getKeywordArguments`
-and `getKeywordDocumentation`). Libraries can also support
-general library documentation via special `__intro__` and
-`__init__` values to the `get_keyword_documentation` method.
-
-See the `Dynamic library API`_ section for more information about how to
-create these methods.
-
 .. Importing section
 
 导入部分
@@ -289,12 +270,6 @@ create these methods.
 文档中有一个单独的章节用来说明测试库是如何导入的, 这部分是基于库的初始化方法. 
 
 对Python库而言, 如果 `__init__` 方法除了 `self` 还有其它参数, 则方法的文档和参数都会展示. 对Java库来说, 如果有接受public的构造函数, 所有public构造函数都会展示.
-
-A separate section about how the library is imported is created based on its
-initialization methods. For a Python library, if it has an  `__init__`
-method that takes arguments in addition to `self`, its documentation and
-arguments are shown. For a Java library, if it has a public constructor that
-accepts arguments, all its public constructors are shown.
 
 .. sourcecode:: python
 
@@ -353,13 +328,6 @@ __ `Newlines in test data`_
 --------------------
 
 Libdoc支持的文档语法包括Robot Framework自身的 `文档语法`_, HTML, 纯文本和 reStructuredText_. 测试库文档的格式可以通过在 `测试库源码`__ 中设置属性 `ROBOT_LIBRARY_DOC_FORMAT` 来指定, 也可以通过命令行选项 :option:`--docformat (-F)` 来指定. 这两种情况下, 对应上面4种类型的值分别是: `ROBOT` (默认值), `HTML`, `TEXT` and `reST`. 注意这些值是大小写无关的.
-
-Libdoc supports documentation in Robot Framework's own `documentation
-syntax`_, HTML, plain text, and reStructuredText_. The format to use can be
-specified in `test library source code`__ using `ROBOT_LIBRARY_DOC_FORMAT`
-attribute or given from the command line using :option:`--docformat (-F)` option.
-In both cases the possible case-insensitive values are `ROBOT` (default),
-`HTML`, `TEXT` and `reST`.
 
 Robot Framework自己的文档格式是默认的, 也是推荐使用的格式. 如果测试库代码是已存在并且已经包含了文档, 则其它的格式就会很有用.
 
@@ -473,12 +441,6 @@ reStructuredText_ 是一个简单但是又很强大的标记语言, 被广泛用
 
 Libdoc支持在文档的不同部分生成关键字的内部链接. 使用反引号将目标的名字括起来即可, 例如 :codesc:`\`target\``. 目标名字是大小写无关的, 支持哪些目标将在下面的章节介绍. 
 
-Libdoc supports internal linking to keywords and different
-sections in the documentation. Linking is done by surrounding the
-target name with backtick characters like :codesc:`\`target\``. Target
-names are case-insensitive and possible targets are explained in the
-subsequent sections.
-
 如果要链接的目标没有找到, Libdoc也不会报错或警告, 只是将文字设为斜体. 早期的时候, 曾经推荐使用这种方式来引用关键字的参数, 但是这有可能导致无意中创建了内部链接. 现在则推荐使用双反引号来标示参数, 例如 :codesc:`\`\`argument\`\``. 使用单反引号而没有找到的链接目标的情况在未来的版本中有可能会以报错处理.
 
 除了下面小节中的例子, 内部链接和参数格式化都将在本章结尾的 `长篇实例`__ 中展示.
@@ -490,9 +452,8 @@ __ `Libdoc example`_
 链接到关键字
 ~~~~~~~~~~~~~~~~~~~
 
-All keywords the library have automatically create link targets and they can
-be linked using syntax :codesc:`\`Keyword Name\``. This is illustrated with
-the example below where both keywords have links to each others.
+测试库中所有的关键字都会自动创建链接目标, 可通过诸如 :codesc:`\`Keyword Name\`` 的语法链接到. 下面的例子展示了两个关键字之间互相链接.
+
 
 .. sourcecode:: python
 
@@ -512,18 +473,16 @@ the example below where both keywords have links to each others.
        """
        # ...
 
-.. note:: When using `reStructuredText documentation syntax`_, backticks must
-          be escaped like :codesc:`\\\`Keyword Name\\\``.
+.. note:: 当使用 `reStructuredText文档语法`_ 时, 反引号必须要转义.
 
 .. Linking to automatic sections
 
 链接到段落
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The documentation generated by Libdoc always contains sections
-for overall library introduction, shortcuts to keywords, and for
-actual keywords.  If a library itself takes arguments, there is also
-separate `importing section`_.
+Libdoc生成的文档总是自动包含了几个段落, 包括库的概述, 关键字的快捷方式, 和实际关键字. 如果测试库导入还需参数, 则还有单独的一个 `导入段落`_.
+
+所有这些段落都是可作为链接目标的, 目标名字参见下表. 如何使用参见下一节的示例.
 
 All these sections act as targets that can be linked, and the possible
 target names are listed in the table below. Using these targets is
@@ -541,14 +500,14 @@ shown in the example of the next section.
    Keywords          :codesc:`\`keywords\`` (New in Robot Framework 2.7.5.)
    ================  ===========================================================
 
-Linking to custom sections
+.. Linking to custom sections
+
+链接到自定义段落
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Starting from version 2.7.5, Robot Framework's `documentation syntax`_
-supports custom `section titles`_, and the titles used in the
-library or resource file introduction automatically create link
-targets. The example below illustrates linking both to automatic and
-custom sections:
+从2.7.5版本开始, Robot Framework的 `文档语法`_ 开始支持自定义 `段落标题`_, 其中的标题自动创建为链接目标.
+
+下面的例子展示了如何链接到自动段落和自定义段落.
 
 .. sourcecode:: python
 
@@ -569,24 +528,19 @@ custom sections:
        """
        pass
 
-.. note:: Linking to custom sections works only when using `Robot Framework
-          documentation syntax`_.
+.. note:: 链接到自定义段落只在使用 `Robot Framework文档语法`_ 时可用.
 
-.. note:: Prior to Robot Framework 2.8, only the first level section
-          titles were linkable.
+.. note:: Robot Framework 2.8版本之前, 段落标题只有第一级标题可以链接.
 
-Representing arguments
+.. Representing arguments
+
+表示参数
 ----------------------
 
-Libdoc handles keywords' arguments automatically so that
-arguments specified for methods in libraries or user keywords in
-resource files are listed in a separate column. User keyword arguments
-are shown without `${}` or `@{}` to make arguments look
-the same regardless where keywords originated from.
+Libdoc自动处理关键字的参数, 测试库中方法的参数和资源文件中用户关键字的参数, 将这些参数单独一列展示. 用户关键字的参数将去除 `${}` 或 `@{}`, 以使得这些参数不管是来自哪里看起来都一个样. 
 
-Regardless how keywords are actually implemented, Libdoc shows arguments
-similarly as when creating keywords in Python. This formatting is explained
-more thoroughly in the table below.
+不管关键字是如何实现的, Libdoc都如同在Python中创建关键字那样的展示. 这个格式用下面的表格展示会更直接点.
+
 
 .. table:: How Libdoc represents arguments
    :class: tabular
@@ -611,22 +565,25 @@ more thoroughly in the table below.
    |                    |                            | | `*varargs, **kwargs` |
    +--------------------+----------------------------+------------------------+
 
+当要在文档中引用关键字的参数时, 推荐使用 `行内代码样式 <inline styles_>`__ 来表示, 例如 :codesc:`\`\`argument\`\``.
+
 When referring to arguments in keyword documentation, it is recommended to
 use `inline code style <inline styles_>`__ like :codesc:`\`\`argument\`\``.
 
-Libdoc example
+
+.. Libdoc example
+
+Libdoc示例
 --------------
 
-The following example illustrates how to use the most important
-`documentation formatting`_ possibilities, `internal linking`_, and so
-on. `Click here`__ to see how the generated documentation looks like.
+下面的例子比较完整的展示了如何使用 `文档格式化`_ 中最有用的功能, `内部链接`_ 等等. 
+
+点击 `这里`__ 查看生成的文档是什么样.
 
 .. sourcecode:: python
 
    src/SupportingTools/LoggingLibrary.py
 
-All `standard libraries`_ have documentation generated by
-Libdoc and their documentation (and source code) act as a more
-realistic examples.
+所有 `标准库`_ 都提供了由Libdoc生成的文档, 这些文档(以及源代码)都可作为更加真实的例子来参考学习.
 
 __ src/SupportingTools/LoggingLibrary.html
