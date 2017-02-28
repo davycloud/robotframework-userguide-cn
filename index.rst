@@ -8,6 +8,7 @@ Robot Framework用户手册
 ========================
 
   Version |version|
+
 ---------------------
 
 .. toctree::
