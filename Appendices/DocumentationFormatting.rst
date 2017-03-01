@@ -41,12 +41,6 @@ __ `Handling whitespace`_
 
 手动添加换行符对于长篇文档来说是个负担, 并且额外的字符也使得文档内容难以阅读. 从Robot Framework 2.7版本开始, `连续的文档和元数据行`__ 中间会自动插入换行. 也就是说, 上面的例子还可以写成下面这种情况:
 
-Adding newlines manually to a long documentation takes some effort and extra
-characters also make the documentation harder to read. Starting from Robot
-Framework 2.7, this is not required as newlines are inserted automatically
-between `continued documentation and metadata lines`__. In practice this
-means that the above example could be written also as follows.
-
 .. sourcecode:: robotframework
 
   *** Settings ***
@@ -110,14 +104,9 @@ __ Escaping_
 段落
 ----------
 
-Starting from Robot Framework 2.7.2, all regular text in the formatted HTML
-documentation is represented as paragraphs. In practice, lines separated
-by a single newline will be combined in a paragraph regardless whether the
-newline is added manually or automatically. Multiple paragraphs can be separated
-with an empty line (i.e. two newlines) and also tables, lists, and other
-specially formatted blocks discussed in subsequent sections end a paragraph.
+从Robot Framework 2.7.2版本开始, 格式化后的HTML文档里, 所有的普通文本都表示为段落. 实际上, 不管是手动还是自动换行都会造成分段. 多个段落之间可以是空行, 也可以是其它的文本块, 比如表格, 列表等.
 
-For example, the following test suite or resource file documentation:
+例如, 下面的测试套件或资源文件文档:
 
 .. sourcecode:: robotframework
 
@@ -128,7 +117,7 @@ For example, the following test suite or resource file documentation:
   ...    Second paragraph, this time created
   ...    with multiple lines.
 
-will be formatted in HTML as:
+转为HTML格式后:
 
 .. raw:: html
 
@@ -137,28 +126,21 @@ will be formatted in HTML as:
   <p>Second paragraph, this time created with multiple lines.</p>
   </div>
 
-.. note:: Prior to 2.7.2 handling paragraphs was inconsistent. In documentation
-          generated with Libdoc_ lines were combined to paragraphs but in
-          documentations shown in log and report they were not.
+.. note:: 2.7.2版本之前的段落处理并不一致. Libdoc_ 生成的文档是段落组成的, 但是
+          日志和报告里面的文档不是.
 
-Inline styles
+
+.. Inline styles
+
+行内样式
 -------------
 
-The documentation syntax supports inline styles **bold**, *italic* and `code`.
-Bold text can be created by having an asterisk before and after the
-selected word or words, for example `*this is bold*`. Italic
-style works similarly, but the special character to use is an
-underscore, for example, `_italic_`. It is also possible to have
-bold italic with the syntax `_*bold italic*_`.
+文档语法支持的行内样式包括: **粗体**, *斜体* and `代码`. 粗体文字是用星号把一个或多个单词包住, 例如 `*this is bold*`. 类似地, 斜体是使用下划线, 例如 `_italic_`. 两者组合可以生成粗斜体 `_*bold italic*_`.
 
-The code style is created using double backticks like :codesc:`\`\`code\`\``.
-The result is monospaced text with light gray background. Support for code
-style is new in Robot Framework 2.8.6.
+行内的代码使用双反引号 :codesc:`\`\`code\`\``. 其效果是生成淡灰色背景加等宽字体. 代码样式是在2.8.6版本新加的功能.
 
-Asterisks, underscores or double backticks alone, or in the middle of a word,
-do not start formatting, but punctuation characters before or after them
-are allowed. When multiple lines form a paragraph__, all inline styles can
-span over multiple lines.
+星号, 下划线, 双反引号这些字符如果单独出现, 或者出现在文字中间, 则不会起作用, 不过如果前后出现的是标点符号, 则不受影响. 当 段落__ 中有多行, 行内样式可以跨越多行.
+
 
 __ paragraphs_
 
@@ -199,49 +181,48 @@ __ paragraphs_
 URLs
 ----
 
-All strings that look like URLs are automatically converted into
-clickable links. Additionally, URLs that end with extension
-:file:`.jpg`, :file:`.jpeg`, :file:`.png`, :file:`.gif` or
-:file:`.bmp` (case-insensitive) will automatically create images. For
-example, URLs like `http://example.com` are turned into links, and
-`http:///host/image.jpg` and `file:///path/chart.png`
-into images.
+所有看起来像URL的字符串都会自动转换为可点击的链接. 此外, 如果URL以图片类扩展名如 :file:`.jpg`, :file:`.jpeg`, :file:`.png`, :file:`.gif` 或 :file:`.bmp` (大小写无关) 结尾, 则将自动创建图片. 
 
-The automatic conversion of URLs to links is applied to all the data
-in logs and reports, but creating images is done only for test suite,
-test case and keyword documentation, and for test suite metadata.
+例如, 网址 `http://example.com` 转为链接, `http:///host/image.jpg` 和 `file:///path/chart.png` 则转为图片链接.
 
-Custom links and images
+URL的自动转换对日志和报告内的所有数据都启用, 但是创建图片只对测试套件文档, 测试用例和关键字文档, 以及测试套件的元数据起作用.
+
+.. Custom links and images
+
+自定义链接和图片
 -----------------------
 
-Starting from Robot Framework 2.7, it is possible to create custom links
-and embed images using special syntax `[link|content]`. This creates
-a link or image depending are `link` and `content` images.
-They are considered images if they have the same image extensions that are
-special with URLs_. The surrounding square brackets and the pipe character
-between the parts are mandatory in all cases.
+从Robot Framework 2.7版本开始, 可以通过一个特殊语法来创建自定义的链接和嵌入图片, 语法格式为 `[link|content]`. 最终生成的效果取决于  `link` 和 `content`.
 
-Link with text content
+是否是图片同样是通过文件扩展名来判断, 和 URLs_ 中一样. 不管什么情况, 该语法中的方括号和中间的管道符都是必需的.
+
+.. Link with text content
+
+带文本内容的链接
 ~~~~~~~~~~~~~~~~~~~~~~
 
-If neither `link` nor `content` is an image, the end result is
-a normal link where `link` is the link target and `content`
-the visible text::
+如果不管  `link` 或 `content` 都不是图片, 则结果会生成一个普通的链接, 其中 `link`  是链接目标, 而 `content` 是显示文本::
+
 
     [file.html|this file] -> <a href="file.html">this file</a>
     [http://host|that host] -> <a href="http://host">that host</a>
 
-Link with image content
+.. Link with image content
+
+带图片的链接
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-If `content` is an image, you get a link where the link content is an
-image. Link target is created by `link` and it can be either text or image::
+如果 `content` 是图片, 则生成的链接显示的内容是图片. 而链接的目标由 `link` 决定, 可能是普通的文本链接, 也可能是图片::
 
     [robot.html|robot.png] -> <a href="robot.html"><img src="robot.png"></a>
     [image.jpg|thumb.jpg] -> <a href="image.jpg"><img src="thumb.jpg"></a>
 
-Image with title text
+.. Image with title text
+
+带title文本的图片
 ~~~~~~~~~~~~~~~~~~~~~
+
+如果 `link` 是图片, 而 `content` 不是, 则生成的结果是一幅图片, 而 `content` 作为图片的title属性, 也就是当鼠标停在图片上面时显示:: 
 
 If `link` is an image but `content` is not, the syntax creates an
 image where the `content` is the title text shown when mouse is over
@@ -249,13 +230,12 @@ the image::
 
     [robot.jpeg|Robot rocks!] -> <img src="robot.jpeg" title="Robot rocks!">
 
-Section titles
+.. Section titles
+
+章节标题
 --------------
 
-If documentation gets longer, it is often a good idea to split it into
-sections. Starting from Robot Framework 2.7.5, it is possible to separate
-sections with titles using syntax `= My Title =`, where the number of
-equal signs denotes the level of the title::
+如果文档内容较长, 则通常会分为几个章节. 从Robot Framework 2.7.5 版本开始, 可以使用语法格式 `= My Title =` 设置章节标题. 其中, 等号(`=`)的数量表示标题的级别::
 
     = First section =
 
@@ -271,26 +251,23 @@ equal signs denotes the level of the title::
 
     You probably got the idea.
 
-Notice that only three title levels are supported and that spaces between
-equal signs and the title text are mandatory.
+注意, 最多支持三级标题, 并且标题文本和前后的等号之间 *必须* 要留有空格.
 
-Tables
+
+.. Tables
+
+表格
 ------
 
-Tables are created using pipe characters with spaces around them
-as column separators and newlines as row separators. Header
-cells can be created by surrounding the cell content with equal signs
-and optional spaces like `= Header =` or `=Header=`. Tables
-cells can also contain links and formatting such as bold and italic::
+表格通过两边留有空格的管道符(即竖线)来作为列的分隔, 用换行表示新的一行(row). 在单元内的文字两边加上等号来标记表头, 如 `= Header =` 或 `=Header=`. 
+
+表格单元格内的文字同样支持行内样式以及链接格式. 例如::
 
    | =A= |  =B=  | = C =  |
    | _1_ | Hello | world! |
    | _2_ | Hi    |
 
-The created table always has a thin border and normal text is left-aligned.
-Text in header cells is bold and centered. Empty cells are automatically
-added to make rows equally long. For example, the above example would be
-formatted like this in HTML:
+生成的表格总是带有窄边框, 正常文字是左对齐, 而表头的字体是粗体且居中. 自动添加空单元格以保证表格每行的长度一致. 例如, 上例转为HTML后的格式如下:
 
 .. raw:: html
 
@@ -302,14 +279,14 @@ formatted like this in HTML:
     </table>
   </div>
 
-.. note:: Support for table headers is a new feature in Robot Framework 2.8.2.
+.. note:: 支持表头是 Robot Framework 2.8.2 的新特性.
 
-Lists
+.. Lists
+
+列表
 -----
 
-Lists are created by starting a line with a hyphen and space ('- '). List items
-can be split into multiple lines by indenting continuing lines with one or more
-spaces. A line that does not start with '- ' and is not indented ends the list::
+在行首用连字符(即减号`-`)开始, 后面跟空格, 然后是列表项. 列表项可以分为多行, 多行情况下, 后续行要缩进至少一个空格. 一旦遇到没有不是以 `- `开始的行且没有缩进, 则标志着列表的结束::
 
   Example:
   - a list item
@@ -318,7 +295,7 @@ spaces. A line that does not start with '- ' and is not indented ends the list::
 
   This is outside the list.
 
-The above documentation is formatted like this in HTML:
+上面的文档转为HTML:
 
 .. raw:: html
 
@@ -331,29 +308,24 @@ The above documentation is formatted like this in HTML:
   <p>This is outside the list.</p>
   </div>
 
-.. note:: Support for formatting lists was added in 2.7.2. Prior to that,
-          the same syntax prevented Libdoc_ from combining lines to
-          paragraphs, so the end result was similar. Support for splitting
-          list items into multiple lines was added in 2.7.4.
+.. note:: 多列表的支持在2.7.2版本增加. 在这之前, 该语法阻止 Libdoc_ 把这些行拼成段落,
+          所以最终结果也差不多. 列表项可以分为多行是在2.7.4版本增加的功能.
 
-Preformatted text
+.. Preformatted text
+
+预格式的文本
 -----------------
 
-Starting from Robot Framework 2.7, it is possible to embed blocks of
-preformatted text in the documentation. Preformatted block is created by
-starting lines with '| ', one space being mandatory after the pipe character
-except on otherwise empty lines. The starting '| ' sequence will be removed
-from the resulting HTML, but all other whitespace is preserved.
+Robot Framework 2.7 版本开始, 可以在文档中嵌入预格式的(preformatted)文本. 以 '| ' 作为一行的开始, 其中管道符后面必须要有至少一个空格(空行是个例外). 最终转换到HTML时, 行首的 '| ' 被去掉, 但是其它所有的空格都会被保留. 
 
-In the following documentation, the two middle lines form a preformatted
-block when converted to HTML::
+在下面的文档中, 中间的两行就是预格式的文本块::
 
   Doc before block:
   | inside block
   |    some   additional whitespace
   After block.
 
-The above documentation is formatted like this:
+转为HTML:
 
 .. raw:: html
 
@@ -364,21 +336,19 @@ The above documentation is formatted like this:
   <p>After block.</p>
   </div>
 
-When documenting suites, tests or keywords in Robot Framework test data,
-having multiple spaces requires escaping with a backslash to `prevent
-ignoring spaces`_. The example above would thus be written like this::
+当在Robot Framework的测试数据中编写这样包含多个空格的文档, 需要对空格进行转义, 以 `prevent ignoring spaces`_. 所以上面的例子实际会写作::
 
   Doc before block:
   | inside block
   | \ \ \ some \ \ additional whitespace
   After block.
 
-Horizontal ruler
+.. Horizontal ruler
+
+分割线
 ----------------
 
-Horizontal rulers (the `<hr>` tag) make it possible to separate larger
-sections from each others, and they can be created by having three or more
-hyphens alone on a line::
+水平分割线(即`<hr>`)常用来分隔大的章节, 在单独一行内使用3个或以上的连字符即可::
 
    Some text here.
 
@@ -386,7 +356,7 @@ hyphens alone on a line::
 
    More text...
 
-The above documentation is formatted like this:
+上面的文档转为HTML:
 
 .. raw:: html
 
