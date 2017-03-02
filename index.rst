@@ -8,6 +8,7 @@ Robot Framework用户手册
 ========================
 
   Version |version|
+
 ---------------------
 
 .. toctree::
@@ -19,5 +20,8 @@ Robot Framework用户手册
    CreatingTestData/index
    ExecutingTestCases/index
    ExtendingRobotFramework/index
+   SupportingTools/index
+   Appendices/index
+
 
 .. _Python: http://python.org
