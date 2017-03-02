@@ -21,6 +21,7 @@ Robot Framework用户手册
    ExecutingTestCases/index
    ExtendingRobotFramework/index
    SupportingTools/index
+   Appendices/index
 
 
 .. _Python: http://python.org
