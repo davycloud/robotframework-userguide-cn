@@ -3,7 +3,7 @@
 ## robotframework用户手册中文版
 
 
-阅读文档: http://robotframework-userguide-cn.readthedocs.io/en/latest/
+阅读文档: http://robotframework-userguide-cn.readthedocs.io/zh_CN/latest/
 
 
 ## 原文参考
