@@ -1,4 +1,4 @@
-.. Configuring execution
+.. _Configuring execution:
 
 测试执行的配置项
 =====================
@@ -11,14 +11,14 @@ __ `Created outputs`_
    :depth: 2
    :local:
 
-.. Selecting test cases
+.. _selecting test cases:
 
 选择测试用例
 --------------------
 
 Robot Framework提供了若干命令行选项用于选择测试用例来执行. 这些选项同样可以在使用 Rebot_ 处理测试输出时使用. 
 
-.. By test suite and test case names
+.. _By test suite and test case names:
 
 根据套件和用例名称
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -47,7 +47,7 @@ Robot Framework提供了若干命令行选项用于选择测试用例来执行. 
 
 通过 :option:`--test` 选项来选择单个的测试用例执行在创建测试用例时很实用, 但是在自动化执行时作用有限. 通常情况下, 通过标签来选择用例更加灵活.
 
-.. By tag names
+.. _By tag names:
 
 根据标签
 ~~~~~~~~~~~~
@@ -84,7 +84,7 @@ Robot Framework提供了若干命令行选项用于选择测试用例来执行. 
   当所有用例执行完成, 可以针对这轮特定的迭代生成单独的报告
   (例如: `rebot --include sprint-42 output.xml`).
 
-.. Re-executing failed test cases
+.. _Re-executing failed test cases:
 
 重新执行失败的用例
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,7 +108,7 @@ Robot Framework提供了若干命令行选项用于选择测试用例来执行. 
 
 __ `Merging outputs`_
 
-.. When no tests match selection
+.. _When no tests match selection:
 
 当没有用例匹配选择的情况
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -125,7 +125,7 @@ __ `Merging outputs`_
 
 .. note:: :option:`--ProcessEmptySuite` 是 Robot Framework 2.7.2版本新加功能.
 
-.. Setting criticality
+.. _Setting criticality:
 
 设置关键性
 -------------------
@@ -158,12 +158,12 @@ __ `Merging outputs`_
 
 __ `By tag names`_
 
-.. Setting metadata
+.. _Setting metadata:
 
 设置元数据
 ----------------
 
-.. Setting the name
+.. _Setting the name:
 
 设置名字
 ~~~~~~~~~~~~~~~~
@@ -173,7 +173,7 @@ Robot Framework 解析测试数据时, 测试套件的名字是根据用例文�
 __ `Test suite name and documentation`_
 
 
-.. Setting the documentation
+.. _Setting the documentation:
 
 设置文档
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -182,7 +182,7 @@ __ `Test suite name and documentation`_
 
 __ `Test suite name and documentation`_
 
-.. Setting free metadata
+.. _Setting free metadata:
 
 设置自由元数据
 ~~~~~~~~~~~~~~~~~~~~~
@@ -192,7 +192,7 @@ __ `Test suite name and documentation`_
 
 该选项可以出现多次以设置多个元数据
 
-.. Setting tags
+.. _Setting tags:
 
 设置标签
 ~~~~~~~~~~~~
@@ -201,7 +201,7 @@ __ `Test suite name and documentation`_
 
 .. _module search path:
 
-.. Configuring where to search libraries and other extensions
+.. _Configuring where to search libraries and other extensions:
 
 配置模块搜索路径
 ---------------------------
@@ -216,7 +216,7 @@ Robot Framework在导入 `资源和变量文件`_ 时, 如果指定的路径不�
 __ `Specifying library to import`_
 __ `Setting listeners`_
 
-.. Locations automatically in module search path
+.. _Locations automatically in module search path:
 
 自动包含在模块搜索路径中的位置
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -238,7 +238,6 @@ Python, Jython和IronPython分别从环境变量 ``PYTHONPATH``, ``JYTHONPATH`` 
           ``PYTHONPATH`` 环境变量中的内容被框架自己加入到模块搜索路径中.
           现在则不会了, 必须分别使用 ``JYTHONPATH`` 和 ``IRONPYTHONPATH``.
 
-.. Using `--pythonpath` option
 
 `--pythonpath` 选项
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -256,14 +255,13 @@ __ `Escaping complicated characters`_
    --pythonpath /opt/testlibs:mylibs.zip:yourlibs
    --pythonpath mylib.jar --pythonpath lib/STAR.jar --escape star:STAR
 
-.. Configuring `sys.path` programmatically
 
 程序设置 `sys.path`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Python解释器把模块搜索路径以字符串列表的形式存储在 `sys.path <https://docs.python.org/2/library/sys.html#sys.path>`__. 该属性可以在程序执行过程中动态地更新, 改动将在下次需要导入某个模块的时候起效.
 
-.. Java classpath
+.. _Java classpath:
 
 Java的类路径
 ~~~~~~~~~~~~~~
@@ -281,7 +279,7 @@ Java的类路径
 
 __ https://docs.oracle.com/javase/8/docs/technotes/tools/findingclasses.html
 
-.. Setting variables
+.. _Setting variables:
 
 设置变量
 -----------------
@@ -296,7 +294,7 @@ __ https://docs.oracle.com/javase/8/docs/technotes/tools/findingclasses.html
 
 __ `Setting variables in command line`_
 
-.. Dry run
+.. _Dry run:
 
 空运行(Dry run)
 --------------
@@ -315,7 +313,7 @@ Robot Framework支持所谓的 *空运行* 模式, 这种模式下测试用例�
 
 __ `Errors and warnings during execution`_
 
-.. Randomizing execution order
+.. _Randomizing execution order:
 
 执行顺序随机化
 ---------------------------
@@ -347,7 +345,7 @@ __ `Free test suite metadata`_
 
 .. _pre-run modifier:
 
-.. Programmatic modification of test data
+.. _Programmatic modification of test data:
 
 测试数据编程修改
 --------------------------------------
@@ -384,14 +382,14 @@ can be enabled using the :option:`--prerebotmodifier` option.
 
 __ `Specifying library to import`_
 
-.. Controlling console output
+.. _Controlling console output:
 
 控制台输出
 --------------------------
 
 有多个命令行选项可用来设置测控制台的报告输出.
 
-.. Console output type
+.. _Console output type:
 
 控制台输出类型
 ~~~~~~~~~~~~~~~~~~~
@@ -422,7 +420,7 @@ Examples::
 .. note:: :option:`--console`, :option:`--dotted` 和 :option:`--quiet` 是 
           Robot Framework 2.9新增特性. 早期版本的输出总是相当于当前的 `verbose` 模式.
 
-.. Console width
+.. _Console width:
 
 控制台宽度
 ~~~~~~~~~~~~~
@@ -435,7 +433,7 @@ Examples::
 .. note:: 在Robot Framework 2.9之前, 该功能通过 :option:`--monitorwidth` 选项
           启用, 目前已经废弃并去除. 而短选项 :option:`-W` 在所有版本中都一样用.
 
-.. Console colors
+.. _Console colors:
 
 控制台颜色
 ~~~~~~~~~~~~~~
@@ -462,7 +460,7 @@ Examples::
 
 __ http://en.wikipedia.org/wiki/ANSI_escape_code
 
-.. Console markers
+.. _Console markers:
 
 控制台标记
 ~~~~~~~~~~~~~~~
@@ -486,7 +484,7 @@ __ http://en.wikipedia.org/wiki/ANSI_escape_code
 
 __ `Console output type`_
 
-.. Setting listeners
+.. _Setting listeners:
 
 设置监听器
 -----------------

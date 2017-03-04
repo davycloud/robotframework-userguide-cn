@@ -1,4 +1,4 @@
-.. Using test libraries
+.. _Using test libraries:
 
 使用测试库
 ====================

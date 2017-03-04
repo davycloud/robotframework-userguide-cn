@@ -1,10 +1,25 @@
-关于中文版
+关于本手册
 ==========
+
+本手册是 `Robot Framework <http://robotframework.org>`_ 用户手册的中文翻译版.
+
+想直接阅读英文的请点击 `这里 <http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html>`_
+
+获取源码
+--------
+
+你可以在 `GitHub <https://github.com>`_ 上获取到本手册的源码文件
+
+- `UserGuide <https://github.com/robotframework/robotframework/tree/master/doc/userguide>`_
+
+- `用户手册 <https://github.com/davyyy/robotframework-userguide-cn>`_
+
+如果你觉得这份手册对你有帮助, 请Star一个以示鼓励. 觉得有翻译不当之处也敬请指正.
 
 源文件格式
 ----------
 
-原英文文档使用的是reStructureText标准格式, 中文文档使用Sphinx工具, 虽然仍然是rst格式的文档, 但是其中某些标记和原文有所不同.
+原英文文档使用的是reStructureText标准格式, 中文文档使用了Sphinx文档工具, 虽然文件的格式是一样的, 但是其中某些标记和原文有所不同, 特别是文档的内部链接形式. 原文整个文档是一个页面, 中文文档分章节显示.
 
 翻译说明
 --------

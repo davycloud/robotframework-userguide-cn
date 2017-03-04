@@ -1,3 +1,5 @@
+.. _test data:
+
 基础语法
 ================
 
@@ -8,6 +10,7 @@
    :local:
 
 .. Files and directories
+
 文件和目录
 ---------------------
 
@@ -25,8 +28,7 @@
 - `Resource files`_ 包含高层次的 `user keywords`_ 和 variables_ .
 - `Variable files`_ 提供更灵活的方式来创建变量.
 
-.. Supported file formats
-
+.. _Supported file formats:
 文件格式
 ----------------------
 
@@ -46,8 +48,7 @@ Robot Framework通过文件的扩展名来选择使用何种解析器. 扩展名
 
 .. hint:: 译者注: 习惯于使用RIDE的初学者可以略过本章后面每种格式的细节介绍. 
 
-.. HTML format
-
+.. _HTML format:
 HTML格式
 ~~~~~~~~~~~
 
@@ -100,15 +101,13 @@ HTML文件中, 测试数据定义在各自独立的表格中. Robot Framework通
    \             Directory Should Exist  ${path}
    ============  ======================  ============  ==========
 
-.. Editing test data
-
+.. _Editing test data:
 编辑测试数据
 '''''''''''''''''
 
 HTML文件中测试数据的编辑可以使用任意的编辑器, 不过还是推荐使用图形编辑器, 可以直观的看到表格. RIDE_ 支持HTML文件的读写, 不过遗憾的是, 它会把其它格式和表格外的数据丢弃掉.
 
-.. Encoding and entity references
-
+.. _Encoding and entity references:
 编码和实体引用
 ''''''''''''''''''''''''''''''
 
@@ -122,8 +121,7 @@ XHTML 文件则应该使用 XML 格式的序文, 例如::
 
 如果没有指定编码, Robot Framework 默认使用 ISO-8859-1.
 
-.. TSV format
-
+.. _TSV format:
 TSV格式
 ~~~~~~~~~~
 
@@ -163,8 +161,7 @@ TSV文件中, 所有的数据都存在一张大表中, 不同的 `Test data tabl
    \             Directory Should Exist   ${path}
    ============  =======================  =============  =============
 
-.. Editing test data
-
+.. _Editing test data:
 编辑测试数据
 '''''''''''''''''
 
@@ -176,15 +173,13 @@ Robot Framework 解析TSV格式的数据时, 首先按行分割, 然后将行按
 电子表格程序有时会给单元格中的数据裹上引号(例如: `"my value"`), 如果数据本身含有引号, 其中会写两次(例如: `"my ""quoted"" value"`), Robot Framework可以正确的处理这种情况.
 如果你是通过软件来创建这些数据, 不用操心太多, 但是如果是通过程序生成的数据, 对于引号的处理要参照软件的实现一样.
 
-.. Encoding
-
+.. _Encoding:
 文件编码
 ''''''''
 
 TSV 文件总是按照UTF-8编码来处理, 因为ASCII编码是UTF-8的子集, 所以自然也是支持的.
 
-.. Plain text format
-
+.. _Plain text format:
 纯文本格式
 ~~~~~~~~~~~~~~~~~
 
@@ -198,8 +193,7 @@ TSV使用制表符(Tab), 而纯文本使用两个或更多的空格, 还可以�
 
 在解析纯文本文件时, 制表符(Tab)会自动转换成两个空格, 这样就可以像在TSV文件中那样在纯文本格式中使用Tab作为分隔. 不过需要注意的是, 多个tab在纯文本格式文件也只会被当作一个分隔符, 而在TSV格式中, 每个tab就是一个分隔符.
 
-.. Space separated format
-
+.. _Space separated format:
 空格分隔的格式
 ''''''''''''''''''''''
 
@@ -279,8 +273,7 @@ __ Escaping_
 
 __ Escaping_
 
-.. Editing and encoding
-
+.. _Editing and encoding:
 编辑和编码
 ''''''''''''''''''''
 
@@ -288,15 +281,13 @@ __ Escaping_
 
 类似于TSV文件, 纯文本格式总是使用UTF-8编码.
 
-.. Recognized extensions
-
+.. _Recognized extensions:
 可识别的文件扩展名
 '''''''''''''''''''''
 
 从Robot Framework 2.7.6版本开始, 可以将纯文本格式的数据文件保存为特定的  :file:`.robot` 扩展名, 而不是普通的  :file:`.txt`. 新的扩展名可以更容易的区分测试数据文件和其它的文本文件.
 
-.. reStructuredText format
-
+.. _reStructuredText format:
 reStructuredText格式
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -322,8 +313,7 @@ like you would with the `HTML format`_.
 __ `Using code blocks`_
 __ `Using tables`_
 
-.. Using code blocks
-
+.. _Using code blocks:
 代码块
 '''''''''''''''''
 
@@ -387,8 +377,7 @@ reStructuredText文档以一种称之为代码块的方式来表示一段代码�
 
 .. note:: 使用代码块的方式是Robot Framework 2.8.2才出现的新特性.
 
-.. Using tables
-
+.. _Using tables:
 使用表格
 ''''''''''''
 
@@ -460,8 +449,7 @@ Robot Framework靠第一个单元格的内容来标示 `test data tables`_, 被�
 
 每次运行时都要把reST文件转换为HTML文件, 显然这会带来额外的损耗. 如果想规避这个问题, 最好是使用其它外部工具先将reST文件转换为HTML, 让Robot Framework使用生成后的文件.
 
-.. Editing and encoding
-
+.. _Editing and encoding:
 编辑和编码
 ''''''''''''''''''''
 
@@ -469,8 +457,7 @@ reStructuredText文件可以使用任何文本编辑器, 很多编辑器和IDE�
 
 如果reST文件中包含non-ASCII字符, 则文件需要保存为UTF-8编码格式.
 
-.. Syntax errors in reST source files
-
+.. _Syntax errors in reST source files:
 reST源文件中的语法错误
 ''''''''''''''''''''''''''''''''''
 
@@ -478,8 +465,7 @@ reST源文件中的语法错误
 
 从Robot Framework2.9.2版本开始, 当运行测试时, 低于 `SEVERE` 级别的错误会被忽略, 这样做是为了避免恼人的非标准指令或标记引起的错误. 这有可能隐藏真正的错误, 但是正常处理这些文件时还是可以发现的(译注: 这里说的处理应该是指用其它工具解析reST文件).
 
-.. Test data tables
-
+.. _Test data tables:
 测试数据表格
 ----------------
 
@@ -506,14 +492,14 @@ reST源文件中的语法错误
    |              | lower-level keywords                       |
    +--------------+--------------------------------------------+
 
-.. Rules for parsing the data
+.. _Rules for parsing the data:
 
 数据的解析规则
 --------------------------
 
 .. _comment:
 
-.. Ignored data
+.. _Ignored data:
 
 被忽略的数据
 ~~~~~~~~~~~~
@@ -542,8 +528,7 @@ test cases or suites, or log it with the BuiltIn_ keywords :name:`Log` or
 __ `Test data tables`_
 __ `Prevent ignoring empty cells`_
 
-.. Handling whitespace
-
+.. _Handling whitespace:
 如何处理空格
 ~~~~~~~~~~~~~~~~~~~
 
@@ -572,15 +557,13 @@ created using `escape sequences`_ `\n`, `\r`, `\t`, and `\xA0` respectively.
 
 __ `Prevent ignoring spaces`_
 
-.. Escaping
-
+.. _Escaping:
 字符转义
 ~~~~~~~~
 
 Robot Framework的测试数据使用反斜杠(:codesc:`\\`)作为转义字符, 此外还增加了 `built-in variables`_ `${EMPTY}` 和 `${SPACE}` 经常用来作为转义. 不同的转义策略在下面的小节中详细讨论.
 
-.. Escaping special characters
-
+.. _Escaping special characters:
 转义特殊字符
 '''''''''''''''''''''''''''
 
@@ -604,8 +587,7 @@ Robot Framework的测试数据使用反斜杠(:codesc:`\\`)作为转义字符, �
 .. _escape sequence:
 .. _escape sequences:
 
-.. Forming escape sequences
-
+.. _Forming escape sequences:
 转义序列
 ''''''''''''''''''''''''
 
@@ -645,8 +627,7 @@ in the test data.
 
 .. note:: `\x`, `\u` and `\U` 转义序列在Robot Framework 2.8.2版本新引入.
 
-.. Prevent ignoring empty cells
-
+.. _Prevent ignoring empty cells:
 避免忽略空单元格
 ''''''''''''''''''''''''''''
 
@@ -688,8 +669,7 @@ must be escaped regardless of the test data format, and when using the
 
 __ `Ignored data`_
 
-.. Prevent ignoring spaces
-
+.. _Prevent ignoring spaces:
 避免忽略空格
 '''''''''''''''''''''''
 
@@ -711,8 +691,7 @@ __ `Ignored data`_
 
 __ `Handling whitespace`_
 
-.. Dividing test data to several rows
-
+.. _Dividing test data to several rows:
 测试数据分为多行
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

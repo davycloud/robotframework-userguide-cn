@@ -5,7 +5,7 @@
 .. toctree::
    :maxdepth: 2
   
-   Install
-   CopyrightAndLicense
    Introduction
+   CopyrightAndLicense
+   Install
    Demonstrations

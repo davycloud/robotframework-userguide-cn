@@ -9,7 +9,7 @@
 
 
 概述
-------------
+----
 
 `Robot Framework <http://robotframework.org>`_ 是使用 `Python <http://python.org>`_ 开发实现, 
 同时支持 `Jython <http://jython.org>`_ (JVM) 和 `IronPython <http://ironpython.net>`_ (.NET). 
@@ -37,7 +37,7 @@
 
 
 前提条件
--------------
+--------
 
 Robot Framework 除了可以在 Python_ (both Python 2 and Python 3), Jython_
 (JVM) 和 IronPython_ (.NET) 上运行外, 还可以运行在 `PyPy <http://pypy.org>`_.
@@ -116,7 +116,7 @@ IronPython_ 使得Robot Framework可以运行在 `.NET平台 <http://www.microso
 
 
 配置环境变量 ``PATH``
-^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
 
 ``PATH`` 环境变量定义了一系列路径, 系统运行命令时默认从这些路径中搜索.
 为了在命令行中更方便的使用 Robot Framework, 推荐将 运行脚本_ 所在的路径添加到 ``PATH``.

@@ -13,8 +13,6 @@ __ `Post-processing outputs`_
 
 .. _executing test cases:
 
-.. Starting test execution
-
 开始执行测试
 -----------------------
 

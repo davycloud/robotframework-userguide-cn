@@ -1,4 +1,4 @@
-.. Created outputs
+.. _Created outputs:
 
 输出
 ===============
@@ -9,7 +9,7 @@
    :depth: 2
    :local:
 
-.. Different output files
+.. _Different output files:
 
 不同输出文件
 ----------------------
@@ -25,7 +25,7 @@ question as an argument. A special value `NONE`
 (case-insensitive) can be used to disable creating a certain output
 file.
 
-.. Output directory
+.. _Output directory:
 
 输出目录
 ~~~~~~~~~~~~~~~~
@@ -34,7 +34,7 @@ file.
 
 .. _output.xml:
 
-.. Output file
+.. _Output file:
 
 输出文件
 ~~~~~~~~~~~
@@ -66,7 +66,7 @@ unless the :option:`--output` option is explicitly used.
 
 为选项 :option:`--output` 指定特殊值 `NONE` 可以禁止output文件生成. 在Robot Framework 2.8版本之前, 这同样会禁止日志和报告文件的生成, 不过现今的版本不会这样了. 如果想禁用所有, 必须明确的分别指定 `--output NONE --report NONE --log NONE`.
 
-.. Log file
+.. _log file:
 
 日志文件
 ~~~~~~~~
@@ -87,7 +87,7 @@ unless the :option:`--output` option is explicitly used.
 
    An example of a log file with keyword details visible
 
-.. Report file
+.. _report file:
 
 报告文件
 ~~~~~~~~~~~
@@ -115,7 +115,7 @@ unless the :option:`--output` option is explicitly used.
 .. _xunit:
 .. _xunit file:
 
-.. XUnit compatible result file
+.. _XUnit compatible result file:
 
 兼容XUnit的结果文件
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -152,7 +152,7 @@ __ http://jenkins-ci.org
 __ https://wiki.jenkins-ci.org/display/JENKINS/Robot+Framework+Plugin
 __ `Setting criticality`_
 
-.. Debug file
+.. _Debug file:
 
 调试文件
 ~~~~~~~~~~
@@ -161,7 +161,7 @@ __ `Setting criticality`_
 
 调试文件只在明确的使用了选项 :option:`--debugfile (-b)` 后才会被创建.
 
-.. Timestamping output files
+.. _Timestamping output files:
 
 给输出文件打时间戳
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -172,7 +172,7 @@ __ `Setting criticality`_
 
    robot --timestampoutputs --log mylog.html --report NONE tests.robot
 
-.. Setting titles
+.. _Setting titles:
 
 设置标题
 ~~~~~~~~~~~~~~
@@ -183,7 +183,7 @@ Example::
 
    robot --logtitle Smoke_Test_Log --reporttitle Smoke_Test_Report --include smoke my_tests/
 
-.. Setting background colors
+.. _Setting background colors:
 
 设置背景色
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -200,12 +200,12 @@ Example::
 
 颜色值是针对HTML页面的 `body` 元素的 `background` CSS属性. 该值可以是HTML支持的颜色名称(如: `red`), 十六进制的值(如: `#f00` 或 `#ff0000`), 或者是一个RGB值(如: `rgb(255,0,0)`). 默认的绿色和红色分别对应的十六进制值是 `#9e9` 和 `#f66`.
 
-.. Log levels
+.. _Log levels:
 
 日志级别
 ----------
 
-.. Available log levels
+.. _Available log levels:
 
 可用的日志级别
 ~~~~~~~~~~~~~~~~~~~~
@@ -231,7 +231,7 @@ Example::
 __ `Logging information`_
 __ `Errors and warnings during execution`_
 
-.. Setting log level
+.. _Setting log level:
 
 设置日志级别
 ~~~~~~~~~~~~~~~~~
@@ -249,7 +249,7 @@ Rebot. Messages ignored during the execution cannot be recovered.
 
 在测试数据中使用 BuiltIn_ 关键字 :name:`Set Log Level` 也可以改变日志级别. 该关键字的参数和 :option:`--loglevel` 一样, 并且会返回原来的日志级别以备后续(如teardown)恢复. 
 
-.. Visible log level
+.. _Visible log level:
 
 可见的日志级别
 ~~~~~~~~~~~~~~~~~

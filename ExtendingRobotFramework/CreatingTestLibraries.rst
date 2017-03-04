@@ -1,6 +1,8 @@
 .. include:: roles.rst
 .. role:: name
 
+.. _creating test libraries:
+
 创建测试库
 =======================
 

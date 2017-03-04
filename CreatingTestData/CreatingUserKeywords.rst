@@ -1,4 +1,4 @@
-.. Creating user keywords
+.. _Creating user keywords:
 
 创建用户关键字
 ======================
@@ -9,12 +9,12 @@
    :depth: 2
    :local:
 
-.. User keyword syntax
+.. _User keyword syntax:
 
 用户关键字语法
 -------------------
 
-.. Basic syntax
+.. _Basic syntax:
 
 基础语法
 ~~~~~~~~~~~~
@@ -39,7 +39,7 @@ __ `User keyword arguments`_
 
 用户关键字可以创建在 `test case files`_, `resource files`_, 和 `test suite initialization files`_. 在资源文件中创建的关键字在导入了该资源文件后即可使用, 其它文件中创建的关键字只在文件内可用.
 
-.. Settings in the Keyword table
+.. _Settings in the Keyword table:
 
 关键字表格中的设置项
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,7 +72,7 @@ __ `User keyword tags`_
 
 .. _User keyword documentation:
 
-.. User keyword name and documentation
+.. _User keyword name and documentation:
 
 用户关键字的名称和文档
 -----------------------------------
@@ -83,7 +83,7 @@ __ `User keyword tags`_
 
 有时候关键字由于某种原因需要移出, 或者被新的替换, 或者被弃用. 在关键字文档的开始部分使用 `*DEPRECATED*` 可以标记该用户关键字已经不建议使用, 如果使用则会触发一个警告. 更多的说明请参见 `Deprecating keywords`_ .
 
-.. User keyword tags
+.. _User keyword tags:
 
 用户关键字的标签
 -----------------
@@ -117,7 +117,7 @@ __ `Removing keywords`_
 __ `Flattening keywords`_
 __ `Reserved tags`_
 
-.. User keyword arguments
+.. _User keyword arguments:
 
 用户关键字的参数
 ----------------------
@@ -126,7 +126,7 @@ __ `Reserved tags`_
 
 参数通过  :setting:`[Arguments]` 设置, 参数名称的语法格式和 变量_ 一样, 如 `${arg}`.
 
-.. Positional arguments
+.. _Positional arguments:
 
 位置参数
 ~~~~~~~~~~~~~~~~~~~~
@@ -148,7 +148,7 @@ __ `Reserved tags`_
        Log    2nd argument: ${arg2}
        Log    3rd argument: ${arg3}
 
-.. Default values with user keywords
+.. _Default values with user keywords:
 
 默认值参数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -204,7 +204,7 @@ Pythonistas肯定都已经注意到了, 这种指定默认值的语法几乎就�
 
 __ `Variable priorities and scopes`_
 
-.. Varargs with user keywords
+.. _Varargs with user keywords:
 
 不定参数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -237,7 +237,7 @@ __ `Variable priorities and scopes`_
 
 __ `for loops`_
 
-.. Kwargs with user keywords
+.. _Kwargs with user keywords:
 
 用户关键字的Kwargs
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -266,14 +266,14 @@ __ `for loops`_
 
 .. _Embedded argument syntax:
 
-.. Embedding arguments into keyword name
+.. _Embedding arguments into keyword name:
 
 关键字名称中嵌入参数
 -------------------------------------
 
 Robot Framework 除了常规的在关键字名称后指定参数的方法外, 还支持一种把参数嵌入到关键字名称中的做法. 这样做的最大好处是可以使得关键字如同正常语言中的句子一样易读.
 
-.. Basic syntax
+.. _Basic syntax:
 
 基础语法
 ~~~~~~~~~~~~
@@ -289,20 +289,20 @@ Robot Framework 除了常规的在关键字名称后指定参数的方法外, �
 
 使用嵌入参数的关键字不可在接受"普通的"参数(即 :setting:`[Arguments]` 设置), 其它方面则没什么两样. 关键字被调用时, 其名称中的不同的值自然地传递给对应位置的参数. 例如, 上例中的 `${animal}` 在使用 :name:`Select dog from list` 时的值就是 `dog`. 
 
-.. 啥意思
+.. _啥意思:
 显然, 关键字内的参数无需都用上, 所以可以使用通配符. 
 
 这种类型的关键字和其它关键字的用法一样, 只是名称中的空格和下划线不能再忽略了. 不过大小写仍然是忽略的. 例如, 上例中的关键字可以是 :name:`select x from list`, 但是不能是 :name:`Select x fromlist`.
 
-.. Obviously it is not
+.. _Obviously it is not:
    mandatory to use all these arguments inside the keyword, and they can
    thus be used as wildcards.
 
 嵌入式参数不支持使用默认值和任意数量参数. 在调用这类关键字时也可以使用变量, 不过这样做会降低可读性.
 
-.. Notice also that embedded arguments only work with user keywords.
+.. _Notice also that embedded arguments only work with user keywords.:
 
-.. Embedded arguments matching too much
+.. _Embedded arguments matching too much:
 
 嵌入参数过多匹配
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -317,7 +317,7 @@ Robot Framework 除了常规的在关键字名称后指定参数的方法外, �
 
 __ `Ignoring Given/When/Then/And/But prefixes`_
 
-.. Using custom regular expressions
+.. _Using custom regular expressions:
 
 使用自定义正则表达式
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -370,7 +370,7 @@ __ `Ignoring Given/When/Then/And/But prefixes`_
 .. tip:: 如果使用了引号, 使用正则表达式  `[^"]+` 以确保参数的右引号匹配正确.
 
 
-.. Supported regular expression syntax
+.. _Supported regular expression syntax:
 
 支持的正则表达式语法
 '''''''''''''''''''''''''''''''''''
@@ -378,7 +378,7 @@ __ `Ignoring Given/When/Then/And/But prefixes`_
 因为Robot Framework是使用Python开发的, 所以其正则表达式语法很自然地是使用 :name:`re` 模块中 定义__ 的语法. 除了不能使用  `(?...)` 格式, 其它语法都可被支持. 
 注意嵌入参数的匹配是忽略大小写的. 如果正则表达式的语法非法, 则该关键字会创建失败, 并且在 `test execution errors`__ 中显示错误.
 
-.. Escaping special characters
+.. _Escaping special characters:
 
 转义特殊字符
 '''''''''''''''''''''''''''
@@ -396,7 +396,7 @@ should *not* be escaped using the normal `test data escaping
 rules`__. This means that, for example, backslashes in expressions
 like `${name:\w+}` should not be escaped.
 
-.. Using variables with custom embedded argument regular expressions
+.. _Using variables with custom embedded argument regular expressions:
 
 在嵌入参数正则表达式中使用变量
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -423,7 +423,7 @@ __ https://docs.python.org/2/library/re.html
 __ `Errors and warnings during execution`_
 __ Escaping_
 
-.. Behavior-driven development example
+.. _Behavior-driven development example:
 
 行为驱动开发示例
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -463,7 +463,7 @@ __ Escaping_
 __ `Ignoring Given/When/Then/And/But prefixes`_
 __ http://cukes.info
 
-.. User keyword return values
+.. _User keyword return values:
 
 用户关键字返回值
 --------------------------
@@ -505,7 +505,7 @@ __ `Return values from keywords`_
    Return Three Values
        [Return]    foo    bar    zap
 
-.. Using special keywords to return
+.. _Using special keywords to return:
 
 通过特殊关键字来返回值
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -547,7 +547,7 @@ __ `Return values from keywords`_
 .. note:: :name:`Return From Keyword` 和 :name:`Return From Keyword If` 
           这两个关键字在 Robot Framework 2.8 版本后才支持.
 
-.. User keyword teardown
+.. _User keyword teardown:
 
 用户关键字的Teardown
 ---------------------

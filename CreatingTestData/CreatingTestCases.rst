@@ -1,3 +1,5 @@
+.. _Creating test cases:
+
 创建测试用例
 ===================
 
@@ -7,12 +9,12 @@
    :depth: 2
    :local:
 
-.. Test case syntax
+.. _Test case syntax:
 
 测试用例语法
 ----------------
 
-.. Basic syntax
+.. _Basic syntax:
 
 基础语法
 ~~~~~~~~~~~~
@@ -54,7 +56,7 @@ test.
        ${value} =    Get Some Value
        Should Be Equal    ${value}    Expected value
 
-.. Settings in the Test Case table
+.. _Settings in the Test Case table:
 
 测试用例表格中的设置
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -94,7 +96,7 @@ below and explained later in this section.
        [Tags]    dummy    owner-johndoe
        Log    Hello, world!
 
-.. Test case related settings in the Setting table
+.. _Test case related settings in the Setting table:
 
 设置表格中和测试用例相关的设置项
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -114,7 +116,7 @@ below and explained later in this section.
    The default value for `test case timeout`_. Timeouts_ are discussed in
    their own section.
 
-.. Using arguments
+.. _Using arguments:
 
 使用参数
 ---------------
@@ -129,7 +131,7 @@ below and explained later in this section.
 __ `User keyword arguments`_
 __ `Keyword arguments`_
 
-.. Mandatory arguments
+.. _Mandatory arguments:
 
 必需参数
 ~~~~~~~~~~~~~~~~~~~
@@ -146,7 +148,7 @@ __ `Keyword arguments`_
        Copy File    ${CURDIR}/file.txt    ${TEMPDIR}/stuff
        No Operation
 
-.. Default values
+.. _Default values:
 
 缺省值
 ~~~~~~~~~~~~~~
@@ -173,7 +175,7 @@ three arguments would not work.
 
 .. _varargs:
 
-.. Variable number of arguments
+.. _Variable number of arguments:
 
 可变数量的参数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -198,7 +200,7 @@ name like `*varargs`.
 
 .. _Named argument syntax:
 
-.. Named arguments
+.. _Named arguments:
 
 命名参数
 ~~~~~~~~~~~~~~~
@@ -211,7 +213,7 @@ Technically named arguments work exactly like `keyword arguments`__ in Python.
 
 __ http://docs.python.org/2/tutorial/controlflow.html#keyword-arguments
 
-.. Basic syntax
+.. _Basic syntax:
 
 基础语法
 ''''''''''''
@@ -239,7 +241,7 @@ example`_ below hopefully makes it more clear.
 
 .. note:: 在Robot Framework 2.8版本之前, 不可以针对没有默认值的参数使用命名参数语法.
 
-.. Named arguments with variables
+.. _Named arguments with variables:
 
 带变量的命名参数
 ''''''''''''''''''''''''''''''
@@ -267,7 +269,7 @@ example`_ below hopefully makes it more clear.
 如果关键字需要接受并传递任意的命名参数, 它必须改用 `free keyword arguments`_.
 参见 `kwargs examples`_, 一个封装后的关键字如何既可以传递位置参数, 也可以传递命名参数.
 
-.. Escaping named arguments syntax
+.. _Escaping named arguments syntax:
 
 转义命名参数语法
 '''''''''''''''''''''''''''''''
@@ -278,7 +280,7 @@ example`_ below hopefully makes it more clear.
 
 __ Escaping_
 
-.. Where named arguments are supported
+.. _Where named arguments are supported:
 
 支持命名参数的地方
 '''''''''''''''''''''''''''''''''''
@@ -291,7 +293,7 @@ __ Escaping_
 .. note:: Robot Framework2.8版本之前, 使用 `dynamic library API`_ 
           的库也不支持命名参数语法.
 
-.. Named arguments example
+.. _Named arguments example:
 
 命名参数示例
 '''''''''''''''''''''''
@@ -317,7 +319,7 @@ library keywords, user keywords, and when importing the Telnet_ test library.
        [Arguments]    ${path}=.    ${options}=
        Execute command    ls ${options} ${path}
 
-.. Free keyword arguments
+.. _Free keyword arguments:
 
 任意命名参数
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -341,7 +343,7 @@ all keywords can nowadays support kwargs.
 
 __ http://docs.python.org/2/tutorial/controlflow.html#keyword-arguments
 
-.. Kwargs examples
+.. _Kwargs examples:
 
 Kwargs示例
 '''''''''''''''
@@ -375,7 +377,7 @@ Kwargs示例
 
 __ `Named arguments with variables`_
 
-.. Arguments embedded to keyword names
+.. _Arguments embedded to keyword names:
 
 关键字名称中嵌入参数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -385,12 +387,12 @@ __ `Named arguments with variables`_
 __ `Embedding arguments into keyword names`_
 __ `Embedding arguments into keyword name`_
 
-.. Failures
+.. _Failures:
 
 失败
 --------
 
-.. When test case fails
+.. _When test case fails:
 
 测试用例何时失败
 ~~~~~~~~~~~~~~~~~~~~
@@ -398,7 +400,7 @@ __ `Embedding arguments into keyword name`_
 一个测试用例中用到的任何一个关键字发生失败, 则该用例也执行失败. 正常情况下, 这表明该测试用例的执行被结束, 如果设置了 `test teardown`_, 则也会执行. 测试流程继续往下执行下一个用例. 
 特殊情况下, 如果在发生错误时不想结束测试用例, 可以使用特殊的 `continuable failures`__.
 
-.. Error messages
+.. _Error messages:
 
 错误信息
 ~~~~~~~~~~~~~~
@@ -424,7 +426,7 @@ __ `Embedding arguments into keyword name`_
 __ `Continue on failure`_
 __ `HTML in error messages`_
 
-.. Test case name and documentation
+.. _Test case name and documentation:
 
 测试用例名称和文档
 --------------------------------
@@ -487,7 +489,7 @@ better specified using tags_.
 
 .. _test case tags:
 
-.. Tagging test cases
+.. _Tagging test cases:
 
 测试用例的标签
 ------------------
@@ -560,7 +562,7 @@ __ `By tag names`_
        Set Tags    mytag
        Remove Tags    smoke    req-*
 
-.. Reserved tags
+.. _Reserved tags:
 
 保留的标签
 ~~~~~~~~~~~~~
@@ -582,7 +584,7 @@ At the time of writing, the only special tag is `robot-exit` that is
 automatically added to tests when `stopping test execution gracefully`_.
 More usages are likely to be added in the future, though.
 
-.. Test setup and teardown
+.. _test setup and teardown:
 
 Setup和Teardown
 -----------------------
@@ -643,7 +645,7 @@ the command line.
 
 __  `Suite setup and teardown`_
 
-.. Test templates
+.. _Test templates:
 
 测试模板
 --------------
@@ -662,7 +664,7 @@ tests in a file, it is possible to use it only per test or just once per file.
 
 模板关键字既可以接受普通的位置参数和命名参数, 也可以接受嵌在关键字名称中的参数. 不同于其他设置, 模板的指定不可以使用变量.
 
-.. Basic usage
+.. _Basic usage:
 
 基础用法
 ~~~~~~~~~~~
@@ -718,7 +720,7 @@ the templated tests the mode is on automatically.
 
 对模板来说, 各种参数, 包括 `default values`_, `varargs`_, `named arguments`_ 和 `free keyword arguments`_, 都和平常一样使用. 参数中的 variables_ 也同样支持.
 
-.. Templates with embedded arguments
+.. _Templates with embedded arguments:
 
 内嵌参数的模板
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -765,7 +767,7 @@ the templated tests the mode is on automatically.
 
 在模板中使用嵌入式参数的主要好处是参数名称都被明确指定. 当使用普通参数时, 也可以通过给列命名来达成同样的效果. 这会在后续章节 `data-driven style`_ 中介绍.
 
-.. Templates with for loops
+.. _Templates with for loops:
 
 带for循环的模板
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -784,14 +786,14 @@ the templated tests the mode is on automatically.
        :FOR    ${index}    IN RANGE    42
        \    1st arg    ${index}
 
-.. Different test case styles
+.. _Different test case styles:
 
 不同的测试用例风格
 --------------------------
 
 有几种不同的测试用例的写法. 用来描述某些 *工作流* 的用例一般是关键字驱动或行为驱动型. 数据驱动型则是针对同一个工作流, 使用不同的输入数据.
 
-.. Keyword-driven style
+.. _Keyword-driven style:
 
 关键字驱动型
 ~~~~~~~~~~~~~~~~~~~~
@@ -802,7 +804,7 @@ the templated tests the mode is on automatically.
 
 .. _earlier: example-tests_
 
-.. Data-driven style
+.. _Data-driven style:
 
 数据驱动型
 ~~~~~~~~~~~~~~~~~
@@ -845,7 +847,7 @@ the templated tests the mode is on automatically.
 
 __ `Ignored data`_
 
-.. Behavior-driven style
+.. _Behavior-driven style:
 
 行为驱动型
 ~~~~~~~~~~~~~~~~~~~~~
@@ -880,7 +882,7 @@ __ http://en.wikipedia.org/wiki/Behavior_Driven_Development
 .. note:: 前缀 :name:`But` 在 Robot Framework 2.8.7 版本中新增支持.
 
 
-.. Embedding data to keywords
+.. _Embedding data to keywords:
 
 关键字中嵌入数据
 ''''''''''''''''''''''''''

@@ -25,3 +25,4 @@ Robot Framework用户手册
 
 
 .. _Python: http://python.org
+.. _Robot Framework: http://robotframework.org

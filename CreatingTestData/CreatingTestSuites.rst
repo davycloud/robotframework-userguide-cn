@@ -1,4 +1,4 @@
-.. Creating test suites
+.. _creating test suites:
 
 创建测试套件
 ====================
@@ -9,7 +9,7 @@ Robot Framework测试用例存在测试用例文件中, 这些文件又可以组
    :depth: 2
    :local:
 
-.. Test case files
+.. _Test case files:
 
 测试用例文件
 ---------------
@@ -30,7 +30,7 @@ Robot Framework 的测试用例使用测试用例表格在测试文件中创建.
 
 __ `Test case syntax`_
 
-.. Test suite directories
+.. _Test suite directories:
 
 测试套件文件夹
 ----------------------
@@ -48,7 +48,7 @@ __ `Test case syntax`_
 
 __ `Supported file formats`_
 
-.. Warning on invalid files
+.. _Warning on invalid files:
 
 非法文件警告
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,7 +57,7 @@ __ `Supported file formats`_
 
 __ `Errors and warnings during execution`_
 
-.. Initialization files
+.. _Initialization files:
 
 初始化文件
 ~~~~~~~~~~~~~~~~~~~~
@@ -105,7 +105,7 @@ __ `Errors and warnings during execution`_
 
 __ `Test case related settings in the Setting table`_
 
-.. Test suite name and documentation
+.. _Test suite name and documentation:
 
 测试套件名称和文档
 ---------------------------------
@@ -125,7 +125,7 @@ __ `Test case related settings in the Setting table`_
 
 高层测试套件的名称和文档都可以在执行的时候, 通过命令行选项 :option:`--name` 和 :option:`--doc` 分别覆盖. 详见 `Setting metadata`_.
 
-.. Free test suite metadata
+.. _Free test suite metadata:
 
 测试套件的metadata
 ------------------------
@@ -145,6 +145,8 @@ __ `Newlines in test data`_
    Metadata    Executed At    ${HOST}
 
 对于高层的测试用例集, 可以通过命令行选项 :option:`--metadata` 来设置元数据. 具体细节请参考 `Setting metadata`_.
+
+.. _suite setup and teardown:
 
 套件的Setup和Teardown
 ------------------------
