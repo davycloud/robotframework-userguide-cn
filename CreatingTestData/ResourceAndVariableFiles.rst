@@ -13,12 +13,12 @@
    :depth: 2
    :local:
 
-.. Resource files
+.. _resource file:
 
 资源文件
 --------------
 
-.. Taking resource files into use
+.. _Taking resource files into use:
 
 如何使用资源文件
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,7 +53,7 @@
 
 __ `Handling keywords with same names`_
 
-.. Documenting resource files
+.. _Documenting resource files:
 
 资源文件的文档
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -67,7 +67,7 @@ Libdoc_ 和 RIDE_ 都会用到这些文档, 并且这些文档内容很自然的
 __ `User keyword name and documentation`_
 __ `Test suite name and documentation`_
 
-.. Example resource file
+.. _Example resource file:
 
 资源文件示例
 ~~~~~~~~~~~~~~~~~~~~~
@@ -99,7 +99,7 @@ __ `Test suite name and documentation`_
        [Arguments]    ${password}
        Input Text    password_field    ${password}
 
-.. Variable files
+.. _variable file:
 
 变量文件
 --------------
@@ -119,12 +119,12 @@ __ `Test suite name and documentation`_
 
 __ `Implementing variable file as Python or Java class`_
 
-.. Taking variable files into use
+.. _Taking variable files into use:
 
 如何使用变量文件
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. Setting table
+.. _Setting table:
 
 通过Setting
 '''''''''''''
@@ -146,7 +146,7 @@ __ `Getting variables from a special function`_
 
 变量文件中定义的所有变量在导入它的测试文件中都是可见的. 如果同时导入了多个变量文件并且存在名称冲突, 则最先导入的生效. 此外, 通过变量表格和命令行方式设置的变量会覆盖变量文件中的同名变量.
 
-.. Command line
+.. _Command line:
 
 通过命令行
 ''''''''''''
@@ -175,7 +175,7 @@ __ `Getting variables from a special function`_
 
 __ `Setting variables in command line`_
 
-.. Creating variables directly
+.. _Creating variables directly:
 
 直接创建变量
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -248,7 +248,7 @@ Variable table below.
           是否存在变量 `${example}` 都不会影响.
 
 
-.. Using objects as values
+.. _Using objects as values:
 
 使用对象
 '''''''''''''''''''''''
@@ -276,7 +276,7 @@ Variable table below.
     OBJ1 = MyObject('John')
     OBJ2 = MyObject('Jane')
 
-.. Creating variables dynamically
+.. _Creating variables dynamically:
 
 动态创建变量
 ''''''''''''''''''''''''''''''
@@ -319,7 +319,7 @@ the user.
     AREA1 = get_area(1)
     AREA2 = get_area(2)
 
-.. Selecting which variables to include
+.. _Selecting which variables to include:
 
 选择性的包含变量
 ''''''''''''''''''''''''''''''''''''
@@ -360,7 +360,7 @@ the user.
           `from modulename import *` 的语法中被导入.
 
 
-.. Getting variables from a special function
+.. _Getting variables from a special function:
 
 通过特殊函数获取变量
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -401,7 +401,7 @@ the user.
         else:
             return variables2
 
-.. Implementing variable file as Python or Java class
+.. _Implementing variable file as Python or Java class:
 
 用类实现变量文件
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -476,7 +476,7 @@ the user.
         }
     }
 
-.. Variable file as YAML
+.. _Variable file as YAML:
 
 YAML格式的变量文件
 ~~~~~~~~~~~~~~~~~~~~~

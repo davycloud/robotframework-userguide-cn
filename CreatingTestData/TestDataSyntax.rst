@@ -16,19 +16,20 @@
 
 测试用例的层次结构是按照如下的方式组织的:
 
-- 测试用例在 `test case files`_ 中.
-- 一个测试用例文件自动创建 `test suite`_, 该套件包含文件中所有的用例
-- 包含测试用例文件的目录组成一个更高层次的测试套件. 目录测试套件 `test suite directory`_  中的用例文件是其子套件
+- 测试用例在 :ref:`test case files` 中.
+- 一个测试用例文件自动创建 :ref:`测试套件 <creating test suites>`, 该套件包含文件中所有的用例
+- 包含测试用例文件的文件夹组成一个更高层次的测试套件. :ref:`test suite directory`  中的用例文件是其子套件
 - 目录测试套件可以包含其它的目录, 以此类推.
-- 测试套件目录可以包含一个特殊的 `initialization file`_.
+- 测试套件目录可以包含一个特殊的 :ref:`initialization file`.
 
 除了用例和测试套件, 还有几个核心概念:
 
-- `Test libraries`_ 包含最底层的关键字.
-- `Resource files`_ 包含高层次的 `user keywords`_ 和 variables_ .
-- `Variable files`_ 提供更灵活的方式来创建变量.
+- :ref:`测试库 <using test libraries>` 包含最底层的关键字.
+- :ref:`资源文件 <resource file>` 包含高层次的 :ref:`用户关键字 <creating user keywords>` 和 :ref:`variable` .
+- :ref:`变量文件 <variable file>` 提供更灵活的方式来创建变量.
 
 .. _Supported file formats:
+
 文件格式
 ----------------------
 
@@ -49,6 +50,7 @@ Robot Framework通过文件的扩展名来选择使用何种解析器. 扩展名
 .. hint:: 译者注: 习惯于使用RIDE的初学者可以略过本章后面每种格式的细节介绍. 
 
 .. _HTML format:
+
 HTML格式
 ~~~~~~~~~~~
 

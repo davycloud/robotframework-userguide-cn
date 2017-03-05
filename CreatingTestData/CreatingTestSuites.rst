@@ -9,7 +9,7 @@ Robot Framework测试用例存在测试用例文件中, 这些文件又可以组
    :depth: 2
    :local:
 
-.. _Test case files:
+.. _test case files:
 
 测试用例文件
 ---------------
@@ -30,7 +30,7 @@ Robot Framework 的测试用例使用测试用例表格在测试文件中创建.
 
 __ `Test case syntax`_
 
-.. _Test suite directories:
+.. _test suite directory:
 
 测试套件文件夹
 ----------------------
@@ -57,7 +57,7 @@ __ `Supported file formats`_
 
 __ `Errors and warnings during execution`_
 
-.. _Initialization files:
+.. _initialization file:
 
 初始化文件
 ~~~~~~~~~~~~~~~~~~~~
