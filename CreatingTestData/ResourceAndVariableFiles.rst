@@ -14,9 +14,10 @@
    :local:
 
 .. _resource file:
+.. _resource files:
 
 资源文件
---------------
+--------
 
 .. _Taking resource files into use:
 
@@ -100,6 +101,7 @@ __ `Test suite name and documentation`_
        Input Text    password_field    ${password}
 
 .. _variable file:
+.. _variable files:
 
 变量文件
 --------------
@@ -122,7 +124,7 @@ __ `Implementing variable file as Python or Java class`_
 .. _Taking variable files into use:
 
 如何使用变量文件
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 .. _Setting table:
 

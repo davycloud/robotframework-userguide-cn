@@ -1,4 +1,4 @@
-.. Test data templates
+.. _test data template:
 
 测试数据模板
 ===================
