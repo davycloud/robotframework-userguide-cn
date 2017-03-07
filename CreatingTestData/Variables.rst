@@ -1,4 +1,5 @@
 .. _variable:
+.. _variables:
 
 变量
 =========
@@ -10,7 +11,7 @@
 .. Introduction
 
 概述
-------------
+-----
 
 变量是Robot Framework的一个内部特性, 在大多数的测试数据中都可以使用.
 
@@ -56,11 +57,10 @@ Robot Framework 变量, 与关键字类似, 是不区分大小写的, 同时其�
 不同于某些编程语言中变量的语法, 这里的花括号是不能省略的. 花括号内的变量名可以是任何字符, 但是推荐仅使用26个字母, 阿拉伯数字, 下划线和空格的组合. 同时, 如果使用了 `extended variable syntax`_ 还有更多的要求.
 
 .. _scalar variable:
-
-.. Scalar variables
+.. _scalar variables:
 
 标量
-~~~~~~~~~~~~~~~~
+~~~~
 
 当使用标量变量时, 变量被其赋值所替代. 最常用的标量赋值是字符串, 实际上标量可以是任何对象, 包括列表,字典等. 标量的语法格式对于大部分用户来说应该很熟悉, 这种格式在其它编程语言, 如shell脚本和Perl语言中, 都有使用.
 
@@ -119,11 +119,10 @@ Robot Framework 变量, 与关键字类似, 是不区分大小写的, 同时其�
 
 
 .. _list variable:
-
-.. List variables
+.. _list variables:
 
 列表
-~~~~~~~~~~~~~~
+~~~~
 
 当变量作为标量使用, 如 `${EXAMPLE}`, 变量值按原样使用. 如果这个变量的值是一个列表, 或者类似列表的其它序列, 还可以将该变量作为列表变量使用, 格式为 `@{EXAMPLE}`. 这种情况下, 列表中的元素会各自作为参数传递. 
 
@@ -164,7 +163,7 @@ Robot Framework 2.9版本之前, 标量和列表变量是分开存储的, 但是
 .. Accessing individual list items
 
 获取列表项
-'''''''''''''''''''''''''''''''
+''''''''''
 
 使用下标语法 `@{NAME}[index]` 可以获取到列表变量中指定项的值, 其中 `index` 是要获取的项的下标. 下标从0开始, 负数的下标等同于从列表末尾向前数. 下标长度超过列表范围会导致错误. 下标值自动转换为整数, 同样支持变量表示. 获取到的列表项基本等同于一个标量变量.
 
@@ -206,10 +205,8 @@ __ `All available settings in test data`_
 
 .. _dictionary variable:
 
-.. Dictionary variables
-
 字典变量
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
 
 如上所述, 包含列表的变量可以作为 `列表变量`_, 将其中的项分别传递给关键字. 类似的, 一个变量包含Python的字典, 或者类似字典的对象, 可以当作字典变量使用, 如 `&{EXAMPLE}`.
 
@@ -229,7 +226,7 @@ __ `All available settings in test data`_
 .. Using dictionary variables with other data
 
 字典变量和其它数据混用
-''''''''''''''''''''''''''''''''''''''''''
+'''''''''''''''''''''
 
 字典变量可以和其它变量一起使用, 包括其它字典变量. 因为 `named argument syntax`_  要求位置参数必须在命名参数之前, 所以字典变量后面只能跟命名参数或者其它的字典.
 
@@ -246,7 +243,7 @@ __ `All available settings in test data`_
 .. Accessing individual dictionary items
 
 获取字典中的项
-'''''''''''''''''''''''''''''''''''''
+''''''''''''''
 
 可以通过 `&{NAME}[key]` 这样的语法格式获取字典中某项的值, 其中 `key` 是键的名称. 
 键名当作字符串处理, 非字符串的键可以用变量代替. 通过这种方式获取到的值可作为标量变量使用.
@@ -282,10 +279,8 @@ __ `All available settings in test data`_
 
 .. _environment variable:
 
-.. Environment variables
-
 环境变量
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~
 
 Robot Framework使用 `%{ENV_VAR_NAME}` 这种语法格式来使用环境变量. 环境变量的值只能是字符串.
 

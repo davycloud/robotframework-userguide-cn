@@ -11,6 +11,10 @@ Robot Framework用户手册
 
 ---------------------
 
+.. 自定义role应该放在哪里? 
+
+.. role:: name(emphasis)
+
 .. toctree::
    :maxdepth: 2
 
@@ -22,6 +26,7 @@ Robot Framework用户手册
    ExtendingRobotFramework/index
    SupportingTools/index
    Appendices/index
+
 
 
 .. _Python: http://python.org

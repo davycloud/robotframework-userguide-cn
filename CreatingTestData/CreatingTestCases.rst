@@ -1,4 +1,6 @@
-.. _Creating test cases:
+.. role:: name(emphasis)
+
+.. _creating test cases:
 
 创建测试用例
 ===================
