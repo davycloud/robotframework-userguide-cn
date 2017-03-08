@@ -453,7 +453,7 @@ __ `Variable priorities and scopes`_
 .. Assigning scalar variables
 
 赋值给标量
-''''''''''''''''''''''''''
+''''''''''
 
 关键字返回的任何值都可以赋值给 `scalar variable`_. 如下例所示, 语法非常简单:
 
@@ -480,7 +480,7 @@ __ `Variable priorities and scopes`_
 .. Assigning list variables
 
 赋值给列表变量
-''''''''''''''''''''''''
+''''''''''''''
 
 如果关键字返回一个列表或者类似列表的对象, 则可以赋给 `list variable`_:
 
@@ -497,7 +497,7 @@ __ `Variable priorities and scopes`_
 .. Assigning dictionary variables
 
 赋值给字典变量
-''''''''''''''''''''''''''''''
+'''''''''''''
 
 如果关键字返回一个字典或者类似字典的对象, 则可以赋给 `dictionary variable`_:
 
@@ -551,7 +551,7 @@ Additionally, it was possible to return more values than scalar variables.
 In that case the last scalar variable was magically turned into a list
 containing the extra values.
 
-.. note:: 译注, 这段存疑, 和前面矛盾了.实际测试结果是会报错
+.. hints:: 译注, 这段存疑, 和前面矛盾了.实际测试结果是会报错
 
 .. Using :name:`Set Test/Suite/Global Variable` keywords
 
@@ -574,8 +574,7 @@ __ `Variable scopes`_
 __ `Return values from keywords`_
 
 .. _built-in variable:
-
-.. Built-in variables
+.. _built-in variables:
 
 内置变量
 ------------------
@@ -918,10 +917,10 @@ __ https://github.com/robotframework/robotframework/issues/532
 变量的高级特性
 --------------------------
 
-.. Extended variable syntax
+.. _extended variable syntax:
 
-变量扩展语法
-~~~~~~~~~~~~~~~~~~~~~~~~
+扩展变量语法
+~~~~~~~~~~~~~
 
 扩展的变量语法支持获取变量对象的属性值(例如, `${object.attribute}`), 甚至还可以执行对象的方法(例如, `${obj.getName()}`). 这种语法对标量和列表都可用, 但是大部分时候还是用于前者.
 

@@ -1,4 +1,5 @@
 .. _creating test suites:
+.. _test suites:
 
 创建测试套件
 ====================
@@ -31,6 +32,7 @@ Robot Framework 的测试用例使用测试用例表格在测试文件中创建.
 __ `Test case syntax`_
 
 .. _test suite directory:
+.. _test suite directories:
 
 测试套件文件夹
 ----------------------

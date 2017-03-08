@@ -1,48 +1,35 @@
 .. role:: name(emphasis)
+.. role:: setting(emphasis)
 
 .. _creating test cases:
 
 创建测试用例
-===================
+============
 
-本章介绍整个测试用例的语法. 使用 `test case files`_ 将测试用例组织为 `test suites`_, 以及 `test suite directories`_ 将在下一章讨论.
+本章介绍整个测试用例的语法. 使用 :ref:`test case files` 将测试用例组织为 :ref:`测试套件 <creating test suites>`, 以及 :ref:`test suite directories` 将在下一章讨论.
 
 .. contents::
    :depth: 2
    :local:
 
-.. _Test case syntax:
+.. _test case syntax:
 
 测试用例语法
-----------------
+------------
 
-.. _Basic syntax:
 
 基础语法
-~~~~~~~~~~~~
+~~~~~~~~
 
-测试用例由可用的关键字在测试用例表格中被构造. 关键字可以通过import `test libraries`_ 或 `resource files`_ 来引入, 也可以在当前测试用例文件中通过 `keyword table`_ 来创建.
+测试用例表格中的测试用例由可用的关键字构造. 关键字可以从 :ref:`test libraries` 或 :ref:`resource files` 导入, 也可以在当前测试用例文件中的 :ref:`关键字表格 <user keywords>` 创建.
 
-Test cases are constructed in test case tables from the available
-keywords. Keywords can be imported from `test libraries`_ or `resource
-files`_, or created in the `keyword table`_ of the test case file
-itself.
+测试用例表格的第一列包含测试用例的名称. 一个用例始于测试用例名, 直到遇到下一个用例名, 或者到表格的结束. 在表格头和第一个测试用例之间不允许有其它数据, 否则将引发错误.
 
-.. _keyword table: `user keywords`_
+第二列一般情况下是关键字的名称. 当要 :ref:`从关键字获取返回值 <user keyword return values>` 的时候是个特例, 这种情况下第二列, 甚至后续的列都可能是用来接受返回值的变量名称, 关键字名称跟在这些变量后面. 最后, 不论关键字名称位于第几列, 跟在其后的列包含的是要传递给该关键字的参数.
 
-测试用例表格的第一列包含测试用例的名称. 一个用例的范围始于测试用例名, 直到遇到下一个用例名, 或者到表格的结束. 在表格头和第一个测试用例之间不允许有其它数据, 否则将引发错误.
-
-The first column in the test case table contains test case names. A
-test case starts from the row with something in this column and
-continues to the next test case name or to the end of the table. It is
-an error to have something between the table headers and the first
-test.
-
-第二列一般情况下是关键字的名称. `setting variables from keyword return values`_ 的时候是个特例, 这种情况下第2, 甚至后续的列都可能是用来接受返回值的变量名称, 关键字名称跟在后面. 不论关键字名称在第几列, 跟在其后的列包含的是要传递给该关键字的参数.
-
-.. _setting variables from keyword return values: `User keyword return values`_
 
 .. _example-tests:
+
 .. sourcecode:: robotframework
 
    *** Test Cases ***
@@ -58,35 +45,31 @@ test.
        ${value} =    Get Some Value
        Should Be Equal    ${value}    Expected value
 
-.. _Settings in the Test Case table:
+.. _settings in the Test Case table:
 
 测试用例表格中的设置
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
-每个测试用例都可以有自己的相关设置. 设置名称总是出现在第2列, 它们的值跟在后面的列中.
-设置名称使用方括号括起来, 以区别于关键字.
-可设置的项都列在了下面, 并在后面会进行解释.
+每个测试用例都可以有自己的相关设置. 设置项名称总是出现在第2列, 它们的值跟在后面的列中.
+设置项的名称使用方括号(``[]``)括起来, 以区别于关键字.
 
-Test cases can also have their own settings. Setting names are always
-in the second column, where keywords normally are, and their values
-are in the subsequent columns. Setting names have square brackets around
-them to distinguish them from keywords. The available settings are listed
-below and explained later in this section.
+下面列出了可设置的项, 后面的章节会进行详细的解释.
 
-`[Documentation]`:setting:
-    用于指定 `test case documentation`_.
 
-`[Tags]`:setting:
-    用于指定 `tagging test cases`_.
+:setting:`[Documentation]`
+    用于指定 :ref:`测试用例文档 <test case documentation>`.
 
-`[Setup]`:setting:, `[Teardown]`:setting:
-   用于指定 `test setup and teardown`_.
+:setting:`[Tags]`
+    用于指定 :ref:`tags`.
 
-`[Template]`:setting:
-   用于指定 `template keyword`_ . 测试用例本身将只包含数据, 每行数据都是传递给该关键字的参数, 最终实现数据驱动的测试.
+:setting:`[Setup]`, :setting:`[Teardown]`
+   用于指定 :ref:`test setup and teardown`.
 
-`[Timeout]`:setting:
-   用于设置 `test case timeout`_. Timeouts_ 将在独立的章节讨论.
+:setting:`[Template]`
+   用于指定 :ref:`template keyword`. 测试用例本身将只包含数据, 每行数据都是传递给该关键字的参数, 最终实现数据驱动的测试.
+
+:setting:`[Timeout]`
+   用于设置 :ref:`test case timeout`. :ref:`timeouts` 将在独立的章节讨论.
 
 带设置的测试用例示例:
 
@@ -101,46 +84,49 @@ below and explained later in this section.
 .. _Test case related settings in the Setting table:
 
 设置表格中和测试用例相关的设置项
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-设置表格中可以有下列与测试用例相关的设置项. 这些设置项大部分都是上述的针对一个用例特定设置的默认值.
+下列是设置表格中与测试用例相关的设置项. 这些设置项大部分都是上述用例特定设置的默认值.
 
-`Force Tags`:setting:, `Default Tags`:setting:
-   The forced and default values for tags_.
+:setting:`Force Tags`, :setting:`Default Tags`
+   :ref:`tags` 的强制(forced)值和默认值.
 
-`Test Setup`:setting:, `Test Teardown`:setting:
-   The default values for `test setup and teardown`_.
+:setting:`Test Setup`, :setting:`Test Teardown`
+   :ref:`test setup and teardown` 的默认值.
 
-`Test Template`:setting:
-   The default `template keyword`_ to use.
+:setting:`Test Template`
+   默认的 :ref:`template keyword`.
 
-`Test Timeout`:setting:
-   The default value for `test case timeout`_. Timeouts_ are discussed in
-   their own section.
+:setting:`Test Timeout`
+   默认的 :ref:`test case timeout`. :ref:`timeouts` 在专门的章节讨论.
 
-.. _Using arguments:
+
+.. _using arguments:
 
 使用参数
----------------
+--------
 
-早先的例子已经展示了关键字是怎样接受不同的参数, 本节将更具体地讨论这个重要的功能点.
-如何实现这些可以带各种参数的  `user keywords`__ and `library keywords`__ 则在其它独立的章节讨论.
+前面有的例子已经展示了关键字是怎样 *接受* 不同的参数的, 本节将更具体地讨论这个重要的功能点.
 
-关键字可以接受0个或者多个参数, 并且有些参数还可以有默认值. 
-一个关键字可以接受什么参数取决于它的实现, 一般来讲, 最好的去处是去该关键字的文档中来搜索相关信息.
-对本章中的例子而言, 相关的文档可以使用 Libdoc_ 工具生成. 不过, 也可是使用其它的文档生成工具, 例如 ``javadoc``.
+如何 *实现* 这些带各种参数的 :ref:`用户关键字 <user keyword arguments>` 和 :ref:`库关键字 <keyword arguments>` 则在其它独立的章节讨论.
 
-__ `User keyword arguments`_
-__ `Keyword arguments`_
+关键字可以接受零到多个参数, 并且有些参数还可以有默认值. 总的来说, 
+一个关键字可以接受的参数数量和类型取决于它的实现, 一般来讲, 最好的去处是去该关键字的文档中来搜索相关信息.
+
+对本章中的例子而言, 相关的文档可以使用 :ref:`Libdoc` 工具生成. 不过, 也可是使用其它的文档生成工具, 例如 ``javadoc``.
+
+.. hint:: 译注: 调用关键字的传参方式和调用Python函数的语法如出一辙, 
+          所以熟悉Python的小伙伴可以快速掠过本节内容.
+
 
 .. _Mandatory arguments:
 
-必需参数
-~~~~~~~~~~~~~~~~~~~
+必填参数
+~~~~~~~~~
 
-大多数的关键字有部分参数是必须要传递的. 在关键字的文档中, 这部分参数的表示方式是 `first, second, third`. 这里的参数名称实际上并不重要, 仅作为描述该参数的意义, 但是参数的个数必须完全一致. 少传或者多传都会导致错误发生.
+大多数的关键字有部分参数是必须要传递的. 在关键字的文档中, 这部分参数的表示方式是 ``first, second, third``. 这里的参数名称实际上并不重要, 仅作为描述该参数的意义, 但是参数的个数必须完全一致. 少传或者多传都会导致错误发生.
 
-下面的用例用到了关键字 :name:`Create Directory` 和 :name:`Copy File`, 两者都来自于 OperatingSystem_ 库. 它们的参数定义分别是 `path` 和 `source, destination`, 也就是说, 分别需要1个和2个参数. 最后一个关键字, 来自 BuiltIn_ 的 :name:`No Operation` 不接受参数.
+下面的用例用到了关键字 :name:`Create Directory` 和 :name:`Copy File`, 两者都来自于 OperatingSystem_ 库. 它们的参数定义分别是 ``path`` 和 ``source, destination``, 也就是说, 分别需要1个和2个参数. 最后一个关键字, 来自 BuiltIn_ 的 :name:`No Operation` 不接受参数.
 
 .. sourcecode:: robotframework
 
@@ -150,22 +136,18 @@ __ `Keyword arguments`_
        Copy File    ${CURDIR}/file.txt    ${TEMPDIR}/stuff
        No Operation
 
-.. _Default values:
+.. _default values:
 
 缺省值
-~~~~~~~~~~~~~~
+~~~~~~~
 
-可以为参数指定缺省值. 在文档中, 缺省值通常表示为 `name=default value`, 即使用等于号把参数名和缺省值连接起来. 对于使用Java实现的关键字来说, 意味着同一个关键字, 需要使用不同的参数 `multiple implementations`__ .
-可以为所有的参数都指定缺省值, 不过位置参数不可以放在带缺省值的参数的后面.
+可以为参数指定缺省值. 在关键字文档中, 缺省值通常表示为 ``name=default value``, 即使用等于号把参数名和缺省值连接起来. 
 
-__ `Default values with Java`_
+对于使用Java实现的关键字来说, 意味着同一个关键字, 需要使用不同的参数 :ref:`多次实现 <default values with Java>` (实际上就是重载).
 
-使用缺省值的情况见下例, 使用关键字 :name:`Create File`, 参数是 `path, content=, encoding=UTF-8`. 可以尝试不带任何参数, 或者多于3个参数来调用该关键字, 将会触发错误.
+所有参数都可以指定缺省值, 不过位置参数 **不可以** 跟在带缺省值的参数的后面.
 
-Using default values is illustrated by the example below that uses
-:name:`Create File` keyword which has arguments `path, content=,
-encoding=UTF-8`. Trying to use it without any arguments or more than
-three arguments would not work.
+使用缺省值的情况见下例, 使用了关键字 :name:`Create File`, 可接受的参数是 ``path, content=, encoding=UTF-8``. 可以尝试不带任何参数, 或者多于3个参数来调用该关键字, 将会报错.
 
 .. sourcecode:: robotframework
 
@@ -175,23 +157,18 @@ three arguments would not work.
        Create File    ${TEMPDIR}/utf-8.txt         Hyvä esimerkki
        Create File    ${TEMPDIR}/iso-8859-1.txt    Hyvä esimerkki    ISO-8859-1
 
-.. _varargs:
 
-.. _Variable number of arguments:
+.. _varargs:
+.. _variable number of arguments:
 
 可变数量的参数
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
-一个关键字还可以接受任意数量的参数, 也就是说, 它的参数数量是不确定的. 这种类型的参数一般称之为 *varargs*. varargs可以和必需参数以及带缺省值的参数混合使用, 不过在参数列表中必须排在它们的后面.
-在文档中, 此种参数通过在参数名称前加一个星号(`*`)来表示, 例如 `*varargs`.
+一个关键字还可以接受任意数量的参数, 也就是说, 参数个数是不确定的. 这种类型的参数一般称之为 *varargs*. varargs可以和必需参数以及带缺省值的参数混合使用, 不过在参数列表中必须排在它们的后面.
+在文档中, 此种参数通过在参数名称前加一个星号(``*``)来表示, 例如 ``*varargs``.
 
-It is also possible that a keyword accepts any number of arguments.
-These so called *varargs* can be combined with mandatory arguments
-and arguments with default values, but they are always given after
-them. In the documentation they have an asterisk before the argument
-name like `*varargs`.
 
-例如, OperatingSystem_ 库中的关键字 :name:`Remove Files` and :name:`Join Paths`, 参数分别是  `*paths` 和 `base, *parts`. 前者可以接受任意数量的参数, 后者则至少需要一个参数.
+例如, OperatingSystem_ 库中的关键字 :name:`Remove Files` 和 :name:`Join Paths`, 参数分别是  ``*paths`` 和 ``base, *parts``. 前者可以接受任意数量的参数, 后者则至少需要一个参数.
 
 .. sourcecode:: robotframework
 
@@ -200,53 +177,39 @@ name like `*varargs`.
        Remove Files    ${TEMPDIR}/f1.txt    ${TEMPDIR}/f2.txt    ${TEMPDIR}/f3.txt
        @{paths} =    Join Paths    ${TEMPDIR}    f1.txt    f2.txt    f3.txt    f4.txt
 
-.. _Named argument syntax:
 
-.. _Named arguments:
+.. _named argument syntax:
+.. _named arguments:
 
 命名参数
-~~~~~~~~~~~~~~~
+~~~~~~~~
 
-命名参数语法使得调用带 `default values`_ 参数更加的灵活. 因为它可以明确地标示要传递的值对应的是哪个参数. 这种语法格式和Python语言中的 `keyword arguments`__ 如出一辙.
-
-The named argument syntax makes using arguments with `default values`_ more
-flexible, and allows explicitly labeling what a certain argument value means.
-Technically named arguments work exactly like `keyword arguments`__ in Python.
+命名参数语法使 :ref:`default values` 参数用起来更加灵活,  因为它可以明确地标示要传递的值对应的是哪个参数. 这种语法格式和Python语言中的 `keyword arguments`__ 如出一辙.
 
 __ http://docs.python.org/2/tutorial/controlflow.html#keyword-arguments
 
-.. _Basic syntax:
 
 基础语法
-''''''''''''
+'''''''''
 
-可以使用 `arg=value` 的格式来指定传值给某个参数. 当多个参数有默认值时, 这种方式就显得特别有用, 因为我们只需要指定其中一些, 让其余的继续使用默认值.
-例如, 如果一个关键字接受参数 `arg1=a, arg2=b, arg3=c`, 调用时传参 `arg3=override`, 则参数 `arg1` 和 `arg2` 使用默认值, 而 `arg3` 的值为 `override`.
+可以使用 ``arg=value`` 的格式来指定传值给某个参数. 当多个参数有默认值时, 这种方式就显得特别有用, 因为我们只需要指定其中一些, 让其余的继续使用默认值.
 
-It is possible to name an argument given to a keyword by prefixing the value
-with the name of the argument like `arg=value`. This is especially
-useful when multiple arguments have default values, as it is
-possible to name only some the arguments and let others use their defaults.
-For example, if a keyword accepts arguments `arg1=a, arg2=b, arg3=c`,
-and it is called with one argument `arg3=override`, arguments
-`arg1` and `arg2` get their default values, but `arg3`
-gets value `override`. If this sounds complicated, the `named arguments
-example`_ below hopefully makes it more clear.
+例如, 如果一个关键字接受参数 ``arg1=a, arg2=b, arg3=c``, 调用时传参 ``arg3=override``, 则参数 ``arg1`` 和 ``arg2`` 使用默认值, 而 ``arg3`` 的值为 ``override``. 这一切说起来颇为啰嗦, 查看下面的 :ref:`named arguments example` 就比较清楚了.
 
-命名参数语法是大小写敏感和空格敏感的. 前者的意思是, 如果参数名为 `arg`, 则必须使用 `arg=value`, 而 `Arg=value` 或 `ARG=value` 都是错误的. 后者的意思是, 等号 `=` 的前面不能有空格, `=` 后面可以有空格, 这些空格会被视作值的一部分.
+命名参数语法是大小写敏感和空格敏感的. 前者的意思是, 如果参数名为 ``arg``, 则必须使用 ``arg=value``, 而 ``Arg=value`` 或 ``ARG=value`` 都是错误的. 后者的意思是, 等号 ``=`` 的前面不能有空格, ``=`` 后面可以有空格, 这些空格会被视作值的一部分.
 
-当命名参数语法用在 `user keywords`_ 时, 参数名称必须去掉 `${}` 标示. 例如, `${arg1}=first, ${arg2}=second` 必须写成如 `arg2=override`.
+当命名参数语法用在 :ref:`user keywords` 时, 参数名称必须去掉 ``${}`` 标示. 例如, ``${arg1}=first, ${arg2}=second`` 必须写成如 ``arg2=override``.
 
-不可以在命名参数后面使用普通的位置参数, 例如 `| Keyword | arg=value | positional |`.
+不可以在命名参数后面使用普通的位置参数, 例如 ``| Keyword | arg=value | positional |``.
 从Robot Framework 2.8 开始, 这会导致一个明确的错误提示. 
 命名参数之间的相对位置则无关紧要.
 
 .. note:: 在Robot Framework 2.8版本之前, 不可以针对没有默认值的参数使用命名参数语法.
 
-.. _Named arguments with variables:
+.. _named arguments with variables:
 
 带变量的命名参数
-''''''''''''''''''''''''''''''
+''''''''''''''''
 
 `variables`_ 既可以用于参数的值, 也可以用于参数名称. 如果变量值是一个单独的  `scalar variable`_, 则按原值传递给关键字. 变量可以是任何的对象, 不仅仅限于字符串.
 例如, 调用关键字时使用 `arg=${object}`, 则变量 `${object}` 最终会传递给关键字.
@@ -295,7 +258,7 @@ __ Escaping_
 .. note:: Robot Framework2.8版本之前, 使用 `dynamic library API`_ 
           的库也不支持命名参数语法.
 
-.. _Named arguments example:
+.. _named arguments example:
 
 命名参数示例
 '''''''''''''''''''''''
@@ -428,7 +391,8 @@ __ `Embedding arguments into keyword name`_
 __ `Continue on failure`_
 __ `HTML in error messages`_
 
-.. _Test case name and documentation:
+.. _test case documentation:
+.. _test case name and documentation:
 
 测试用例名称和文档
 --------------------------------
@@ -489,9 +453,11 @@ instead of adding extra documentation. Finally, metadata, such as the
 environment and user information in the last example above, is often
 better specified using tags_.
 
-.. _test case tags:
 
-.. _Tagging test cases:
+.. _tagging test cases
+
+.. _test case tags:
+.. _tags:
 
 测试用例的标签
 ------------------

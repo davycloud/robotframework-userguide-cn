@@ -1,4 +1,4 @@
-.. _Documentation syntax:
+.. _documentation syntax:
 
 .. Documentation formatting
 
@@ -23,10 +23,10 @@ __ `Documenting libraries`_
 如何表示换行
 ---------------------
 
-.. Newlines in test data
+.. _newlines in test data:
 
 测试数据中的换行
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 对所有的文档, 换行都可以通过手动添加 `字面换行符`__` (`\n`)来实现.
 

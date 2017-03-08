@@ -610,7 +610,7 @@ Robot Framework的测试数据使用反斜杠(``\\``)作为转义字符, 此外�
 
 如果需要使用空值, 例如作为关键字的参数, 必须明确地转义以避免被框架 :ref:`忽略 <ignored data>`. 不管使用哪种数据格式, 空的收尾单元格必须被转义. 当使用 :ref:`space separated format` 时, 所有的空值都必须被转义.
 
-空的单元格既可以使用反斜杠转义, 也可以使用 :ref:`built-in variable` ``${EMPTY}``. 特别推荐使用后者, 因为更清楚易懂. 一个特殊情况是在 :ref:`space separated format` 中使用 `for loops`_ 时, 缩进的单元格中应使用反斜杠.
+空的单元格既可以使用反斜杠转义, 也可以使用 :ref:`built-in variable` ``${EMPTY}``. 特别推荐使用后者, 因为更清楚易懂. 一个特殊情况是在 :ref:`space separated format` 中使用 :ref:`for loop` 时, 缩进的单元格中应使用反斜杠.
 所有这些情况都在下面的例子中进行了说明, 先是HTML格式, 然后是空格分隔的纯文本格式:
 
 .. table::
@@ -645,21 +645,21 @@ Robot Framework的测试数据使用反斜杠(``\\``)作为转义字符, 此外�
 避免忽略空格
 ''''''''''''
 
-因为领头的, 收尾的, 以及连续的空格在单元格中都是被 :ref:`忽略 <handling whitespace>`, 如果有需要的话, 例如作为关键字的参数, 必须被转义. 和避免忽略空单元格类似, 既可以使用反斜杠, 也可以使用  :ref:`built-in variable` ``${SPACE}``.
+因为领头的, 收尾的, 以及连续的空格在单元格中都将被 :ref:`忽略 <handling whitespace>`, 如果这些空格有需要保留的话, 例如作为关键字的参数, 则必须经过转义. 和避免忽略空单元格类似, 既可以使用反斜杠, 也可以使用  :ref:`built-in variable` ``${SPACE}``.
 
 .. table:: Escaping spaces examples
    :class: tabular
 
-   ==================================  ==================================  ==================================
+   ==================================  ==================================  ====================================
         Escaping with backslash             Escaping with ``${SPACE}``                      Notes
-   ==================================  ==================================  ==================================
+   ==================================  ==================================  ====================================
    `\\ leading space`                  ``${SPACE}leading space``
-   `trailing space \\`                 ``trailing space${SPACE}``          Backslash must be after the space.
-   `\\ \\`                             ``${SPACE}``                        Backslash needed on both sides.
-   `consecutive \\ \\ spaces`          ``consecutive${SPACE * 3}spaces``   Using `extended variable syntax`_.
-   ==================================  ==================================  ==================================
+   `trailing space \\`                 ``trailing space${SPACE}``          反斜杠必须跟在空格后面.
+   `\\ \\`                             ``${SPACE}``                        两边都需要反斜杠.
+   `consecutive \\ \\ spaces`          ``consecutive${SPACE * 3}spaces``   使用 :ref:`extended variable syntax`
+   ==================================  ==================================  ====================================
 
-如上例所示, 使用 ``${SPACE}`` 变量是测试数据更容易理解. 当需要不止一个空格时, 结合 `extended variable syntax`_ 使用时, 显得尤其方便.
+如上例所示, 使用 ``${SPACE}`` 变量是测试数据更容易理解. 当需要不止一个空格时, 结合 :ref:`extended variable syntax` 使用时, 显得尤其方便.
 
 .. _Dividing test data to several rows:
 
@@ -671,12 +671,10 @@ Robot Framework的测试数据使用反斜杠(``\\``)作为转义字符, 此外�
 在设置和变量表格中, 可以直接放在设置或变量名的下方. 
 在所有类型的表格中, 省略号前面的空单元格都会被忽略.
 
-此外, 某些设置只接受一个值(主要是文档), 这个值也可以分开写在多列. 当解析完毕, 最终将用空格将多列的值拼接起来. 从Robot Framework 2.7版本开始, 这些值如果分为多行, 将 `使用换行符将多行拼接起来`__.
+此外, 某些设置只接受一个值(主要是文档), 这个值也可以分开写在多列. 当解析完毕, 最终将用空格将多列的值拼接起来. 从Robot Framework 2.7版本开始, 这些值如果分为多行, 将使用 :ref:`换行符将多行拼接起来 <newlines in test data>`.
 
 上面讨论的语法都通过下面的例子来解释说明.
 前3个表格中的数据没有分割, 接下来的3个表格展示了如何将数据分割为多行以占用更少的列数.
-
-__ `Newlines in test data`_
 
 .. table:: 没有进行分割的数据
    :class: example

@@ -156,8 +156,6 @@ Robot Framework中的关键字分为 :ref:`库关键字 <Using test libraries>` 
 
 .. _for loop:
 
-.. For loops
-
 FOR循环
 ---------
 
