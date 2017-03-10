@@ -81,7 +81,9 @@
        [Tags]    dummy    owner-johndoe
        Log    Hello, world!
 
-.. _Test case related settings in the Setting table:
+
+.. Test case related settings in the Setting table
+.. _test case related settings:
 
 设置表格中和测试用例相关的设置项
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -512,7 +514,7 @@ Setup和Teardown
 
 和很多其他测试自动化框架类似, Robot Framework也有setup和teardown的功能. 简而言之, setup在测试用例之前执行, 而teardown在测试用例之后执行. 
 
-在Robot Framework中, setup和teardown都是带参数的普通关键字而已, 并且各自只能指定一个关键字. 如果涉及到多个步骤, 只能创造一个更高层的 :ref:`user keywords`. 另一种解决方案是使用 BuiltIn_ 关键字 :name:`Run Keywords` 来执行多个关键字.
+在Robot Framework中, setup和teardown都是带参数的普通关键字而已, 并且各自只能指定一个关键字. 如果涉及到多个步骤, 只能创造一个更高层的 :ref:`user keywords`. 另一种解决方案是使用 :ref:`BuiltIn` 关键字 :name:`Run Keywords` 来执行多个关键字.
 
 Teardown在以下两个方面比较特殊. 首先, 它在测试用例执行失败的时候也会被执行, 所以常常用来作为测试环境的清理工作, 因为不管测试结果如何, 这些清理任务都需要做. 其次, teardown中所有的关键字都会被执行, 哪怕其中有的执行失败. 这种 :ref:`continue on failure` 机制也可以用来普通关键字上, 但是在teardown中, 这是个默认打开的.
 
@@ -596,24 +598,6 @@ Setup或teardown中指定的关键字名称可以使用变量代替. 这样在�
 如果一个模板用例的内容有多行数据, 该模板会逐行应用于这些数据. 也就是说, 该模板关键字会被调用多次, 每次使用其中一行的数据作为参数.
 
 模板测试用例在执行过程中, 如果有某一轮次执行失败也不会影响下面轮次继续执行. 也就是说, 对于普通测试用例需要单独设置的 :ref:`continue on failure` 特性, 对于模板测试用例来说是自动启用的.
-
-As the example illustrates, it is possible to specify the
-template for an individual test case using the :setting:`[Template]`
-setting. An alternative approach is using the :setting:`Test Template`
-setting in the Setting table, in which case the template is applied
-for all test cases in that test case file. The :setting:`[Template]`
-setting overrides the possible template set in the Setting table, and
-an empty value for :setting:`[Template]` means that the test has no
-template even when :setting:`Test Template` is used. It is also possible
-to use value `NONE` to indicate that a test has no template.
-
-If a templated test case has multiple data rows in its body, the template
-is applied for all the rows one by one. This
-means that the same keyword is executed multiple times, once with data
-on each row. Templated tests are also special so that all the rounds
-are executed even if one or more of them fails. It is possible to use this
-kind of `continue on failure`_ mode with normal tests too, but with
-the templated tests the mode is on automatically.
 
 .. sourcecode:: robotframework
 
@@ -708,18 +692,17 @@ the templated tests the mode is on automatically.
 
 针对工作流的测试, 例如 :name:`Valid Login` 流程, 由若干关键字和相应的参数组成. 
 
-如 _earlier 所示, 通常的结构是, 系统先进入到一个初始状态(:name:`Open Login Page`), 然后对系统进行某些操作(:name:`Input Name`, :name:`Input Password`, :name:`Submit Credentials`), 最后校验系统的表现是否符合预期(:name:`Welcome Page Should Be Open`).
+如 :ref:`前例 <example-tests>` 所示, 关键字驱动型的用例的通常结构是, 系统先进入到一个初始状态(:name:`Open Login Page`), 然后对系统进行某些操作(:name:`Input Name`, :name:`Input Password`, :name:`Submit Credentials`), 最后校验系统的表现是否符合预期(:name:`Welcome Page Should Be Open`).
 
-.. _earlier: example-tests_
 
 .. _Data-driven style:
 
 数据驱动型
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~
 
-数据驱动型的测试方法中, 测试用例仅使用一个高级别的关键字, 通常是创建的 `user keyword`_, 该关键字中则隐藏了实际的流程. 
+数据驱动型的测试方法中, 测试用例仅使用一个高级别的关键字, 通常是创建的 :ref:`user keyword`, 该关键字中则隐藏了实际的流程. 
 
-这种测试对于要针对某个相同的测试场景使用不同的输入/输出时非常有用. 虽然可以在每个测试用例中都重复调用一次相同的关键字, 但是使用 `test template`_ 功能更加简便, 因为关键字只需要指定一次. 
+这种测试对于要针对某个相同的测试场景使用不同的输入/输出时非常有用. 虽然可以在每个测试用例中都重复调用一次相同的关键字, 但是使用 :ref:`test template` 功能更加简便, 因为关键字只需要指定一次. 
 
 .. sourcecode:: robotframework
 
@@ -735,9 +718,9 @@ the templated tests the mode is on automatically.
    Empty User Name and Password      ${EMPTY}         ${EMPTY}
 
 .. tip:: 如上例所示, 给列命名使得测试用例更易读易懂. 这种方法之所以可行,
-         是因为对用例表的表头那一行, 除了第一格中的数据, 其它的内容都是 `被忽略的`__
+         是因为对用例表的表头那一行, 除了第一格中的数据, 其它的内容都是 :ref:`被忽略的 <ignored data>`
 
-上例中包含了6个独立的测试, 每次都是非法 用户名/密码 的组合情况, 而下面的例子中, 则展示了如何使用 `test templates`_, 在一个用例中测试所有组合情况. 当使用模板时, 所有的轮次都会被执行, 所以从功能上讲, 两者没有区别. 
+上例中包含了6个独立的测试, 每次都是非法 用户名/密码 的组合情况, 而下面的例子中, 则展示了如何使用 :ref:`test templates`, 在一个用例中测试所有组合情况. 当使用模板时, 所有的轮次都会被执行, 所以从功能上讲, 两者没有区别. 
 
 如上例所示, 每个组合都单独命名为一个测试用例, 很容易看出来测试目的. 不过, 如果是大量的组合情况, 也会带来统计上的混乱. 所以, 到底使用何种风格, 取决于具体的应用场景和个人喜好.
 
@@ -753,16 +736,16 @@ the templated tests the mode is on automatically.
        ${VALID USER}    ${EMPTY}
        ${EMPTY}         ${EMPTY}
 
-__ `Ignored data`_
+
 
 .. _Behavior-driven style:
 
 行为驱动型
 ~~~~~~~~~~
 
-还可以按照需求的格式来编写测试用例, 使非技术型的项目成员也能理解. 这种 *可执行的需求* 是所谓的 `Acceptance Test Driven Development`__(ATDD) 或 `Specification by Example`__ 过程中的基石.
+还可以按照需求的格式来编写测试用例, 让非技术型的项目成员也能理解. 这种 *可执行的需求* 是所谓的 :ref:`验收测试驱动开发 <atdd>` (Acceptance Test Driven Development, ATDD) 或 :ref:`以示例表示规范 <specification by example>` 的基石.
 
-写出这种需求/测试的一种方式是 *Given-When-Then* 样式, 该样式由 `Behavior Driven Development`__ (BDD) 所普及.
+写出这种需求/测试的一种方式是 *Given-When-Then* 样式, 该样式由 :ref:`行为驱动开发 <bdd>` (Behavior Driven Development, BDD) 所普及.
 当按照这种样式编写测试用例时, 初始的状态通常由 :name:`Given` 起始的关键字开始, 其中的操作由 :name:`When` 开头的关键字描述, 而预期结果则由 :name:`Then` 开头的关键字处理. 如果某个步骤需要多个操作, 则使用 :name:`And` 或 :name:`But` 将大家连贯起来.
 
 .. sourcecode:: robotframework
@@ -774,8 +757,8 @@ __ `Ignored data`_
        and credentials are submitted
        Then welcome page should be open
 
-__ http://testobsessed.com/2008/12/08/acceptance-test-driven-development-atdd-an-overview
-__ http://en.wikipedia.org/wiki/Specification_by_example
+.. _atdd: http://testobsessed.com/2008/12/08/acceptance-test-driven-development-atdd-an-overview
+.. _specification by example: http://en.wikipedia.org/wiki/Specification_by_example
 __ http://en.wikipedia.org/wiki/Behavior_Driven_Development
 
 .. Ignoring :name:`Given/When/Then/And/But` prefixes
