@@ -37,7 +37,7 @@ Robot Framework 的变量分为 :ref:`标量 <scalar variables>`, :ref:`列表 <
 - 当某个值太长或者太复杂时. 例如, 使用 ``${URL}`` 比直接使用
   ``http://long.domain.name:8080/path/to/service?foo=1&bar=2&zap=42`` 简短很多.
 
-如果某个变量不存在, 则使用该变量的关键字会失败. 如果要在字面字符串中表示变量的语法格式, 则必须使用 :ref:`反斜杠转义 <escaping>`, 例如 ``\\${NAME}``.
+如果某个变量不存在, 则使用该变量的关键字会失败. 如果要在字面字符串中表示变量的语法格式, 则必须使用 :ref:`反斜杠转义 <escaping>`, 例如 ``\${NAME}``.
 
 
 .. _variable types:
@@ -57,8 +57,8 @@ Robot Framework 变量, 与关键字类似, 是不区分大小写的, 同时其�
 .. _scalar variable:
 .. _scalar variables:
 
-标量
-~~~~
+标量变量
+~~~~~~~~
 
 当使用标量变量时, 变量被其赋值所替代. 最常用的标量赋值是字符串, 实际上标量可以是任何对象, 包括列表,字典等. 标量的语法格式对于大部分用户来说应该很熟悉, 这种格式在其它编程语言, 如shell脚本和Perl语言中, 都有使用.
 
@@ -113,14 +113,14 @@ Robot Framework 变量, 与关键字类似, 是不区分大小写的, 同时其�
 
 .. note:: 如果变量不能表示为Unicode, 则这种转换显然会失败. 当发生这种情况时,
           例如, 用变量表示字节序列, 如果想要拼接在一起 ``${byte1}${byte2}`` 传给关键字.
-          这时的变通方案是创建一个包含所有值的变量(如 `${bytes}`)然后独占一个单元格, 这样避免发生转换.
+          这时的变通方案是创建一个包含所有值的变量(如 ``${bytes}``)然后独占一个单元格, 这样避免发生转换.
 
 
 .. _list variable:
 .. _list variables:
 
-列表
-~~~~
+列表变量
+~~~~~~~~
 
 当变量作为标量使用, 如 ``${EXAMPLE}``  变量值按原样使用. 如果这个变量的值是一个列表, 或者类似列表的其它序列, 还可以将该变量作为列表变量使用, 格式为 ``@{EXAMPLE}``  这种情况下, 列表中的元素会各自作为参数传递. 
 
@@ -135,7 +135,7 @@ Robot Framework 变量, 与关键字类似, 是不区分大小写的, 同时其�
    List Variable
        Login    @{USER}
 
-Robot Framework 将变量存储在一个内部结构中, 同时允许按照标量, 列表或字典的类型来使用. 按照列表来使用要求该值是一个Python列表或者类似列表的对象.
+Robot Framework 将变量存储在一个内部空间中, 同时允许按照标量, 列表或字典的类型来使用它们. 按照列表来使用要求该值是一个Python列表或者类似列表的对象.
 
 Robot Framework不允许字符串作为字符列表使用, 但是其它的序列对象如元组或字典是可以的.
 
@@ -144,7 +144,7 @@ Robot Framework 2.9版本之前, 标量和列表变量是分开存储的, 但是
 .. Using list variables with other data
 
 列表变量和其它数据混用
-''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''
 
 列表变量可以和其它参数混用, 其中可能还包含其它的列表参数.
 
@@ -156,7 +156,7 @@ Robot Framework 2.9版本之前, 标量和列表变量是分开存储的, 但是
        Keyword    ${SCALAR}    @{LIST}    constant
        Keyword    @{LIST}    @{ANOTHER}    @{ONE MORE}
 
-如果一个列表变量在单元格内和其它内容(字符串或其它变量)混用, 则最终的值会是该变量的字符串表示, 就跟标量变量的处理方式一样.
+如果一个列表变量在单元格内和其它内容(比如字符串或其它变量)混用, 则最终的值会是该变量的字符串表示, 就跟标量变量的处理方式一样.
 
 .. Accessing individual list items
 
@@ -205,7 +205,7 @@ Robot Framework 2.9版本之前, 标量和列表变量是分开存储的, 但是
 字典变量
 ~~~~~~~~~
 
-如上所述, 包含列表的变量可以作为 `列表变量`_, 将其中的项分别传递给关键字. 类似的, 一个变量包含Python的字典, 或者类似字典的对象, 可以当作字典变量使用, 如 ``&{EXAMPLE}`` 
+如上所述, 包含列表的变量可以作为 :ref:`list variable`, 将其中的项分别传递给关键字. 类似的, 一个变量包含Python的字典, 或者类似字典的对象, 可以当作字典变量使用, 如 ``&{EXAMPLE}`` 
 
 在实践中, 这意味着字典中的项可以作为 :ref:`named arguments` 传给关键字. 假设有个字典变量 ``&{USER}`` 中有值 ``{'name': 'robot', 'password': 'secret'}``, 则下面两个用例的效果是等价的.
 
@@ -223,9 +223,9 @@ Robot Framework 2.9版本之前, 标量和列表变量是分开存储的, 但是
 .. Using dictionary variables with other data
 
 字典变量和其它数据混用
-'''''''''''''''''''''
+''''''''''''''''''''''
 
-字典变量可以和其它变量一起使用, 包括其它字典变量. 因为 :ref:`named argument syntax`  要求位置参数必须在命名参数之前, 所以字典变量后面只能跟命名参数或者其它的字典.
+字典变量可以和其它变量组合使用, 包括其它字典变量. 因为 :ref:`named argument syntax`  要求位置参数必须在命名参数之前, 所以字典变量后面只能跟命名参数或者其它的字典.
 
 .. sourcecode:: robotframework
 
@@ -282,7 +282,9 @@ Robot Framework 2.9版本之前, 标量和列表变量是分开存储的, 但是
 
 Robot Framework使用 ``%{ENV_VAR_NAME}`` 这种语法格式来使用环境变量. 环境变量的值只能是字符串.
 
-在测试执行前已设置的操作系统环境变量在执行过程中都是可用的, 同时还可以使用关键字 :name:`Set Environment Variable` 创建新的环境变量, 或者 :name:`Delete Environment Variable` 删除某个环境变量, 这两个关键字都是来自于 OperatingSystem_ 库. 因为环境变量是全局的, 所以在一个测试用例中设置的环境变量可以在后续执行的另一个测试用例中使用. 不过, 测试执行中改变的环境变量在测试执行完成后即恢复原状, 即不会真正改变系统的环境变量.
+在测试执行前已设置的操作系统环境变量在执行过程中都是可用的, 同时还可以使用关键字 :name:`Set Environment Variable` 创建新的环境变量, 或者 :name:`Delete Environment Variable` 删除某个环境变量, 这两个关键字都是来自于 :ref:`OperatingSystem` 库. 
+
+因为环境变量是全局的, 所以在一个测试用例中设置的环境变量可以在后续执行的另一个测试用例中使用. 不过, 测试执行中改变的环境变量在测试执行完成后即恢复原状, 即不会真正改变系统的环境变量.
 
 .. sourcecode:: robotframework
 
@@ -296,7 +298,7 @@ Robot Framework使用 ``%{ENV_VAR_NAME}`` 这种语法格式来使用环境变�
 Java系统属性
 ~~~~~~~~~~~~
 
-当使用Jython运行测试时, 可以使用 :ref:`环境变量` 的语法来获取 :ref:`Java系统属性 <java sysprop>`. 如果一个环境变量的名称和一个系统属性重名, 则最终返回的是环境变量的值.
+当使用Jython运行测试时, 可以使用 :ref:`environment variable` 的语法来获取 :ref:`Java系统属性 <java sysprop>`. 如果一个环境变量的名称和一个系统属性重名, 则最终返回的是环境变量的值.
 
 .. sourcecode:: robotframework
 
@@ -313,7 +315,7 @@ Java系统属性
 
 测试中可用的变量来源于各种不同的地方.
 
-.. Variable table
+.. _variable table:
 
 变量表格
 ~~~~~~~~
@@ -322,8 +324,8 @@ Java系统属性
 
 .. Creating scalar variables
 
-创建标量
-''''''''
+创建标量变量
+''''''''''''
 
 最简单的变量赋值操作就是将字符串赋值给一个标量变量. 
 
@@ -358,8 +360,8 @@ Java系统属性
 
 .. Creating list variables
 
-创建列表
-''''''''
+创建列表变量
+''''''''''''
 
 创建列表变量同样很简单. 变量名同样位于变量表格的第一列, 值位于后续的列. 一个列表变量可以有任意多的值, 包括0个值. 如果值比较多, 同样可以 :ref:`分为多行 <dividing test data to several rows>`.
 
@@ -372,12 +374,12 @@ Java系统属性
    @{MANY}         one         two      three      four
    ...             five        six      seven
 
-.. Creating dictionary variables
+.. _creating dictionary variables:
 
-创建字典
-''''''''
+创建字典变量
+''''''''''''
 
-字典变量的创建方式类似列表. 不同之处在于字典的项需要使用 ``name=value`` 的语法格式, 或者其它的字典变量. 如果有多个项重名, 只保留最后那个. 如果项中包含字面的等号, 则该等号必须使用反斜杠进行 转义__, 如 ``\=`` 
+字典变量的创建方式类似列表. 不同之处在于字典的项需要使用 ``name=value`` 的语法格式, 或者其它的字典变量. 如果有多个项重名, 只保留最后那个. 如果项中包含字面的等号, 则该等号必须使用反斜杠进行 :ref:`转义 <escaping>`, 如 ``\=`` 
 
 .. sourcecode:: robotframework
 
@@ -392,16 +394,15 @@ Java系统属性
 
 首先, 字典的项可以作为属性(attributes)获取, 也就是说使用 :ref:`extended variable syntax` 如 ``${VAR.key}``. 前提是该key是一个合法的属性名且不会匹配上任何其它普通的属性. 例如, ``&{USER}[name]`` 同样可以通过 ``${USER.name}`` 获取(注意到这里是 ``$`` ), 但是 ``${MANY.3}`` 就不可以.
 
-另一个特别之处在于字典变量中的项是有顺序的. 也就是说字典总是会按定义时的顺序迭代. 这在把字典当作  :ref:`list variables` 使用时(例如在 :ref:`for loops` )很有用. 当字典被当作列表迭代时, 实际返回的值是字典的键. 例如,  ``@{MANY}`` 变量的值是 ``['first', 'second', 3]``.
+另一个特别之处在于字典变量中的项是有顺序的. 也就是说字典总是会按定义时的顺序迭代. 这在把字典当作  :ref:`list variables` 使用时(例如在 :ref:`for loop` )很有用. 当字典被当作列表迭代时, 实际返回的值是字典的键. 例如,  ``@{MANY}`` 变量的值是 ``['first', 'second', 3]``.
 
-__ Escaping_
 
 .. Variable file
 
 变量文件
 ~~~~~~~~
 
-变量文件是创建不同类型变量的强大武器. 使用变量文件可以给变量赋值为任意的对象, 同时还可以动态地创建变量. 关于变量文件的语法以及如何使用请参见 `Resource and variable files`_.
+变量文件是创建不同类型变量的强大武器. 使用变量文件可以给变量赋值为任意的对象, 同时还可以动态地创建变量. 关于变量文件的语法以及如何使用请参见 :ref:`resource and variable files`.
 
 .. Setting variables in command line
 
@@ -410,9 +411,8 @@ __ Escaping_
 
 变量可以在命令行中通过选项 :option:`--variable (-v)` 单个设置, 也可以通过选项 :option:`--variablefile (-V)` 设置变量文件. 通过命令行设置的变量对所有执行的测试文件是全局可见的, 不过如果局部的变量表格或者局部导入的变量文件中存在重名的变量, 则这些变量也会被命令行中指定的值所覆盖.
 
-设置单个变量的选项格式是 :option:`--variable name:value`, 其中 ``name`` 是变量名, 不带 ``${}``  `value`是变量的值. 有多个变量的话就使用这个选项多次. 这种方式只能定义标量变量. 很多特殊字符必须使用选项 :option:`--escape` 经过 转义_ 才能表示. 
+设置单个变量的选项格式是 :option:`--variable name:value`, 其中 ``name`` 是变量名, 不带 ``${}``  `value`是变量的值. 有多个变量的话就使用这个选项多次. 这种方式只能定义标量变量. 很多特殊字符必须使用选项 :option:`--escape` 经过 :ref:`转义 <escaping complicated characters>` 才能表示. 
 
-__ `Escaping complicated characters`_
 
 .. sourcecode:: bash
 
@@ -422,31 +422,30 @@ __ `Escaping complicated characters`_
 
 在上例中, 变量值分别是:
 
-- ``${EXAMPLE}`` 值为 `value`
-- ``${HOST}`` 和 ``${USER}`` 值分别为 ``localhost:7272`` 和 `robot`
-- ``${ESCAPED}`` 值为 `"quotes and spaces"`
+- ``${EXAMPLE}`` 值为 ``value``
+- ``${HOST}`` 和 ``${USER}`` 值分别为 ``localhost:7272`` 和 ``robot``
+- ``${ESCAPED}`` 值为 ``"quotes and spaces"``
 
 在命令行中指定 :ref:`variable files` 的选项格式是 :option:`--variablefile path/to/variables.py`, :ref:`Taking variable files into use` 章节中介绍更多细节. 
 
-如果变量同时在命令行的变量文件中和单独指定, 则单独指定的变量有更高的 优先级__
+如果变量同时在命令行的变量文件中和单独指定, 则单独指定的变量有更高的 :ref:`优先级 <variable priorities and scopes>`
 
-__ `Variable priorities and scopes`_
 
-.. Return values from keywords
+.. _return values from keywords:
 
 关键字的返回值
 ~~~~~~~~~~~~~~
 
 关键字的返回值可以赋值给变量, 这样不同的关键字之间就可以交互了.
 
-这种方式定义的变量和其它变量基本相同, 只是其作用域仅限于它们被创建的 `local scope`_. 也就是说 *不可能* 在一个测试用例里得到这样一个返回值变量, 然后在另一个用例中使用. 因为自动化测试用例通常需要保持相互独立, 而不应该互相依赖. 如果用例中定义的变量可以在其它用例使用, 这将导致很难定位的错误. 但是如果确实有这种需求, 也可以通过下节介绍的 BuiltIn_ 中的相关关键字来实现.
+这种方式定义的变量和其它变量基本相同, 只是其作用域仅限于它们被创建的 :ref:`local scope`. 也就是说 **不可能** 在一个测试用例里得到这样一个返回值变量, 然后在另一个用例中使用. 因为自动化测试用例通常需要保持相互独立, 而不应该互相依赖. 如果用例中定义的变量可以在其它用例使用, 这将导致很难定位的错误. 但是如果确实有这种需求, 也可以通过下节介绍的 BuiltIn_ 中的相关关键字来实现.
 
 .. Assigning scalar variables
 
 赋值给标量
 ''''''''''
 
-关键字返回的任何值都可以赋值给 `scalar variable`_. 如下例所示, 语法非常简单:
+关键字返回的任何值都可以赋值给 :ref:`scalar variable`. 如下例所示, 语法非常简单:
 
 .. sourcecode:: robotframework
 
@@ -455,7 +454,7 @@ __ `Variable priorities and scopes`_
        ${x} =    Get X    an argument
        Log    We got ${x}!
 
-上例中, 关键字 :name:`Get X` 的返回值首先赋值给变量 ``${x}``  然后又传给关键字 :name:`Log`. 变量名称后面的等号(`=`)并不是强制要求的, 不过这种写法可以是赋值操作显得更明确. 
+上例中, 关键字 :name:`Get X` 的返回值首先赋值给变量 ``${x}``  然后又传给关键字 :name:`Log`. 变量名称后面的等号(``=``)并不是强制要求的, 不过这种写法可以是赋值操作显得更明确. 
 这种创建局部变量的方法同时适用于测试用例和用户关键字. 
 
 注意, 虽然值是赋给了标量变量, 但是其本身如果是一个列表(或类似列表), 则它也可以当做 :ref:`list variable` 使用, 如果是一个类似字典的对象, 可以当做 :ref:`dictionary variable` 使用.
@@ -488,9 +487,9 @@ __ `Variable priorities and scopes`_
 .. Assigning dictionary variables
 
 赋值给字典变量
-'''''''''''''
+''''''''''''''
 
-如果关键字返回一个字典或者类似字典的对象, 则可以赋给 `dictionary variable`_:
+如果关键字返回一个字典或者类似字典的对象, 则可以赋给 :ref:`dictionary variable`:
 
 .. sourcecode:: robotframework
 
@@ -505,12 +504,12 @@ __ `Variable priorities and scopes`_
 
 虽然如此, 但显式的创建字典变量也有实际的好处. 首先, Robot Framework会校验返回值确实是字典或者类似字典的对象. 
 
-另一个更大的好处是, 值会被转换保存为一个特殊的字典, 就像在变量表格中 :ref:`创建字典变量` 的那样, 可以通过获取属性值的语法 ``${dict.first}`` 获取其中的值. 同时, 这个字典的顺序是固定的. 当然, 如果初始字典是无序的, 结果字典的顺序也是随机的.
+另一个更大的好处是, 值会被转换保存为一个特殊的字典, 就像在变量表格中 :ref:`creating dictionary variable` 的那样, 可以通过获取属性值的语法 ``${dict.first}`` 获取其中的值. 同时, 这个字典的顺序是固定的. 当然, 如果初始字典是无序的, 结果字典的顺序也是随机的.
 
 .. Assigning multiple variables
 
 赋值多个变量
-''''''''''''''''''''''''''''
+''''''''''''
 
 如果一个关键字返回列表或类似列表的对象, 还可以一次性将其中的值同时赋值给多个变量. 可以是多个标量, 也可以是标量和列表混合, 如下例所示:
 
@@ -525,29 +524,25 @@ __ `Variable priorities and scopes`_
 
 假设关键字 :name:`Get Three` 返回一个列表 ``[1, 2, 3]``  会创建的变量如下:
 
-- ``${a}``  ``${b}`` and ``${c}`` 值分别是 ``1``  ``2``  and ``3`` 
-- ``${first}`` 值为 ``1``  ``@{rest}`` 值为 ``[2, 3]`` 
-- ``@{before}`` 值为 ``[1, 2]``  ``${last}`` 值为 ``3`` 
-- ``${begin}`` 值为 ``1``  ``@{middle}`` 值为 ``[2]``  ${end} 值为 ``3`` 
+- ``${a}``, ``${b}`` 和 ``${c}`` 值分别是 ``1``, ``2`` 和 ``3`` 
+- ``${first}`` 值为 ``1``,  ``@{rest}`` 值为 ``[2, 3]`` 
+- ``@{before}`` 值为 ``[1, 2]``,  ``${last}`` 值为 ``3`` 
+- ``${begin}`` 值为 ``1``, ``@{middle}`` 值为 ``[2]``,  ${end} 值为 ``3`` 
 
 如果返回的列表的元素个数多于或者少于可供赋值的标量, 将会报错. 另外, 待赋值的变量中最多只能有一个列表变量, 而字典变量只能单独赋值.
 
-It is an error if the returned list has more or less values than there are
-scalar variables to assign. Additionally, only one list variable is allowed
-and dictionary variables can only be assigned alone.
+同时为多个变量赋值的特性功能在Robot Framework 2.9版本中有所变动. 早期版本中, 列表变量只被允许出现在待赋值变量的最后, 现在则可以是任意位置. 
 
-同时为多个变量赋值的特性功能在Robot Framework 2.9版本中有所变动. 早期版本中, 列表变量只被允许出现在待赋值变量的最后, 现在则可以是任意位置. 此外, 如果返回的值个数多于标量变量的个数, 最后一个标量会自动变为列表以包含剩下所有的值.
+此外, 如果返回的值个数多于标量变量的个数, 最后一个标量会自动变为列表以包含剩下所有的值.
 
-Additionally, it was possible to return more values than scalar variables.
-In that case the last scalar variable was magically turned into a list
-containing the extra values.
-
-.. hints:: 译注, 这段存疑, 和前面矛盾了.实际测试结果是会报错
+.. hint:: 译注, 这段存疑, 和前面矛盾了.实际测试结果是会报错.
+          
+          Additionally, it was possible to return more values than scalar variables.In that case the last scalar variable was magically turned into a list containing the extra values.
 
 .. Using :name:`Set Test/Suite/Global Variable` keywords
 
-:name:`Set Test/Suite/Global Variable` 关键字
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+使用关键字创建变量
+~~~~~~~~~~~~~~~~~~
 
 BuiltIn_ 测试库提供了几个可以在测试执行时动态设置变量的关键字: :name:`Set Test Variable`, :name:`Set Suite Variable` 和 :name:`Set Global Variable`. 如果作用域内已经存在同名变量, 则会覆盖变量的值否则创建新的变量.
 
@@ -555,31 +550,28 @@ BuiltIn_ 测试库提供了几个可以在测试执行时动态设置变量的�
 
 通过关键字  :name:`Set Suite Variable` 创建的变量在当前执行的测试套件内处处可见. 使用这个方式创建变量和在测试数据文件的 :ref:`Variable table` 中定义变量, 以及从 :ref:`variable files` 导入变量的效果一样. 这些变量对其它的测试套件, 包括子套件, 都不可见.
 
-通过关键字 :name:`Set Global Variable` 创建的变量在设置之后全局可见. 这种方式创建的变量和在 `creating from the command line`__ 中使用选项 :option:`--variable` 或 :option:`--variablefile` 定义变量效果一样. 因为这个关键字会改变任意地方的变量, 所以必须谨慎使用.
+通过关键字 :name:`Set Global Variable` 创建的变量在设置之后全局可见. 这种方式创建的变量和在 :ref:`setting variables in command line` 中使用选项 :option:`--variable` 或 :option:`--variablefile` 定义变量效果一样. 因为这个关键字会改变任意地方的变量, 所以必须谨慎使用.
 
-.. note:: 关键字 :name:`Set Test/Suite/Global Variable` 直接在 `作用域`__
-          内设置变量, 没有返回值. 而 :name:`Set Variable` 设置局部变量, 并且 返回__.
+.. note:: 关键字 :name:`Set Test/Suite/Global Variable` 直接在 :ref:`作用域 <variable scopes>`
+          内设置变量, 没有返回值. 而 :name:`Set Variable` 设置局部变量, 并且 :ref:`返回 <return values from keywords>`.
 
-__ `Setting variables in command line`_
-__ `Variable scopes`_
-__ `Return values from keywords`_
 
 .. _built-in variable:
 .. _built-in variables:
 
 内置变量
-------------------
+--------
 
 Robot Framework 提供了若干的内置变量, 这些变量在测试中自动可用.
 
-.. Operating-system variables
+.. _operating-system variables:
 
 操作系统变量
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~
 
 操作系统相关的内置变量使得编写针对不同操作系统的测试数据变的轻松.
 
-.. table:: Available operating-system-related built-in variables
+.. table:: 可用的操作系统相关的内置变量
    :class: tabular
 
    +------------+------------------------------------------------------------------+
@@ -595,14 +587,14 @@ Robot Framework 提供了若干的内置变量, 这些变量在测试中自动�
    | ${EXECDIR} | An absolute path to the directory where test execution was       |
    |            | started from.                                                    |
    +------------+------------------------------------------------------------------+
-   | ${/}       | The system directory path separator. ``/`` in UNIX-like            |
-   |            | systems and :codesc:`\\` in Windows.                             |
+   | ${/}       | The system directory path separator. ``/`` in UNIX-like          |
+   |            | systems and ``\`` in Windows.                                    |
    +------------+------------------------------------------------------------------+
-   | ${:}       | The system path element separator. ``:`` in UNIX-like              |
-   |            | systems and ``;`` in Windows.                                      |
+   | ${:}       | The system path element separator. ``:`` in UNIX-like            |
+   |            | systems and ``;`` in Windows.                                    |
    +------------+------------------------------------------------------------------+
-   | ${\\n}     | The system line separator. :codesc:`\\n` in UNIX-like systems and|
-   |            | :codesc:`\\r\\n` in Windows. New in version 2.7.5.               |
+   | ${\\n}     | The system line separator. ``\n`` in UNIX-like systems and       |
+   |            | ``\\r\\n`` in Windows. New in version 2.7.5.                     |
    +------------+------------------------------------------------------------------+
 
 .. sourcecode:: robotframework
@@ -615,7 +607,7 @@ Robot Framework 提供了若干的内置变量, 这些变量在测试中自动�
 .. Number variables
 
 数字变量
-~~~~~~~~~~~~~~~~
+~~~~~~~~
 
 变量的语法可以用来创建整型整数和浮点型数字. 如下例所示. 因为 Robot Framework默认传递的是字符串, 显式的传递数字对那些预期接受参数是数字(而不是数字字符串)的关键字来说很有用.
 
@@ -645,7 +637,7 @@ Robot Framework 提供了若干的内置变量, 这些变量在测试中自动�
 .. Boolean and None/null variables
 
 布尔值和None/null值
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 布尔值和Python中的 ``None``  以及Java中的 ``null`` 也可以使用类似数字变量的语法来表示.
 
@@ -670,7 +662,7 @@ Robot Framework 提供了若干的内置变量, 这些变量在测试中自动�
 空格和空字符串/列表/字典
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-变量 ``${SPACE}`` 和 ``${EMPTY}`` 分别用来创建空格和空字符串. 使用这些变量相对于使用反斜杠 `escape spaces or empty cells`__ 来说容易的多. 同时还可以使用 :ref:`extended variable syntax` 表示连续的多个空格, 例如 ``${SPACE * 5}`` 
+变量 ``${SPACE}`` 和 ``${EMPTY}`` 分别用来创建空格和空字符串. 使用这些变量相对于使用反斜杠来 :ref:`转义空格 <escaping>` 容易的多. 同时还可以使用 :ref:`extended variable syntax` 表示连续的多个空格, 例如 ``${SPACE * 5}`` 
 
 下面的例子中, 关键字 :name:`Should Be Equal` 接收到两个等价的入参, 可以看出使用变量的形式比使用反斜杠看上去容易理解的多.
 
@@ -697,14 +689,7 @@ Robot Framework 提供了若干的内置变量, 这些变量在测试中自动�
 
 同样还可以使用 :ref:`列表变量` 的格式 ``@{EMPTY}`` 表示空列表, :ref:`字典变量` 的格式 ``&{EMPTY}`` 表示空字典. 
 
-在某些情况下, 它们会很有用. 比如, 当使用 :ref:`test templates` 且 `template keyword is used without arguments`__ 时; 或者想要覆盖不同作用域中的列表或字典变量时. 注意, 没法改变 ``@{EMPTY}`` 或 ``&{EMPTY}`` 的值.
-
-There is also an empty :ref:`list variable` ``@{EMPTY}`` and an empty :ref:`dictionary
-variable` ``&{EMPTY}``  Because they have no content, they basically
-vanish when used somewhere in the test data. They are useful, for example,
-with :ref:`test templates` when the `template keyword is used without
-arguments`__ or when overriding list or dictionary variables in different
-scopes. Modifying the value of ``@{EMPTY}`` or ``&{EMPTY}`` is not possible.
+在某些情况下, 它们会很有用. 比如, 当使用 :ref:`test templates` 且 `模板关键字调用无需参数 <template keyword is used without arguments>` 时; 或者想要覆盖不同作用域中的列表或字典变量时. 注意, 没法改变 ``@{EMPTY}`` 或 ``&{EMPTY}`` 的值.
 
 .. sourcecode:: robotframework
 
@@ -719,13 +704,12 @@ scopes. Modifying the value of ``@{EMPTY}`` or ``&{EMPTY}`` is not possible.
 
 .. note:: ``@{EMPTY}`` 在Robot Framework 2.7.4版本可用, ``&{EMPTY}`` 在2.9版本后可用.
 
-__ Escaping_
-__ https://groups.google.com/group/robotframework-users/browse_thread/thread/ccc9e1cd77870437/4577836fe946e7d5?lnk=gst&q=templates#4577836fe946e7d5
+.. _template keyword is used without arguments: https://groups.google.com/group/robotframework-users/browse_thread/thread/ccc9e1cd77870437/4577836fe946e7d5?lnk=gst&q=templates#4577836fe946e7d5
 
 .. Automatic variables
 
 自动变量
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~
 
 Robot Framework还提供了若干的自动变量. 这些变量在测试执行过程中有不同的值, 有些还是全局可用的. 改变这些变量的值不会影响其初始值, 不过其中某些可用通过 :ref:`BuiltIn` 库中的关键字进行动态修改.
 
@@ -799,37 +783,36 @@ Robot Framework还提供了若干的自动变量. 这些变量在测试执行过
    | ${DEBUG FILE}          | An absolute path to the :ref:`debug file` or string   | Everywhere |
    |                        | NONE when no debug file is created.                   |            |
    +------------------------+-------------------------------------------------------+------------+
-   | ${OUTPUT DIR}          | An absolute path to the `output directory`_.          | Everywhere |
+   | ${OUTPUT DIR}          | An absolute path to the :ref:`output directory`.      | Everywhere |
    +------------------------+-------------------------------------------------------+------------+
 
 测试套件相关的变量 ``${SUITE SOURCE}``  ``${SUITE NAME}``  ``${SUITE DOCUMENTATION}`` 和 ``&{SUITE METADATA}`` 在测试库和变量文件被导入时即可访问. 除了在 Robot Framework 2.8 和 2.8.1 版本里. 不过, 上表中其它的某些自动变量在导入时刻还没有解析.
 
-.. Variable priorities and scopes
+
+.. _variable priorities and scopes:
 
 变量的优先级和作用域
-------------------------------
+--------------------
 
 不同来源的变量拥有不同的优先级, 并作用于不同的作用域.
 
-.. Variable priorities
+.. _variable priorities:
 
 变量的优先级
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~
 
 *通过命令行设置的变量*
   
-   对于所有那些在测试执行前指定的变量来说, 通过 `命令行设置`__ 的变量拥有最高优先级.
+   对于所有那些在测试执行前指定的变量来说, 通过 :ref:`命令行设置 <setting variables in command line>` 的变量拥有最高优先级.
    这些变量有可能会覆盖在测试用例文件的变量表格中定义的变量, 或者导入的资源文件或变量文件中的变量.
 
    单独设定的变量(:option:`--variable` 选项)可能会覆盖通过 :ref:`variable files` (:option:`--variablefile` 选项)定义的变量. 如果同名的变量单独设置多次, 则只生效最后那个. 这种行为使得我们可以在 :ref:`start-up script` 中设置缺省的变量值, 并在命令行调用时看情况予以覆盖. 
 
    注意, 如果多个变量文件中有同名参数, 第一个文件中定义的那个变量有最高优先级.
 
-__ `Setting variables in command line`_
-
 *在用例文件的变量表格中定义的变量*
 
-   在测试用例文件的 :ref:`变量表格` 中创建的变量在该文件中的所有用例内可用. 这些变量有可能会覆盖在导入的资源文件或变量文件中定义的同名变量.
+   在测试用例文件的 :ref:`variable table` 中创建的变量在该文件中的所有用例内可用. 这些变量有可能会覆盖在导入的资源文件或变量文件中定义的同名变量.
 
    变量表格中创建的变量在文件中所有其它表格中也是可用的. 也就是说, 它们可以被用在Setting表格中, 用来导入其它文件.
 
@@ -848,12 +831,13 @@ __ `Setting variables in command line`_
 
 *内置变量*
 
-   `内置变量`_, 如 ``${TEMPDIR}`` 和 ``${TEST_NAME}``  在所有变量中拥有最高优先级. 它们不能被变量表格或者命令行选项所覆盖, 不过即使这样, 它们还是可以在测试执行过程中被重置. 一个例外是 `number variables`_, 它们总是被动态解析. 虽然也是可以被覆盖的, 但是强烈不建议这样做. 此外, ``${CURDIR}`` 也比较特殊, 因为它在测试数据处理前就已经被替代.
+   :ref:`built-in variable`, 如 ``${TEMPDIR}`` 和 ``${TEST_NAME}``  在所有变量中拥有最高优先级. 它们不能被变量表格或者命令行选项所覆盖, 不过即使这样, 它们还是可以在测试执行过程中被重置. 一个例外是 `number variables`_, 它们总是被动态解析. 虽然也是可以被覆盖的, 但是强烈不建议这样做. 此外, ``${CURDIR}`` 也比较特殊, 因为它在测试数据处理前就已经被替代.
 
-.. Variable scopes
+.. _variable scope:
+.. _variable scopes:
 
 变量的作用域
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~
 
 取决于变量创建的地方和方式, 它们可以拥有 全局作用域, 测试套件作用域, 测试用例作用域 或者局部作用域.
 
@@ -869,9 +853,9 @@ __ `Setting variables in command line`_
 .. Test suite scope
 
 测试套件作用域
-''''''''''''''''
+''''''''''''''
 
-测试套件内定义或导入的变量在该测试套件作用域内处处可见. 这些变量可以是通过变量表格创建, 也可能是来自导入的 `resource and variable files`_, 也可以使用 BuiltIn_ 关键字 :name:`Set Suite Variable` 在测试执行中创建或修改.
+测试套件内定义或导入的变量在该测试套件作用域内处处可见. 这些变量可以是通过变量表格创建, 也可能是来自导入的 :ref:`resource and variable files`, 也可以使用 BuiltIn_ 关键字 :name:`Set Suite Variable` 在测试执行中创建或修改.
 
 测试套件作用域 *不是* 递归的, 即高层测试套件内的变量在低层的测试套件内 *不可用*. 如果有必要, 使用 :ref:`resource and variable files` 来共享变量.
 
@@ -880,7 +864,7 @@ __ `Setting variables in command line`_
 .. Test case scope
 
 测试用例作用域
-'''''''''''''''
+''''''''''''''
 
 测试用例作用域的变量在测试用例内部, 包括用例内所有的用户关键字内, 都是可见的. 用例作用域的变量都是通过使用 BuiltIn_ 关键字 :name:`Set Test Variable` 在测试用例中创建.
 
@@ -889,19 +873,16 @@ __ `Setting variables in command line`_
 .. Local scope
 
 局部作用域
-'''''''''''
+''''''''''
 
-测试用例和用户关键字拥有一个局部作用域, 对其它用例和关键字都是不可见的. 局部变量通过执行关键字并获取其 `return values`__ 来创建, 作为 arguments__ 传递给用户关键字.
+测试用例和用户关键字拥有一个局部作用域, 对其它用例和关键字都是不可见的. 局部变量通过执行关键字并获取其 :ref:`返回值 <return values from keywords>` 来创建, 作为 :ref:`参数 <user keyword arguments>` 传递给用户关键字.
 
 推荐使用小写字母来表示局部变量.
 
 .. note:: 在 Robot Framework 2.9 版本之前, 局部作用域内的变量会
-          `泄露到低层的用户关键字中`__. 这个绝不能视为是有意的特性, 而应该在早期版本中也显式的设置并传递变量. 
+          :ref:`泄露到低层的用户关键字中 <issue 532>`. 这个绝不能视为是有意的特性, 而应该在早期版本中也显式的设置并传递变量. 
 
-__ `Setting variables in command line`_
-__ `Return values from keywords`_
-__ `User keyword arguments`_
-__ https://github.com/robotframework/robotframework/issues/532
+.. _issue 532: https://github.com/robotframework/robotframework/issues/532
 
 .. Advanced variable features
 
@@ -913,7 +894,7 @@ __ https://github.com/robotframework/robotframework/issues/532
 扩展变量语法
 ~~~~~~~~~~~~~
 
-扩展的变量语法支持获取变量对象的属性值(例如, `${object.attribute}`), 甚至还可以执行对象的方法(例如, `${obj.getName()}`). 这种语法对标量和列表都可用, 但是大部分时候还是用于前者.
+扩展的变量语法支持获取变量对象的属性值(例如, ``${object.attribute}``), 甚至还可以执行对象的方法(例如, ``${obj.getName()}``). 这种语法对标量和列表都可用, 但是大部分时候还是用于前者.
 
 变量扩展语法是一个强大的特性功能, 但是应该谨慎使用. 获取变量的属性一般没有问题, 相对来说, 使用一个变量来保存拥有多个属性的对象总好于使用多个变量. 不过另一方面, 调用对象的方法(特别是方法还需要参数的时候)会使得测试数据变得复杂难懂. 如果必须这么做, 建议将调用方法的代码移到测试库中去做.
 
@@ -945,12 +926,11 @@ __ https://github.com/robotframework/robotframework/issues/532
 
 当上面的测试执行时, 关键字获取到的参数解释如下:
 
-- :name:`KW 1` 接收到字符串 `Robot`
-- :name:`KW 2` 接收到字符串 `Robot eats Cucumber`
-- :name:`KW 3` 接收到字符串 `two`
+- :name:`KW 1` 接收到字符串 ``Robot``
+- :name:`KW 2` 接收到字符串 ``Robot eats Cucumber``
+- :name:`KW 3` 接收到字符串 ``two``
 
 扩展的变量语法按照如下的顺序进行解析:
-The extended variable syntax is evaluated in the following order:
 
 1. 变量首先按照全名进行搜索(因为变量名可包含任意字符), 
    只有在没有匹配的情况下才会继续进行扩展语法的解析.
@@ -1014,16 +994,15 @@ The extended variable syntax is evaluated in the following order:
 扩展变量语法对 :ref:`list variable` 也有效. 例如, 如果一个变量 ``${EXTENDED}`` 被赋值了一个对象, 其中包含属性 ``attribute``  该属性值是一个列表, 则可以使用 ``@{EXTENDED.attribute}`` 将该属性当列表变量使用.
 
 
-.. Extended variable assignment
+.. _extended variable assignment:
 
 扩展的变量赋值
 ~~~~~~~~~~~~~~
 
-Robot Framework 2.7 版本开始, 可以将 `keyword return values`__ 通过 :ref:`extended variable syntax` 赋值给一个标量变量对象的某个属性. 
+Robot Framework 2.7 版本开始, 可以将 :ref:`关键字返回值 <return values from keywords>` 通过 :ref:`extended variable syntax` 赋值给一个标量变量对象的某个属性. 
 
 假设有变量 ``${OBJECT}``  它的属性值可以按下例中的方式设置:
 
-__ `Return values from keywords`_
 
 .. sourcecode:: robotframework
 
@@ -1032,12 +1011,11 @@ __ `Return values from keywords`_
        ${OBJECT.name} =    Set Variable    New name
        ${OBJECT.new_attr} =    Set Variable    New attribute
 
-扩展的变量赋值语法按下面的规则解析处理:
-The extended variable assignment syntax is evaluated using the
-following rules:
+扩展的变量赋值语法按下面的规则进行解析:
 
-1. 被赋值的变量必须是个标量, 至少包含一个点(`.`). 否则不会触发扩展赋值语法.
-2. 如果存在一个全名匹配的变量(例如 `${OBJECT.name}`), 则该变量被赋值, 
+
+1. 被赋值的变量必须是个标量, 至少包含一个点(``.``). 否则不会触发扩展赋值语法.
+2. 如果存在一个全名匹配的变量(例如 ``${OBJECT.name}``), 则该变量被赋值, 
    不会使用扩展语法.
 3. 创建基础变量名称. 从 ``${`` 后开始, 直到最后一个点, 
    这之间的字符就是基础变量的名称. 例如, ``${OBJECT.name}`` 和 ``${foo.bar.zap}`` 基础变量分别是 ``OBJECT`` and ``foo.bar``  在第二个例子中, 基础名称也包含了普通的扩展变量语法.
@@ -1066,7 +1044,7 @@ following rules:
 .. Variables inside variables
 
 嵌套变量
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~
 
 变量名可以嵌套使用. 这种情况下, 变量的解析从内往外进行.
 
