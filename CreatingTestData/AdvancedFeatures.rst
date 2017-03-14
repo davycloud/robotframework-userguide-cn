@@ -1,7 +1,7 @@
 .. Advanced features
 
 高级特性
-=================
+==========
 
 .. contents::
    :depth: 2

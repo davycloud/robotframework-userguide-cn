@@ -226,10 +226,10 @@ Pythonistas肯定都已经注意到了, 这种指定默认值的语法几乎就�
 同样, Pythonistas会注意到这个语法和Python中的很相似.
 
 
-.. _Kwargs with user keywords:
+.. _kwargs with user keywords:
 
 用户关键字的Kwargs
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 用户关键字同样可以接受 :ref:`free keyword arguments`, 只需在参数列表的最后, 在位置参数和任意数量参数的后面, 使用 :ref:`dictionary variable` 如 ``&{kwargs}``. 当该关键字被调用时, 前面没有被匹配的 :ref:`named arguments` 都会传递给该参数.
 
@@ -275,42 +275,44 @@ Robot Framework 除了常规的在关键字名称后指定参数的方法外, �
        Open Page    Pet Selection
        Select Item From List    animal_list    ${animal}
 
-使用嵌入参数的关键字不可在接受"普通的"参数(即 :setting:`[Arguments]` 设置), 其它方面则没什么两样. 关键字被调用时, 其名称中的不同的值自然地传递给对应位置的参数. 例如, 上例中的 ``${animal}`` 在使用 :name:`Select dog from list` 时的值就是 ``dog``. 
+嵌入参数的关键字不可接受"普通的"参数(即 :setting:`[Arguments]` 设置), 其它创建方式则没什么两样. 
 
-.. _啥意思:
-显然, 关键字内的参数无需都用上, 所以可以使用通配符. 
+当关键字被调用时, 其名称中的不同的值自然地传递给对应位置的参数. 例如, 上例中的 ``${animal}`` 在使用 :name:`Select dog from list` 时的值就是 ``dog``. 
+
+显然, 在关键字的内部这些参数不一定全部都得用上, 因此可以使用通配符. 
 
 这种类型的关键字和其它关键字的用法一样, 只是名称中的空格和下划线不能再忽略了. 不过大小写仍然是忽略的. 例如, 上例中的关键字可以是 :name:`select x from list`, 但是不能是 :name:`Select x fromlist`.
 
-.. _Obviously it is not:
-   mandatory to use all these arguments inside the keyword, and they can
-   thus be used as wildcards.
+嵌入式参数不支持使用默认值和任意数量参数. 在调用这类关键字时也可以使用变量, 不过这样做会降低可读性. 
 
-嵌入式参数不支持使用默认值和任意数量参数. 在调用这类关键字时也可以使用变量, 不过这样做会降低可读性.
+另外请注意嵌入参数只适用于用户关键字.
 
-.. _Notice also that embedded arguments only work with user keywords.:
+.. Notice also that embedded arguments only work with user keywords.
 
-.. _Embedded arguments matching too much:
+.. _embedded arguments matching too much:
 
 嵌入参数过多匹配
 ~~~~~~~~~~~~~~~~
 
 使用嵌入参数的一个关键在于确保传入的值正确地匹配到参数. 特别在有多个参数, 并且参数值里面还有分隔字符存在时. 例如, 关键字 :name:`Select ${city} ${team}` 在城市名中包含多个部分时就会错误, 如  :name:`Select Los Angeles Lakers`.
 
-一个简单的解决方法是把参数用引号括起来(例如 :name:`Select "${city}" "${team}"`), 然后调用时同样使用引号传参(例如 :name:`Select "Los Angeles" "Lakers"`). 这个办法虽然不能解决所有的冲突, 但是仍然强烈建议使用, 因为它把参数和其它关键字区分了出来. 另一个更强大同时也更复杂的解决方案是使用  :ref:`using custom regular expressions` 来定义变量, 下节详细讨论. 
+一个简单的解决方法是把参数用引号括起来(例如 :name:`Select "${city}" "${team}"`), 然后调用时同样使用引号传参(例如 :name:`Select "Los Angeles" "Lakers"`). 
+
+强烈建议使用这种方式来调用, 尽管不能解决所有冲突, 但是它把参数和其它关键字区分了出来. 
+
+另一个更强大同时也更复杂的解决方案是使用  :ref:`using custom regular expressions` 来定义变量, 下节详细讨论. 
 
 此外, 如果这一切让事情变得非常复杂, 那么也许最好的方法是用回普通的位置型参数.
 
-参数匹配过多的问题经常发生在 `ignore given/when/then/and/but prefixes`__ 创建关键字的时候. 例如, :name:`${name} goes home` 匹配 :name:`Given Janne goes home` 得到值为 `Given Janne`. 使用引号可以轻松的解决这个问题, 例如 :name:`"${name}" goes home`.
+参数匹配过多的问题经常发生在为行为驱动用例创建 :ref:`忽略前缀 <ignore given/when/then/and/but prefixes>` 的关键字的时候. 例如, :name:`${name} goes home` 匹配 :name:`Given Janne goes home` 得到值为 `Given Janne`. 使用引号可以轻松的解决这个问题, 例如 :name:`"${name}" goes home`.
 
-__ `Ignoring Given/When/Then/And/But prefixes`_
 
 .. _Using custom regular expressions:
 
 使用自定义正则表达式
 ~~~~~~~~~~~~~~~~~~~~
 
-当调用嵌入参数的关键字时, 参数值在内部是使用 `正则表达式`__ (简称 regexps)来进行匹配. 默认的逻辑是每个参数用 `.*?` 模式替代, 该模式基本上可以匹配任何字符串. 正常情况下, 这样就足以胜任. 不过, 如前面讨论的一样, 有时候关键字会 `匹配过多`__. 使用引号或其它分隔符有所帮助, 不过有时候情况比较复杂, 如下面的例子, 测试用例会执行失败, 因为关键字 :name:`I execute "ls" with "-lh"` 同时匹配两个已定义的关键字.
+当调用嵌入参数的关键字时, 参数值在内部使用 :ref:`正则表达式 <regexp>` (简称 regexps)来进行匹配. 默认的逻辑是每个参数用 ``.*?`` 模式替代, 该模式基本上可以匹配任何字符串. 正常情况下, 这样就足以胜任. 不过, 如前面讨论的一样, 有时候关键字会 :ref:`匹配过多 <embedded arguments matching too much>`. 使用引号或其它分隔符有所帮助, 不过有时候情况比较复杂, 如下面的例子, 测试用例会执行失败, 因为关键字 :name:`I execute "ls" with "-lh"` 同时匹配两个已定义的关键字.
 
 .. sourcecode:: robotframework
 
@@ -328,7 +330,7 @@ __ `Ignoring Given/When/Then/And/But prefixes`_
 
 此时就可以使用自定义正则表达式来确保关键字只匹配到想要的确定的内容. 想要使用这个特性, 并且完全理解本节的例子, 你至少需要对正则表达式的基础语法有所了解.
 
-自定义正则表达式的定义跟在参数的名称后面, 两者之间使用一个冒号(`:`)隔开. 例如, 一个只应该匹配数字的参数应该定义为 `${arg:\d+}`. 请看下面的例子:
+自定义正则表达式的定义跟在参数的名称后面, 两者之间使用一个冒号(``:``)隔开. 例如, 一个只应该匹配数字的参数应该定义为 ``${arg:\d+}``. 请看下面的例子:
 
 .. sourcecode:: robotframework
 
@@ -353,9 +355,9 @@ __ `Ignoring Given/When/Then/And/But prefixes`_
    Today is ${date:\d{4\}-\d{2\}-\d{2\}}
        Log    ${date}
 
-上例中, 关键字 :name:`I execute "ls" with "-lh"` 仅匹配 :name:`I execute "${cmd}" with "${opts}"`. 这是由 :name:`I execute "${cmd:[^"]}"` 其中的正则表达式 `[^"]+` 所保证的, 这个正则表达式意思是该参数不能包含任何引号. 在这个例子中, 对另外那个关键字 :name:`I execute` 来说, 已经不必要再添加正则表达式. 
+上例中, 关键字 :name:`I execute "ls" with "-lh"` 仅匹配 :name:`I execute "${cmd}" with "${opts}"`. 这是由 :name:`I execute "${cmd:[^"]}"` 其中的正则表达式 ``[^"]+`` 所保证的, 这个正则表达式意思是该参数不能包含任何引号. 在这个例子中, 对另外那个关键字 :name:`I execute` 来说, 已经不必要再添加正则表达式. 
 
-.. tip:: 如果使用了引号, 使用正则表达式  `[^"]+` 以确保参数的右引号匹配正确.
+.. tip:: 如果使用了引号, 使用正则表达式 ``[^"]+`` 以确保参数的右引号匹配正确.
 
 
 .. _Supported regular expression syntax:
@@ -363,8 +365,11 @@ __ `Ignoring Given/When/Then/And/But prefixes`_
 支持的正则表达式语法
 ''''''''''''''''''''
 
-因为Robot Framework是使用Python开发的, 所以其正则表达式语法很自然地是使用 :name:`re` 模块中 定义__ 的语法. 除了不能使用  `(?...)` 格式, 其它语法都可被支持. 
-注意嵌入参数的匹配是忽略大小写的. 如果正则表达式的语法非法, 则该关键字会创建失败, 并且在 `test execution errors`__ 中显示错误.
+因为Robot Framework是使用Python开发的, 所以其正则表达式语法很自然地是使用 :name:`re` 模块中定义的 :ref:`语法 <python re>`. 除了不能使用 ``(?...)`` 格式, 其它语法都可被支持. 
+
+注意嵌入参数的匹配是忽略大小写的. 如果正则表达式的语法非法, 则该关键字会创建失败, 并且在 :ref:`测试执行错误区 <errors and warnings during execution>` 中显示错误.
+
+.. _python re: https://docs.python.org/2/library/re.html
 
 .. _Escaping special characters:
 
@@ -373,16 +378,16 @@ __ `Ignoring Given/When/Then/And/But prefixes`_
 
 当使用嵌入参数regexp时, 某些特殊字符需要被转义才能使用. 
 
-首先, 正则模式中的右花括号 (`}`) 需要使用反斜杠转义(`\}`), 否则该参数会提前结束. 例如, 在上面例子中的关键字 :name:`Today is ${date:\\d{4\\}-\\d{2\\}-\\d{2\\}}`.
+首先, 正则模式中的右花括号 (``}``) 需要使用反斜杠转义(``\}``), 否则该参数会提前结束. 例如, 在上面例子中的关键字 :name:`Today is ${date:\\d{4\\}-\\d{2\\}-\\d{2\\}}`.
 
-反斜杠 (:codesc:`\\`) 作为Python正则表达式语法中的特殊字符, 如果你想要表示字面的反斜杠字符, 也需要进行转义. 这种情况最安全的做法是使用4个反斜杠序列(`\\\\`), 不过根据其后字符的不同, 有的情况两个反斜杠也已经足够.
+反斜杠 (``\``) 作为Python正则表达式语法中的特殊字符, 如果你想要表示字面的反斜杠字符, 也需要进行转义. 这种情况最安全的做法是使用4个反斜杠序列(``\\\\``), 不过根据其后字符的不同, 有的情况两个反斜杠也已经足够.
 
-注意到, 关键字的名称和可能嵌入其中的参数名 *不需要* 被转义. 这意味着表达式 `${name:\w+}` 中的反斜杠就不需要被转义.
+注意, 按照正常的 :ref:`测试数据转义规则 <escaping>`, 关键字的名称和可能嵌入其中的参数名 **不需要** 被转义. 这意味着表达式 ``${name:\w+}`` 中的反斜杠就不需要被转义.
 
-Notice also that keyword names and possible embedded arguments in them
-should *not* be escaped using the normal `test data escaping
-rules`__. This means that, for example, backslashes in expressions
-like `${name:\w+}` should not be escaped.
+.. Notice also that keyword names and possible embedded arguments in them
+.. should *not* be escaped using the normal `test data escaping
+.. rules`__. This means that, for example, backslashes in expressions
+.. like `${name:\w+}` should not be escaped.
 
 .. _Using variables with custom embedded argument regular expressions:
 
@@ -403,20 +408,15 @@ like `${name:\w+}` should not be escaped.
        I type ${1} + ${2}
        Today is ${DATE}
 
-自动匹配变量的一个缺陷是变量的值有可能实际上并不真正匹配该特定的正则表达式. 例如, 上例中的 `${DATE}` 可以包含任意值, 与此同时, :name:`Today is ${DATE}` 将仍将会匹配到相同的关键字
+自动匹配变量的一个缺陷是变量的值有可能实际上并不真正匹配该特定的正则表达式. 例如, 上例中的 ``${DATE}`` 可以包含任意值, 与此同时, :name:`Today is ${DATE}` 将仍将会匹配到相同的关键字
 
-__ http://en.wikipedia.org/wiki/Regular_expression
-__ `Embedded arguments matching too much`_
-__ https://docs.python.org/2/library/re.html
-__ `Errors and warnings during execution`_
-__ Escaping_
 
 .. _Behavior-driven development example:
 
 行为驱动开发示例
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
-把参数嵌入到关键字名称中最大的好处是可以使高层关键字更像是一句话, 从而写出 :ref:`行为驱动样式` 的测试用例. 详见下面的例子. 注意, 其中的前缀 :name:`Given`, :name:`When` 和 :name:`Then` `并不是关键字名称的一部分`__.
+把参数嵌入到关键字名称中最大的好处是可以使高层关键字更像是一句话, 从而写出 :ref:`行为驱动样式` 的测试用例. 详见下面的例子. 注意, 其中的前缀 :name:`Given`, :name:`When` 和 :name:`Then` :ref:`并不是关键字名称的一部分 <ignore given/when/then/and/but prefixes>`.
 
 .. sourcecode:: robotframework
 
@@ -446,26 +446,24 @@ __ Escaping_
        Should Be Equal    ${result}    ${expected}
 
 .. note:: Embedded arguments feature in Robot Framework is inspired by
-          how *step definitions* are created in a popular BDD tool Cucumber__.
+          how *step definitions* are created in a popular BDD tool :ref:`Cucumber`.
 
-__ `Ignoring Given/When/Then/And/But prefixes`_
-__ http://cukes.info
 
-.. _User keyword return values:
+.. _Cucumber: http://cukes.info
+
+.. _user keyword return values:
 
 用户关键字返回值
---------------------------
+----------------
 
 和库关键字类似, 用户关键字也可以返回值. 常见的做法是通过 :setting:`[Return]` 设置, 不过还可以使用 BuiltIn_ 关键字 :name:`Return From Keyword` 和 :name:`Return From Keyword If` 来实现. 
 
-不管使用何种方式返回值, 返回值都可以被 `赋值给变量`__
-
-__ `Return values from keywords`_
+不管使用何种方式返回值, 返回值都可以被 :ref:`赋值给变量 <return values from keywords>`
 
 .. Using :setting:`[Return]` setting
 
 设置 :setting:`[Return]` 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 最常见的情况是用户关键字返回一个值, 并且赋值给一个标量变量. 直接将返回值放在 :setting:`[Return]` 设置后面的单元格内.
 
@@ -496,7 +494,7 @@ __ `Return values from keywords`_
 .. _Using special keywords to return:
 
 通过特殊关键字来返回值
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 内置关键字 :name:`Return From Keyword` 和 :name:`Return From Keyword If` 可以在用户关键字中间根据条件来返回值. 这两个关键字都支持返回多个值.
 
@@ -542,9 +540,11 @@ __ `Return values from keywords`_
 
 用户关键字可以通过设置 :setting:`[Teardown]` 定义一个Teardown操作.
 
-关键字的Teardown和 `测试用例的Teardown`__ 的作用一样. 最重要的是, teardown 总是一个单独的关键字(可以是另一个用户关键字), teardown在当前关键字执行失败时也会被调用. 此外, teardown内的所有步骤都会执行到, 即使其中某个步骤失败. 不过, teardown的失败会导致当前用例执行失败, 并且该用例余下的步骤将不再执行. 
+关键字的Teardown和 :ref:`测试用例的Teardown <test setup and teardown>` 的作用一样. 
 
-作为teardown的关键字名称可以是一个变量.
+记住, teardown 总是一个单独的关键字(可以是另一个用户关键字), teardown在当前关键字执行失败时也会被调用. 此外, teardown内的所有步骤都会执行到, 即使其中某个步骤失败. 不过, teardown的失败会导致当前用例执行失败, 并且该用例余下的步骤将不再执行. 
+
+此外, 可以使用变量来给定teardown的关键字名称.
 
 .. sourcecode:: robotframework
 
@@ -557,5 +557,3 @@ __ `Return values from keywords`_
        [Documentation]    Teardown given as variable
        Do Something
        [Teardown]    ${TEARDOWN}
-
-__ `test setup and teardown`_

@@ -738,7 +738,7 @@ Setup或teardown中指定的关键字名称可以使用变量代替. 这样在�
 
 
 
-.. _Behavior-driven style:
+.. _behavior-driven style:
 
 行为驱动型
 ~~~~~~~~~~
@@ -761,7 +761,8 @@ Setup或teardown中指定的关键字名称可以使用变量代替. 这样在�
 .. _specification by example: http://en.wikipedia.org/wiki/Specification_by_example
 __ http://en.wikipedia.org/wiki/Behavior_Driven_Development
 
-.. Ignoring :name:`Given/When/Then/And/But` prefixes
+
+.. _ignore given/when/then/and/but prefixes:
 
 忽略 :name:`Given/When/Then/And/But` 前缀
 '''''''''''''''''''''''''''''''''''''''''

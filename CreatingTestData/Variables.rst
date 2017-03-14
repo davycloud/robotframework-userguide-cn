@@ -316,6 +316,7 @@ Java系统属性
 测试中可用的变量来源于各种不同的地方.
 
 .. _variable table:
+.. _variable tables:
 
 变量表格
 ~~~~~~~~
