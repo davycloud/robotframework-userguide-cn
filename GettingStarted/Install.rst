@@ -169,7 +169,7 @@ robot模块, 如 `C:\\Python27\\python.exe -m robot`.
 如 `http://10.0.0.42:8080`.
 
 使用pip安装
--------------------
+------------
 
 Python标准包管理器是 pip_, 但还有其它的选择, 例如 `Buildout <http://buildout.org>`__ 
 和 `easy_install <http://peak.telecommunity.com/DevCenter/EasyInstall>`__.
@@ -178,7 +178,7 @@ Python标准包管理器是 pip_, 但还有其它的选择, 例如 `Buildout <ht
 最新的Python, Jython和IronPython版本已经捆绑安装了pip.
 
 Python下安装pip
-^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
 
 从2.7.9版本开始, Python的Windows安装包已经默认会安装并激活pip. 如果你已经设置完了环境变量,
 那么就直接运行 `pip install robotframework`
@@ -304,6 +304,8 @@ Robot Framework 使用 Python 标准的 ``setup.py`` 脚本来执行安装. 该�
 ``setup.py`` 可以接受若干参数, 例如, 安装到其它不需要管理员权限的路径.
 具体帮助请运行 `python setup.py --help` .
 
+.. _standalone JAR distribution:
+
 独立的JAR包安装
 -------------------
 
@@ -385,7 +387,7 @@ Robot Framework `运行脚本`_ 则创建并被拷贝到另一个平台相关的
 则找到文件安装路径, 将其手动删除即可
 
 升级
----------
+-----
 
 如果使用 pip_, 升级到某个新版本可以带上  `--upgrade` 选项, 或者直接指定
 这个版本号:
@@ -404,7 +406,9 @@ Robot Framework `运行脚本`_ 则创建并被拷贝到另一个平台相关的
 在升级一个大版本前, 最好先仔细学习下发布说明.
 
 运行 Robot Framework
--------------------------
+---------------------
+
+.. _runner script:
 
 使用 ``robot`` 和 ``rebot`` 脚本
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -425,8 +429,11 @@ Robot Framework `运行脚本`_ 则创建并被拷贝到另一个平台相关的
 执行测试, 使用 ``jyrebot`` 和 ``ipyrebot`` 处理测试输出. 这些脚本现在仍能工作,
 不过将在未来的版本中废弃并删除.
 
+
+.. _executing installed robot module:
+
 执行安装的 ``robot`` 模块
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 执行测试的另一种方式是使用Python的 `-m 命令行选项`__ 直接调用 ``robot`` 模块, 
 或者子模块 ``robot.run``. 这种方法在同时使用多Python版本时非常有用.
@@ -449,9 +456,10 @@ Robot Framework `运行脚本`_ 则创建并被拷贝到另一个平台相关的
 
 __ https://docs.python.org/2/using/cmdline.html#cmdoption-m
 
+.. _executing installed robot directory:
 
 执行安装的 ``robot`` 目录
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 如果你知道Robot Framework安装到了哪里, 还可以直接运行 :file:`robot` 路径
 或者其中的文件 :file:`run.py`, 执行方法是:

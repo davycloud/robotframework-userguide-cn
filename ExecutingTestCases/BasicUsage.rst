@@ -28,7 +28,7 @@ Robot Framework 中的测试用例通过命令行执行, 执行的结果默认�
     python|jython|ipy path/to/robot/ [options] data_sources
     java -jar robotframework.jar [options] data_sources
 
-测试的执行通常是使用 ``robot`` 这个 :ref:`runner script` 启动. 此外还可以通过Python解释器直接运行安装的 :ref:`robot module <executing installed robot module>` 或 :ref:`robot directory <executing installed robot directory>`. 最后还可以使用 :ref:`standalone JAR distribution`.
+测试的执行通常是使用 ``robot`` 这个 :ref:`执行脚本 <runner script>` 启动.  此外还可以通过Python解释器直接运行安装的 :ref:`robot module <executing installed robot module>` 或 :ref:`robot directory <executing installed robot directory>`. 最后还可以使用 :ref:`standalone JAR distribution`.
 
 .. note:: Robot Framework 3.0版本之前并没有 ``robot`` 脚本, 而是针对不同的解释器,
           Python, Jython和IronPython, 分别使用 ``pybot``, ``jybot`` 和 ``ipybot``. 这些脚本目前还保留, 不过计划在未来的版本中逐渐废弃.
@@ -226,7 +226,7 @@ Robot Framework提供了为数不少的命令行选项用来控制测试用例�
 
 命令行输出内容非常有限, 所以通常需要单独的输出文件用来检查测试的结果. 如上例所示, 默认生成3个输出文件. 首先是一个XML格式的文件, 包含了关于测试执行的所有信息. 第二个文件是一个高层的报告文件, 第三个文件则是详细的日志文件. 这些文件和其它可能是输出文件将在 :ref:`different output files` 中详细讨论.
 
-.. Return codes
+.. _return codes:
 
 返回码
 ~~~~~~

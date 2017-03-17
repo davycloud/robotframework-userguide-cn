@@ -1,4 +1,8 @@
-.. Test execution
+.. role:: name(emphasis)
+.. role:: setting(emphasis)
+
+
+.. _test execution:
 
 测试执行
 ========
@@ -31,7 +35,7 @@
 .. _setups and teardowns:
 
 Setups和Teardowns
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 Setups和Teardowns可以用在 :ref:`测试套件 <test setup and teardown>`, :ref:`测试用例 <suite setup and teardown>` 和 :ref:`用户关键字 <user keyword teardown>` 级别.
 
@@ -54,9 +58,8 @@ Setups和Teardowns可以用在 :ref:`测试套件 <test setup and teardown>`, :r
 
 如果teardown失败, 所有的用例都将在随后的测试报告和日志中标记为失败.
 
-套件的teardown经常被用作最后清理测试环境的步骤. 为了确保所有的任务都已经结束, teardown内的所有关键字都会被执行, 即使其中有失败的情况.
+套件的teardown经常被用作最后清理测试环境的步骤. 为了确保所有的任务都已经结束, teardown内的 :ref:`所有关键字都会被执行 <continue on failure>`, 即使其中有失败的情况.
 
-__ `Continue on failure`_
 
 .. Test setup
 
@@ -79,13 +82,13 @@ __ `Continue on failure`_
 关键字teardown
 ''''''''''''''''
 
-`用户关键字`_ 没有setup, 只能设置teardown, 其作用和其它类型的teardown一样. 关键字的teardown在关键字执行后被执行, 不管关键字执行状态如何, teardown最终会完全执行即使其中有关键字失败的情况.
+:ref:`用户关键字 <user keywords>` 没有setup, 只能设置teardown, 其作用和其它类型的teardown一样. 关键字的teardown在关键字执行后被执行, 不管关键字执行状态如何, teardown最终会完全执行即使其中有关键字失败的情况.
 
 
 .. _execution order:
 
 执行顺序
-~~~~~~~~~
+~~~~~~~~
 
 一个测试套件文件内的测试用例的执行顺序就是其在文件中定义的顺序. 高层套件内的多个子套件的执行顺序是子套件文件或目录名称按字母顺序, 不分大小写.
 如果通过命令行指定多个文件和(或)目录, 则它们将以给出的顺序执行.
@@ -97,49 +100,44 @@ __ `Continue on failure`_
 
 如果按照字母顺序排列还有问题, 还有一个解决方案是将它们按想要的顺序依次分别列出. 显然在命令行中列出会导致启动命令超长, 不过使用 :ref:`argument files` 就刚好解决问题, 其中每行列出一个文件.
 
-除了固定的顺序外, 还可以使用 :option:`--randomize` 选项使 :ref:`执行顺序随机化 <>`.
+除了固定的顺序外, 还可以使用 :option:`--randomize` 选项使 :ref:`执行顺序随机化 <randomizing execution order>`.
 
-__ `Randomizing execution order`_
 
 .. Passing execution
 
 跳过执行
-~~~~~~~~~~~~~~~~~
+~~~~~~~~
 
 通常情况下, 用例以及setup和teardown执行通过的标准是其中包含的所有的关键字都执行无错. 从Robot Framework 2.8版本开始, 还可以通过 BuiltIn_ 关键字 :name:`Pass Execution` 和 :name:`Pass Execution If` 以PASS状态结束执行, 同时跳过剩下的关键字.
 
 关键字 :name:`Pass Execution` and :name:`Pass Execution If` 在不同条件下的行为如下:
 
-- 当在 :ref:`setup 或 teardown <>` (不管是套件的,用例的还是关键字的)中使用, 将使setup或 
+- 当在 :ref:`setup 或 teardown <setups and teardowns>` (不管是套件的,用例的还是关键字的)中使用, 将使setup或 
   teardown通过. 如果开始的关键字有teardown, 将会执行. 用例的执行和状态不受影响. 
 
 - 当在测试用例中(setup和teardown之外)使用, 当前用例直接pass. 
   如果用例或关键字有teardown, teardown仍会被执行.
 
-- 如果 :ref:`可继续的失败 <>` 在这些关键字之前发生,
+- 如果 :ref:`可继续的失败 <continue on failure>` 在这些关键字之前发生,
   而且在随后的teardown执行中发生了失败, 则整个执行结果标记为失败.
 
 - 调用这两个关键字时必须要给出中断执行的理由, 同时还可以修改测试用例的标签.
-  更多的细节和示例请参考 :ref:`它们的文档 <>`.
+  更多的细节和示例请参考 :ref:`它们的文档 <BuiltIn>`.
 
-在测试用例以及setup或teardown的中间跳过执行需要谨慎. 在最坏的情况下, 这可能会导致测试跳过了可能发生问题的地方(因为最终状态是PASS, 所以不会引起注意). 如果是因为外部因素导致测试无法继续, 更安全的做法是将用例置为 :ref:`non-critical <>`, 然后失败(fail).
+在测试用例以及setup或teardown的中间跳过执行需要谨慎. 在最坏的情况下, 这可能会导致测试跳过了可能发生问题的地方(因为最终状态是PASS, 所以不会引起注意). 如果是因为外部因素导致测试无法继续, 更安全的做法是将用例置为 :ref:`non-critical <setting criticality>`, 然后失败(fail).
 
-__ `Setups and teardowns`_
-__ `Continue on failure`_
-__ `BuiltIn`_
-__ `Setting criticality`_
 
-.. Continue on failure
+.. _continue on failure:
 
 失败后继续
--------------------
+----------
 
 通常测试用例在任意关键字失败后都会立即终止. 这种行为可以缩短测试执行时间, 防止后续的关键字挂住(hanging), 避免引发其它问题. 然而这么做也有缺点, 因为有时候后续的关键字可以给予更多的系统状态相关的信息. 因此Robot Framework提供了若干特性功能, 使得在发生失败后能继续执行.
 
 .. :name:`Run Keyword And Ignore Error` and :name:`Run Keyword And Expect Error` keywords
 
 通过内置关键字
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 内置关键字 :name:`Run Keyword And Ignore Error` 和 :name:`Run Keyword And Expect Error` 可以处理关键字执行失败的情况, 这样测试就不会立即终止. 
 
@@ -148,9 +146,9 @@ __ `Setting criticality`_
 .. Special failures from keywords
 
 特殊的失败类型
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
-`库关键字`_ 是通过抛异常来报告失败, 所以可以使用特殊的异常来告诉框架, 发生了这个失败是可以继续执行的. 如何创建此种异常在 :ref:`测试库API <>` 章节中说明.
+:ref:`库关键字 <library keywords>` 是通过抛异常来报告失败, 所以可以使用特殊的异常来告诉框架, 发生了这个失败是可以继续执行的. 如何创建此种异常在 :ref:`测试库API章节 <continuing test execution despite of failures>` 中说明.
 
 当用例结束时, 如果中间发生了一次或多次可继续的失败, 当前用例将标记为失败. 如果是多次失败, 则最终的错误信息里将把所有失败都列出来::
 
@@ -162,9 +160,8 @@ __ `Setting criticality`_
 
 如果在一个可继续的失败后又发生了一个正常失败, 用例会结束, 同时所有的失败都会被列入最后的错误信息中. 
 
-如果要将关键字的返回值赋给变量, 遇到该关键字失败, 则最终返回值将总是 `None`.
+如果要将关键字的返回值赋给变量, 遇到该关键字失败, 则最终返回值将总是 ``None``.
 
-__ `Continuing test execution despite of failures`_
 
 .. :name:`Run Keyword And Continue On Failure` keyword
 
@@ -176,86 +173,83 @@ __ `Continuing test execution despite of failures`_
 .. Execution continues on teardowns automatically
 
 teardown总是继续
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
-为了确保所有的清理任务都被照顾到, :ref:`用例和套件的teardown` 在失败发生时总是会自动继续执行. 也就是说, teardown中的所有关键字, 不管什么层次, 最终总是会全部执行到.
+为了确保所有的清理任务都被照顾到, :ref:`用例和套件的teardown <setups and teardowns>` 在失败发生时总是会自动继续执行. 也就是说, teardown中的所有关键字, 不管什么层次, 最终总是会全部执行到.
 
-__ `Setups and teardowns`_
 
 .. All top-level keywords are executed when tests have templates
 
 用例模板所有顶层关键字
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
-当使用 :ref:`测试模板` 时, 所有的数据行都会被执行到, 以确保所有的数据组合都被测试到. 这种用法仅限于顶层关键字, 也就是说, 如果这些关键字中间发生了不可继续执行的错误, 这个过程还是会和正常的一样结束.
+当使用 :ref:`测试模板 <test templates>` 时, 所有的数据行都会被执行到, 以确保所有的数据组合都被测试到. 这种用法仅限于顶层关键字, 也就是说, 如果这些关键字中间发生了不可继续执行的错误, 这个过程还是会和正常的一样结束.
 
 .. Stopping test execution gracefully
 
 优雅地结束测试执行
-----------------------------------
+------------------
 
 有时候需要在所有测试结束前中断执行, 同时还需要生成日志和报告. 下面就介绍几种不同的方法, 在所有这些情况中, 剩下的用例都会标记为失败.
 
-从Robot Framework 2.9版本开始, 由于前面发生致命错误而自动置为失败的用例在报告中将被打上 `robot-exit` 标签, 同时其它的用例 `NOT robot-exit` :ref:`combined tag pattern <>`  标签, 这样可以轻松的看出哪些用例被跳过了. 注意导致退出发生的那个用例本身不会打上 `robot-exit` 标签.
+从Robot Framework 2.9版本开始, 由于前面发生致命错误而自动置为失败的用例将被打上 ``robot-exit`` 标签, 同时在报告中包含 ``NOT robot-exit`` :ref:`标签模式 <generating combined tag statistics>`, 这样可以轻松的看出哪些用例被跳过了. 注意导致退出发生的那个用例本身不会打上 ``robot-exit`` 标签.
 
-Starting from Robot Framework 2.9 the tests that are automatically failed get
-`robot-exit` tag and the generated report will include `NOT robot-exit`
-`combined tag pattern`__ to easily see those tests that were not skipped. Note
-that the test in which the exit happened does not get the `robot-exit` tag.
+.. Starting from Robot Framework 2.9 the tests that are automatically failed get
+.. `robot-exit` tag and the generated report will include `NOT robot-exit`
+.. `combined tag pattern`__ to easily see those tests that were not skipped. Note
+.. that the test in which the exit happened does not get the `robot-exit` tag.
 
 __ `Generating combined tag statistics`_
 
 .. Pressing `Ctrl-C`
 
-按下 `Ctrl-C`
-~~~~~~~~~~~~~~~~~
+按下 ``Ctrl-C``
+~~~~~~~~~~~~~~~~
 
-当测试运行时, 在控制台中按下 `Ctrl-C` 会使得测试中断执行. 如果测试是运行在Python上的, 执行将立即停止, 而使用Jython时, 将在当前正在运行的关键字结束后再结束.
+当测试运行时, 在控制台中按下 ``Ctrl-C`` 会使得测试中断执行. 如果测试是运行在Python上的, 执行将立即停止, 而使用Jython时, 将在当前正在运行的关键字结束后再结束.
 
-如果很快地再次按下 `Ctrl-C`, 整个执行将立即停止, 并且报告和日志文件都不会生成.
+如果很快地再次按下 ``Ctrl-C``, 整个执行将立即停止, 并且报告和日志文件都不会生成.
 
 .. Using signals
 
 使用信号
-~~~~~~~~~~~~~
+~~~~~~~~
 
-只有在类Unix系统中才能使用信号 `INT` 和 `TERM` 来终止测试执行. 这些信号可以在命令行中通过使用 ``kill`` 命令发送给进程.
+只有在类Unix系统中才能使用信号 ``INT`` 和 ``TERM`` 来终止测试执行. 这些信号可以在命令行中通过使用 ``kill`` 命令发送给进程.
 
-发送信号的方式在使用Jython时和 按`Ctrl-C` 有同样的限制. 并且类似地, 再次发送信号将强行终止整个执行.
+发送信号的方式在使用Jython时和 按 ``Ctrl-C`` 有同样的限制. 并且类似地, 再次发送信号将强行终止整个执行.
 
 .. Using keywords
 
 使用关键字
-~~~~~~~~~~~~~~
+~~~~~~~~~~
 
-测试执行的停止还可以通过调用关键字来实现. BuiltIn_ 关键字 :name:`Fatal Error` 用于这种目的. 用户自定义的关键字可以使用 :ref:`fatal exceptions <>`.
+测试执行的停止还可以通过调用关键字来实现. BuiltIn_ 关键字 :name:`Fatal Error` 用于这种目的. 用户自定义的关键字可以使用 :ref:`fatal exceptions <stopping test execution>`.
 
-__ `Stopping test execution`_
 
 .. Stopping when first test case fails
 
 用例失败即停
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~
 
 如果设置了选项 :option:`--exitonfailure`, 则任意一个 :ref:`critical test` 失败都将导致整个测试执行停止, 同样地, 其它剩下的用例会被标记为失败.
 
 .. Stopping on parsing or execution error
 
 解析或执行错误
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 Robot Framework分开对待关键字执行 *失败* (failures)和执行 *错误* (error)的情况, 
 失败是指关键字执行没有通过, 而错误是指非法设置或者库导入错误. 
-默认情况下, 这些错误会显示在 :ref:`test execution errors <>`, 但是这些错误本身是不会使用例失败和影响执行的(当然是在错误和用例不相关的时候). 如果设置了选项 :option:`--exitonerror`, 则一旦有错误发生, 整个执行将停止, 并且剩下的所有测试用例会标记为失败. 因为解析错误发生在测试执行前, 也就意味着实际上没有用例会真正运行.
+默认情况下, 这些错误会显示在 :ref:`测试执行错误区 <errors and warnings during execution>`, 但是这些错误本身是不会使用例失败和影响执行的(当然是在错误和用例不相关的时候). 如果设置了选项 :option:`--exitonerror`, 则一旦有错误发生, 整个执行将停止, 并且剩下的所有测试用例会标记为失败. 因为解析错误发生在测试执行前, 也就意味着实际上没有用例会真正运行.
 
 .. note:: :option:`--exitonerror` is new in Robot Framework 2.8.6.
 
-__ `Errors and warnings during execution`_
 
 .. Handling teardowns
 
 处理teardown
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 默认情况下, 已经开始运行的用例或套件的teardown总是会执行, 即使测试执行使用了上述的方法来中止了. 这样做可以保证不错过清理任务.
 
