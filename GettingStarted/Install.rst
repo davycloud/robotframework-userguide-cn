@@ -171,8 +171,8 @@ robot模块, 如 `C:\\Python27\\python.exe -m robot`.
 使用pip安装
 ------------
 
-Python标准包管理器是 pip_, 但还有其它的选择, 例如 `Buildout <http://buildout.org>`__ 
-和 `easy_install <http://peak.telecommunity.com/DevCenter/EasyInstall>`__.
+Python标准包管理器是 pip_, 但还有其它的选择, 例如 :ref:`Buildout <http://buildout.org>` 
+和 :ref:`easy_install <http://peak.telecommunity.com/DevCenter/EasyInstall>`.
 本章节只覆盖使用pip的情况, 其它包管理器应该也可以用来安装Robot Framework.
 
 最新的Python, Jython和IronPython版本已经捆绑安装了pip.
@@ -181,7 +181,7 @@ Python下安装pip
 ^^^^^^^^^^^^^^^^^
 
 从2.7.9版本开始, Python的Windows安装包已经默认会安装并激活pip. 如果你已经设置完了环境变量,
-那么就直接运行 `pip install robotframework`
+那么就直接运行 ``pip install robotframework``
 
 Windows之外的系统, 或者比较老的Python版本, 需要自己安装pip. Linux系统可能使用系统的包管理器
 比如 Apt 或者 Yum 安装, 当然也可以参考 pip_ 主页上的指导手册进行操作.
@@ -195,7 +195,7 @@ Windows之外的系统, 或者比较老的Python版本, 需要自己安装pip. L
     python3 -m pip install robotframework
 
 Jython下安装pip
-^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
 Jython 2.7 包含了 pip, 但是在使用前需要激活, 使用下面的命令:
 
