@@ -243,72 +243,59 @@ Example::
 配置统计
 --------
 
-There are several command line options that can be used to configure
-and adjust the contents of the :name:`Statistics by Tag`, :name:`Statistics
-by Suite` and :name:`Test Details by Tag` tables in different output
-files. All these options work both when executing test cases and when
-post-processing outputs.
+有几个命令行选项可用来配置和调整输出文件中统计相关的内容, 包括 :name:`Statistics by Tag`, :name:`Statistics by Suite` 和 :name:`Test Details by Tag` 表格. 所有这些选项都可同时用于测试执行和后处理输出.
 
-Configuring displayed suite statistics
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. Configuring displayed suite statistics
 
-When a deeper suite structure is executed, showing all the test suite
-levels in the :name:`Statistics by Suite` table may make the table
-somewhat difficult to read. By default all suites are shown, but you can
-control this with the command line option :option:`--suitestatlevel` which
-takes the level of suites to show as an argument::
+配置测试套件统计
+~~~~~~~~~~~~~~~~
+
+当一个层次较深的测试套件被执行后, 要在 :name:`Statistics by Suite` 表中显示所有的测试套件级别会让表格变得很难看. 默认情况下所有的测试套件都显示, 但是可以通过命令行选项 :option:`--suitestatlevel` 来控制, 该选项接受的参数值表示套件的级别::
 
     --suitestatlevel 3
 
-Including and excluding tag statistics
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. Including and excluding tag statistics
 
-When many tags are used, the :name:`Statistics by Tag` table can become
-quite congested. If this happens, the command line options
-:option:`--tagstatinclude` and :option:`--tagstatexclude` can be
-used to select which tags to display, similarly as
-:option:`--include` and :option:`--exclude` are used to `select test
-cases`__::
+包括和排除标签统计
+~~~~~~~~~~~~~~~~~~
+
+如果使用了很多的标签,  :name:`Statistics by Tag` 表也会变得非常拥挤. 命令行选项 :option:`--tagstatinclude` 和 :option:`--tagstatexclude` 可被用来选择哪些标签要展示或不展示. 类似于选项 :option:`--include` and :option:`--exclude` 被用来 :ref:`选择测试用例 <by tag names>`::
 
    --tagstatinclude some-tag --tagstatinclude another-tag
    --tagstatexclude owner-*
    --tagstatinclude prefix-* --tagstatexclude prefix-13
 
-__ `By tag names`_
 
-Generating combined tag statistics
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. Generating combined tag statistics
 
-The command line option :option:`--tagstatcombine` can be used to
-generate aggregate tags that combine statistics from multiple
-tags. The combined tags are specified using :ref:`tag patterns` where
-`*` and `?` are supported as wildcards and `AND`,
-`OR` and `NOT` operators can be used for combining
-individual tags or patterns together.
+生成组合标签统计
+~~~~~~~~~~~~~~~~
 
-The following examples illustrate creating combined tag statistics using
-different patterns, and the figure below shows a snippet of the resulting
-:name:`Statistics by Tag` table::
+命令行选项 :option:`--tagstatcombine` 可用来生成标签集合, 将多个标签的统计组合起来. 
+
+标签组合使用 :ref:`tag patterns` 指定, 其中 ``*`` 和 ``?`` 作为通配符, 并可使用 ``AND``, ``OR`` 和 ``NOT`` 操作符将单个标签或模式结合起来.  
+
+下面的例子展示了使用不同的模式来组合标签统计, 下面的图片显示了结果的 :name:`Statistics by Tag` 表的片段::
 
     --tagstatcombine owner-*
     --tagstatcombine smokeANDmytag
     --tagstatcombine smokeNOTowner-janne*
 
-.. figure:: src/ExecutingTestCases/tagstatcombine.png
+.. figure:: ./tagstatcombine.png
    :width: 550
 
    Examples of combined tag statistics
 
-As the above example illustrates, the name of the added combined statistic
-is, by default, just the given pattern. If this is not good enough, it
-is possible to give a custom name after the pattern by separating them
-with a colon (`:`). Possible underscores in the name are converted
-to spaces::
+如上所示, 添加的组合统计的名字默认就是给出的模式. 如果这样还不够, 还可以自定义名字, 在模式的后面用冒号(``:``)分隔紧接着跟上名字. 名字中的下划线会被转换为空格::
 
     --tagstatcombine prio1ORprio2:High_priority_tests
 
-Creating links from tag names
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. Creating links from tag names
+
+标签统计链接
+~~~~~~~~~~~~
+
+使用命令行选项 :option:`--tagstatlink` 可以在 :name:`Statistics by Tag` 表格中添加外部链接. 该选项的参数值的格式是 ``tag:link:name``, 其中
 
 You can add external links to the :name:`Statistics by Tag` table by
 using the command line option :option:`--tagstatlink`. Arguments to this
@@ -330,7 +317,7 @@ Tag` table when example test data is executed with these options::
     --tagstatlink jython-bug-*:http://bugs.jython.org/issue_%1:Jython-bugs
     --tagstatlink owner-*:mailto:%1@domain.com?subject=Acceptance_Tests:Send_Mail
 
-.. figure:: src/ExecutingTestCases/tagstatlink.png
+.. figure:: ./tagstatlink.png
    :width: 550
 
    Examples of links from tag names
