@@ -295,23 +295,12 @@ Example::
 标签统计链接
 ~~~~~~~~~~~~
 
-使用命令行选项 :option:`--tagstatlink` 可以在 :name:`Statistics by Tag` 表格中添加外部链接. 该选项的参数值的格式是 ``tag:link:name``, 其中
+使用命令行选项 :option:`--tagstatlink` 可以在 :name:`Statistics by Tag` 表格中添加外部链接. 该选项的参数值的格式是 ``tag:link:name``, 其中 ``tag`` 是要添加链接的标签, ``link`` 是要创建的链接, ``name`` 是链接的名字.
 
-You can add external links to the :name:`Statistics by Tag` table by
-using the command line option :option:`--tagstatlink`. Arguments to this
-option are given in the format `tag:link:name`, where `tag`
-specifies the tags to assign the link to, `link` is the link to
-be created, and `name` is the name to give to the link.
+``tag`` 可以是单个标签, 但更多时候是使用 :ref:`simple pattern`, ``*`` 匹配任意内容, ``?`` 匹配任意的单个字符. 当 ``tag`` 是一个模式时, 通配符匹配的内容可以在 ``link`` 和 ``title`` 使用 ``%N`` 替代, 其中"N"是从1开始计数的匹配序号.
 
-`tag` may be a single tag, but more commonly a `simple pattern`_
-where `*` matches anything and `?` matches any single
-character. When `tag` is a pattern, the matches to wildcards may
-be used in `link` and `title` with the syntax `%N`,
-where "N" is the index of the match starting from 1.
+下面的例子展示了该选项的用法, 下面的图片展示了使用这些选项执行测试后的 :name:`Statistics by Tag` 表的结果片段::
 
-The following examples illustrate the usage of this option, and the
-figure below shows a snippet of the resulting :name:`Statistics by
-Tag` table when example test data is executed with these options::
 
     --tagstatlink mytag:http://www.google.com:Google
     --tagstatlink jython-bug-*:http://bugs.jython.org/issue_%1:Jython-bugs
@@ -322,179 +311,147 @@ Tag` table when example test data is executed with these options::
 
    Examples of links from tag names
 
-Adding documentation to tags
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. Adding documentation to tags
 
-Tags can be given a documentation with the command line option
-:option:`--tagdoc`, which takes an argument in the format
-`tag:doc`. `tag` is the name of the tag to assign the
-documentation to, and it can also be a :ref:`simple pattern` matching
-multiple tags. `doc` is the assigned documentation. Underscores
-in the documentation are automatically converted to spaces and it
-can also contain :ref:`HTML formatting`.
+给标签添加文档
+~~~~~~~~~~~~~~
 
-The given documentation is shown with matching tags in the :name:`Test
-Details by Tag` table, and as a tool tip for these tags in the
-:name:`Statistics by Tag` table. If one tag gets multiple documentations,
-they are combined together and separated with an ampersand.
+标签可以使用命令行选项 :option:`--tagdoc` 给定文档, 该选项的参数格式是 ``tag:doc``. 其中 `tag` 是标签的名字, 也可以是表示多个标签的 :ref:`simple pattern`. `doc` 是要指定的文档. 文档中的下划线自动转为空格, 并且文档中可以包含 :ref:`HTML formatting`.
 
-Examples::
+给定的文档将和匹配的标签在 :name:`Test Details by Tag` 表格中展示, 同时在 :name:`Statistics by Tag` 表格中作为这些标签的提示. 
+
+如果一个标签有多个文档, 则这些文档将使用 ``&`` 连在一起.
+
+示例::
 
     --tagdoc mytag:My_documentation
     --tagdoc regression:*See*_http://info.html
     --tagdoc owner-*:Original_author
 
-Removing and flattening keywords
---------------------------------
+.. Removing and flattening keywords
 
-Most of the content of :ref:`output files` comes from keywords and their
-log messages. When creating higher level reports, log files are not necessarily
-needed at all, and in that case keywords and their messages just take space
-unnecessarily. Log files themselves can also grow overly large, especially if
-they contain :ref:`for loops` or other constructs that repeat certain keywords
-multiple times.
+Remove和Flatten关键字
+----------------------
 
-In these situations, command line options :option:`--removekeywords` and
-:option:`--flattenkeywords` can be used to dispose or flatten unnecessary keywords.
-They can be used both when :ref:`executing test cases` and when :ref:`post-processing
-outputs`. When used during execution, they only affect the log file, not
-the XML output file. With `rebot` they affect both logs and possibly
-generated new output XML files.
+:ref:`output files` 大部分的内容来自于关键字和它们的日志消息. 当创建更高层的报告时, 日志文件完全可以忽略, 这时关键字和它们的消息只是占用无谓的空间. 日志文件本身也有可能会变得非常庞大, 特别是其中包含了 :ref:`for loops`, 或者是其它重复执行多次某个关键字的结构.
 
-Removing keywords
-~~~~~~~~~~~~~~~~~
+这种情况下, 命令行选项 :option:`--removekeywords` 和 :option:`--flattenkeywords` 可被用来丢弃或压平(flatten)非必要的关键字.
 
-The :option:`--removekeywords` option removes keywords and their messages
-altogether. It has the following modes of operation, and it can be used
-multiple times to enable multiple modes. Keywords that contain `errors
-or warnings`__ are not removed except when using the `ALL` mode.
+这两个选项都可用在 :ref:`executing test cases` 和 :ref:`post-processing outputs`. 当用在测试执行时, 只影响日志文件, 不影响XML输出文件. 而用在 ``rebot`` 命令时, 日志文件和可能新建的XML文件都会影响.
 
-`ALL`
-   Remove data from all keywords unconditionally.
+.. _removing keywords:
 
-`PASSED`
-   Remove keyword data from passed test cases. In most cases, log files
-   created using this option contain enough information to investigate
-   possible failures.
+Remove关键字
+~~~~~~~~~~~~~
 
-`FOR`
-   Remove all passed iterations from :ref:`for loops` except the last one.
+选项 :option:`--removekeywords` 将关键字连同它们的消息一起删除. 该选项可以有以下几种操作模式, 并且可以指定多次来启用多种模式. 包含了 :ref:`错误和警告 <errors and warnings>` 的关键字不会删除, 除非使用的是 ``ALL`` 模式.
 
-`WUKS`
-   Remove all failing keywords inside BuiltIn_ keyword
-   :name:`Wait Until Keyword Succeeds` except the last one.
+``ALL``
+   无条件地删除所有关键字的数据
 
-`NAME:<pattern>`
-   Remove data from all keywords matching the given pattern regardless the
-   keyword status. The pattern is
-   matched against the full name of the keyword, prefixed with
-   the possible library or resource file name. The pattern is case, space, and
-   underscore insensitive, and it supports :ref:`simple patterns` with `*`
-   and `?` as wildcards.
+``PASSED``
+   删除成功通过的测试用例的关键字. 大多数情况下, 使用该选项创建的日志文件包含了足够信息来调查可能的故障.
 
-`TAG:<pattern>`
-   Remove data from keywords with tags that match the given pattern. Tags are
-   case and space insensitive and they can be specified using `tag patterns`_
-   where `*` and `?` are supported as wildcards and `AND`, `OR` and `NOT`
-   operators can be used for combining individual tags or patterns together.
-   Can be used both with `library keyword tags`__ and :ref:`user keyword tags`.
+``FOR``
+   删除 :ref:`for loops` 所有通过的迭代, 除了最后一个.
 
-Examples::
+``WUKS``
+   删除在内置关键字 :name:`Wait Until Keyword Succeeds` 之中失败的关键字, 除了最后一个.
+
+``NAME:<pattern>``
+   删除所有匹配模式的关键字数据, 不管该关键字的状态是什么. 模式匹配针对关键字的全名, 也就是说可能包括了库名或资源文件名的前缀. 模式不区分大小写, 并且忽略空格和下划线, 并且支持 :ref:`simple patterns`, 可使用 ``*`` 和 ``?`` 做通配符.
+
+``TAG:<pattern>``
+   删除所有标签匹配上给定模式的关键字数据. 标签对大小写和空格都不敏感, 并且可以使用 :ref:`tag patterns`, 也就是说可以使用 ``*`` 和 ``?`` 做通配符, 以及 ``AND``, ``OR`` 和 ``NOT`` 操作符. :ref:`库关键字的标签 <keyword tags>` 和 :ref:`user keyword tags` 都可以.
+
+
+示例::
 
    rebot --removekeywords all --output removed.xml output.xml
    robot --removekeywords passed --removekeywords for tests.robot
    robot --removekeywords name:HugeKeyword --removekeywords name:resource.* tests.robot
    robot --removekeywords tag:huge tests.robot
 
-Removing keywords is done after parsing the :ref:`output file` and generating
-an internal model based on it. Thus it does not reduce memory usage as much
-as :ref:`flattening keywords`.
+删除关键字是在解析完 :ref:`output file` 并且生成了内部模型之后. 所以不会像 :ref:`flattening keywords` 那样减少对内存的占用.
 
-__ `Errors and warnings`_
-__ `Keyword tags`_
+.. note:: 在执行测试时可用选项 :option:`--removekeywords` 
+          以及 `FOR` 和 `WUKS` 两种模式是在 Robot Framework 2.7 新增.
 
-.. note:: The support for using :option:`--removekeywords` when executing tests
-          as well as `FOR` and `WUKS` modes were added in Robot
-          Framework 2.7.
+.. note:: `NAME:<pattern>` 模式在 Robot Framework 2.8.2 版本新增, 
+          `TAG:<pattern>` 在 2.9 版本新增.
 
-.. note:: `NAME:<pattern>` mode was added in Robot Framework 2.8.2 and
-          `TAG:<pattern>` in 2.9.
 
-Flattening keywords
-~~~~~~~~~~~~~~~~~~~
+.. _flattening keywords:
 
-The :option:`--flattenkeywords` option flattens matching keywords. In practice
-this means that matching keywords get all log messages from their child
-keywords, recursively, and child keywords are discarded otherwise. Flattening
-supports the following modes:
+Flatten关键字
+~~~~~~~~~~~~~~
 
-`FOR`
+选项 :option:`--flattenkeywords` 将匹配的关键字"压平", 也就是说, 只保留该关键字全部的日志消息, 包括所有子关键字(递归)的日志, 而子关键字自身则都被丢弃. 
+
+.. this means that matching keywords get all log messages from their child
+.. keywords, recursively, and child keywords are discarded otherwise. Flattening
+.. supports the following modes:
+
+Flatten支持以下几种模式:
+
+``FOR``
    Flatten :ref:`for loops` fully.
 
-`FORITEM`
+``FORITEM``
    Flatten individual for loop iterations.
 
-`NAME:<pattern>`
-   Flatten keywords matching the given pattern. Pattern matching rules are
-   same as when :ref:`removing keywords` using `NAME:<pattern>` mode.
+``NAME:<pattern>``
+   压平匹配模式的关键字. 模式匹配的规则和 :ref:`removing keywords` 和 `NAME:<pattern>` 模式一样.
 
-`TAG:<pattern>`
-   Flatten keywords with tags matching the given pattern. Pattern matching
-   rules are same as when :ref:`removing keywords` using `TAG:<pattern>` mode.
+``TAG:<pattern>``
 
-Examples::
+   压平标签匹配上的关键字, 规则和 :ref:`removing keywords` 的 `TAG:<pattern>` 模式一样.
+
+示例::
 
    robot --flattenkeywords name:HugeKeyword --flattenkeywords name:resource.* tests.robot
    rebot --flattenkeywords foritem --output flattened.xml original.xml
 
-Flattening keywords is done already when the :ref:`output file` is parsed
-initially. This can save a significant amount of memory especially with
-deeply nested keyword structures.
+压平关键字是在 :ref:`output file` 初始解析之前就已经完成, 所以可以节约大量的内存, 特别是当关键字嵌套比较深的时候.
+
 
 .. note:: Flattening keywords is a new feature in Robot Framework 2.8.2, `FOR`
           and `FORITEM` modes were added in 2.8.5 and `TAG:<pattern>` in 2.9.
 
-Setting start and end time of execution
----------------------------------------
+.. _setting start and end time of execution:
 
-When :ref:`combining outputs` using Rebot, it is possible to set the start
-and end time of the combined test suite using the options :option:`--starttime`
-and :option:`--endtime`, respectively. This is convenient, because by default,
-combined suites do not have these values. When both the start and end time are
-given, the elapsed time is also calculated based on them. Otherwise the elapsed
-time is got by adding the elapsed times of the child test suites together.
+设置执行的起始和结束时间
+------------------------
 
-It is also possible to use the above mentioned options to set start and end
-times for a single suite when using Rebot.  Using these options with a
-single output always affects the elapsed time of the suite.
+.. hint:: 译注: 没太明白这个选项有什么作用, 待测试后理解了再补充.
 
-Times must be given as timestamps in the format `YYYY-MM-DD
-hh:mm:ss.mil`, where all separators are optional and the parts from
-milliseconds to hours can be omitted. For example, `2008-06-11
-17:59:20.495` is equivalent both to `20080611-175920.495` and
-`20080611175920495`, and also mere `20080611` would work.
 
-Examples::
+
+当使用Rebot来 :ref:`combining outputs` 时, 可以通过设定选项 :option:`--starttime` 和 :option:`--endtime` 来分别指定组合测试套件的开始和结束时间.
+
+默认情况下, 组合的测试套件不包含这两个值. 当给定了这两个值之后, 整个执行的消耗时间也就基于此来计算. 否则只能通过累加子套件的耗时来计算.
+
+该选项也可以用在单个测试套件上, 同样也会影响到测试套件的消耗时间.
+
+时间戳的格式为必须是 ``YYYY-MM-DD hh:mm:ss.mil``, 所有的分隔符都是可选的, 毫秒到小时的部分也是可以忽略的. 例如, ``2008-06-11 17:59:20.495`` 和 ``20080611-175920.495`` 和 ``20080611175920495`` 都是等价的, 仅 ``20080611`` 也可以.
+
+示例::
 
    rebot --starttime 20080611-17:59:20.495 output1.xml output2.xml
    rebot --starttime 20080611-175920 --endtime 20080611-180242 *.xml
    rebot --starttime 20110302-1317 --endtime 20110302-11418 myoutput.xml
 
 .. _pre-Rebot modifier:
+.. _programmatic modification of results:
 
-Programmatic modification of results
-------------------------------------
+结果的编程式修改
+-------------------
 
-If the provided built-in features to modify results are are not enough,
-Robot Framework 2.9 and newer provide a possible to do custom modifications
-programmatically. This is accomplished by creating a model modifier and
-activating it using the :option:`--prerebotmodifier` option.
+如果内置的修改测试结果的功能无法满足需求,  Robot Framework 2.9 以及更新的版本提供了编程式地自定义修改途径. 使用 :option:`--prerebotmodifier` 选项来创建一个模型修改器(model modifier).
 
-This functionality works nearly exactly like :ref:`programmatic modification of
-test data` that can be enabled with the :option:`--prerunmodifier` option.
-The obvious difference is that this time modifiers operate with the
-`result model`_, not the :ref:`running model`. For example, the following modifier
-marks all passed tests that have taken more time than allowed as failed:
+该功能的原理和使用 :option:`--prerunmodifier` 选项来启用 :ref:`programmatic modification of test data` 几乎一样. 明显的区别在于这次修改器操作的是 :ref:`result model` 而不是 :ref:`running model`.
+
+例如, 下面的修改器将所有虽然执行通过但是耗时超过一定限制的测试用例标记为失败:
 
 .. sourcecode:: python
 
@@ -511,8 +468,7 @@ marks all passed tests that have taken more time than allowed as failed:
                 test.status = 'FAIL'
                 test.message = 'Test execution took too long.'
 
-If the above modifier would be in file :file:`ExecutionTimeChecker.py`, it
-could be used, for example, like this::
+假设上面的修改器是保存在文件 :file:`ExecutionTimeChecker.py` 之中, 则像这样指定::
 
     # Specify modifier as a path when running tests. Maximum time is 42 seconds.
     robot --prerebotmodifier path/to/ExecutionTimeChecker.py:42 tests.robot
@@ -521,43 +477,36 @@ could be used, for example, like this::
     # ExecutionTimeChecker.py must be in the module search path.
     rebot --prerebotmodifier ExecutionTimeChecker:3.14 output.xml
 
-If more than one model modifier is needed, they can be specified by using
-the :option:`--prerebotmodifier` option multiple times. When executing tests,
-it is possible to use :option:`--prerunmodifier` and
-:option:`--prerebotmodifier` options together.
+如果需要应用多个模型修改器, 则 :option:`--prerebotmodifier` 可以指定多次.
 
-System log
+当执行测试时, :option:`--prerunmodifier` 和 :option:`--prerebotmodifier` 可以同时使用.
+
+
+.. _system log:
+
+系统日志
 ----------
 
-Robot Framework has its own plain-text system log where it writes
-information about
+Robot Framework 有自己的系统日志, 其中包含的信息主要关于:
 
-   - Processed and skipped test data files
-   - Imported test libraries, resource files and variable files
-   - Executed test suites and test cases
-   - Created outputs
+   - 被处理和被跳过的测试数据文件
+   - 导入的测试库, 资源文件和变量文件
+   - 执行的测试套件和测试用例
+   - 创建的输出
 
-Normally users never need this information, but it can be
-useful when investigating problems with test libraries or Robot Framework
-itself. A system log is not created by default, but it can be enabled
-by setting the environment variable ``ROBOT_SYS:ref:`日志 <log file>`FILE`` so
-that it contains a path to the selected file.
+通常情况下用户永远不需要知道这些信息, 只有在定位测试库的问题, 亦或者是Robot Framework自身的问题时, 才显得有用.
 
-A system log has the same :ref:`log levels` as a normal log file, with the
-exception that instead of `FAIL` it has the `ERROR`
-level. The threshold level to use can be altered using the
-``ROBOT_SYS:ref:`日志 <log file>`LEVEL`` environment variable like shown in the
-example below.  Possible `unexpected errors and warnings`__ are
-written into the system log in addition to the console and the normal
-log file.
+系统日志默认并不会创建, 通过设置环境变量 ``ROBOT_SYSLOG_FILE`` 的值为包含日志的路径名来启用该日志.
+
+系统之日和普通的日志文件拥有一样的 :ref:`log levels`, 例外在于没有 ``FAIL`` 级别, 取而代之的是 ``ERROR`` 级别. 系统日志级别通过环境变量 ``ROBOT_SYSLOG_LEVEL`` 来指定.
+
+可能的 :ref:`未预期的错误和警告 <errors and warnings during execution>` 除了写入控制台和普通日志文件外也会写入系统日志.
 
 .. sourcecode:: bash
 
    #!/bin/bash
 
-   export ROBOT_SYS:ref:`日志 <log file>`FILE=/tmp/syslog.txt
-   export ROBOT_SYS:ref:`日志 <log file>`LEVEL=DEBUG
+   export ROBOT_SYSLOG_FILE=/tmp/syslog.txt
+   export ROBOT_SYSLOG_LEVEL=DEBUG
 
-   robot --name Sys:ref:`日志 <log file>`example path/to/tests
-
-__ `Errors and warnings during execution`_
+   robot --name Syslog_example path/to/tests
