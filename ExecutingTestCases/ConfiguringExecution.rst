@@ -1,4 +1,4 @@
-.. _Configuring execution:
+.. _configuring execution:
 
 测试执行的配置项
 =================
@@ -20,7 +20,7 @@ Robot Framework提供了若干命令行选项用于选择测试用例来执行. 
 .. _by test suite and test case names:
 
 根据套件和用例名称
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 测试套件和测试用例可以按照它们的名字来选择, 分别用到的选项是 :option:`--suite (-s)` 和 :option:`--test (-t)`. 这些选项都可以多次指定, 用来选择多个套件或用例. 选项的参数是大小写无关并且忽略空格, 同时, 还可以使用 :ref:`简单模式` 来匹配多个名字.
 
@@ -406,7 +406,7 @@ Examples::
 .. _Console width:
 
 控制台宽度
-~~~~~~~~~~~~~
+~~~~~~~~~~
 
 使用选项 :option:`--consolewidth (-W)` 来设置控制台输出的宽度. 默认的值是78个字符.
 
@@ -419,7 +419,7 @@ Examples::
 .. _Console colors:
 
 控制台颜色
-~~~~~~~~~~~~~~
+~~~~~~~~~~
 
 选项 :option:`--consolecolors (-C)` 用来设置是否在控制台输出中使用颜色. 除了在Windows中是使用的Windows API, 其它系统中颜色是通过 :ref:`ANSI colors <http://en.wikipedia.org/wiki/ANSI_escape_code>` 实现的. 在Jython中不能调用Windows的这些API, 所以在Windows中使用Jython是不支持颜色的.
 

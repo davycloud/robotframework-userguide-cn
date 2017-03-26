@@ -1,10 +1,10 @@
-.. include:: roles.rst
-.. role:: name
+.. role:: name(emphasis)
+.. role:: setting(emphasis)
 
 .. _creating test libraries:
 
 创建测试库
-=======================
+==========
 
 Robot Framework 实际的测试能力都是由测试库提供. 目前已经有很多库存在, 其中甚至有些已经与框架绑定, 但是很多时候仍然需要创建新的测试库. 
 得益于Robot Framework简单直接的API, 这一过程并不复杂.
@@ -16,152 +16,98 @@ Robot Framework 实际的测试能力都是由测试库提供. 目前已经有�
 
 
 概述
-------------
+----
 
 支持的编程语言
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
 
-Robot Framework自身使用 Python_ 编写, 很自然的, 扩展它的测试库也可以使用相同的语言. 
-当使用 Jython_ 运行时, 也可以使用 Java_ 来实现测试库. 
+Robot Framework自身使用 `Python <http://python.org>`_ 编写, 很自然的, 扩展它的测试库也可以使用相同的语言. 
+当使用 `Jython <http://jython.org>`_ 运行时, 也可以使用 Java_ 来实现测试库. 
 纯的Python代码, 只要其没有使用Jython不支持的模块或语法, 在两种情况下都可以运行. 
-当使用Python时, 可以利用 `Python C API`__ 使用C语言来实现测试库, 当然, 使用Python的 ctypes__ 模块调用C代码则更简单.
+当使用Python时, 可以利用 `Python C API <http://docs.python.org/c-api/index.html>`_ 使用C语言来实现测试库, 当然, 使用Python的 `ctypes <http://docs.python.org/library/ctypes.html>`_ 模块调用C代码则更简单.
 
 使用这些原生支持的语言实现的测试库可以同时作为"包装器", 调用其他语言实现的
-功能. 一个典型的例子就是 `远程库`_ 的实现. 当然还可以另起单独的进程来执行
+功能. 一个典型的例子就是 :ref:`remote library` 的实现. 当然还可以另起单独的进程来执行
 外部脚本或者工具.
 
-
-Libraries implemented using these natively supported languages can
-also act as wrappers to functionality implemented using other
-programming languages. A good example of this approach is the `Remote
-library`_, and another widely used approaches is running external
-scripts or tools as separate processes.
-
-.. tip:: `Python Tutorial for Robot Framework Test Library Developers`__
+.. tip:: `Python Tutorial for Robot Framework Test Library Developers <http://code.google.com/p/robotframework/wiki/PythonTutorial>`_
          covers enough of Python language to get started writing test
          libraries using it. It also contains a simple example library
          and test cases that you can execute and otherwise investigate
          on your machine.
 
-.. _Python: http://python.org
-.. _Jython: http://jython.org
-__ http://docs.python.org/c-api/index.html
-__ http://docs.python.org/library/ctypes.html
-__ http://code.google.com/p/robotframework/wiki/PythonTutorial
+.. hint:: 译注: 上面提到的Python Tutorial链接已经失效, 从 `这里 <https://groups.google.com/d/msg/robotframework-users/Bb2oytBJQb4/7dXYaeHJGgAJ>`_ 看应该也不会再更新, 原内容已经迁移到 `GitHub上 <https://github.com/robotframework/robotframework/tree/master/doc/python>`_
+
 
 不同的测试库API
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^
 
 Robot Framework 有三种不同的测试库API.
 
 静态(Static) API
 
   最简单的办法是实现一个模块(用Python), 或者类(用Python或Java), 其中的
-  方法(methods)直接映射为 `关键字名称`_. 关键字接受和方法相同的 `参数`_,
-  可以通过抛异常来报告错误, 可以通过往标注输出里写入来写 `log`_, 同时可以
-  通过 `return` 来返回结果.
-
-  The simplest approach is having a module (in Python) or a class
-  (in Python or Java) with methods which map directly to
-  `keyword names`_. Keywords also take the same `arguments`__ as
-  the methods implementing them.  Keywords `report failures`__ with
-  exceptions, `log`__ by writing to standard output and can `return
-  values`__ using the `return` statement.
+  方法(methods)直接映射为 :ref:`关键字名称 <keyword names>`. 关键字接受和方法相同的 :ref:`参数 <keyword arguments>`, 通过抛异常来 :ref:`报告错误 <reporting keyword status>`, 通过往标准输出里写入来写 :ref:`log <logging information>`, 同时可以
+  通过 ``return`` 来 :ref:`返回结果 <returning values>`.
 
 动态(Dynamic) API
   
-  动态库是指一些类, 其中实现了一个方法, 用于获取关键字的名称. 其它的方法则
-  实现这个具体的关键字, 并可接受参数. 这样, 要实现的关键字的名称, 可以在
-  运行时动态决定. 其它功能, 如报告状态, 打印日志和返回结果都和静态API类似.
-
-  Dynamic libraries are classes that implement a method to get the names
-  of the keywords they implement, and another method to execute a named
-  keyword with given arguments. The names of the keywords to implement, as
-  well as how they are executed, can be determined dynamically at
-  runtime, but reporting the status, logging and returning values is done
-  similarly as in the static API.
+  动态库类要提供一个用于获取实现的关键字名称的方法, 并提供另一个方法来执行具体给定的关键字包括参数. 这样, 要实现的关键字的名称, 可以在运行时动态决定. 其它功能, 如报告状态, 打印日志和返回结果都和静态API类似.
 
 混合(Hybrid) API
   
-  静态API和动态API的混合. 类的一个方法用来说明实现了哪些关键字, 这些关键字是
-  直接可用的.  除了自动发现关键字的实现, 其它功能都和静态API类似.
+  静态API和动态API的混合. 类有一个方法用来说明实现了哪些关键字, 这些关键字必须是
+  直接可用的. 除了不是自动发现关键字, 其它功能都和静态API类似.
 
-  This is a hybrid between the static and the dynamic API. Libraries are
-  classes with a method telling what keywords they implement, but
-  those keywords must be available directly. Everything else except
-  discovering what keywords are implemented is similar as in the
-  static API.
-
-所有这些API都将在本章进行详述. 所有功能都是基于静态API的工作原理, 所以首先
-讨论静态API的内容. `动态库API`_ 和 `混合库API`_ 与之的区别在随后的小节中
-分别讨论.
+所有这些API都将在本章进行详述. 所有功能都是基于静态API的工作原理, 所以首先来讨论静态API的内容. :ref:`dynamic library API` 和 :ref:`hybrid library API` 与之的区别在随后的小节中分别讨论.
 
 本章示例大部分都是Python实现, 但是对于Java开发者来说, 理解这些代码并不难.
 在某些少数情况下, Python API和Java API有所差异, 此时会分别解释.
 
-__ `Keyword arguments`_
-__ `Reporting keyword status`_
-__ `Logging information`_
-__ `Returning values`_
 
 创建测试库类或模块
--------------------------------------
+------------------
 
 测试库的实现可以是Python模块, 也可以是Python或Java的类.
 
 测试库名称
-^^^^^^^^^^^^^^
+^^^^^^^^^^
 
 测试库引入(import)时需要指定名称, 这个名称和实现测试库的模块名或类名一样.
-举个例子, 如果有个Python模块 `MyLibrary` (文件是 :file:`MyLibrary.py`),
-这就可作为一个测试库: :name:`MyLibrary`. 类似的, 一个不在任何包里面的Java
-类 `YourLibrary`, 就是一个同名的测试库.
+
+举个例子, 如果有个Python模块 ``MyLibrary`` (文件是 :file:`MyLibrary.py`), 这就可作为一个测试库: :name:`MyLibrary`. 类似的, 一个不在任何包里面的Java类 ``YourLibrary``, 就是一个同名的测试库.
 
 Python的类总是在模块里, 如果模块里实现的类的名称和模块名一致, Robot Framework
-允许不带类名来引用这个库. 例如, 有一个类 `MyLib` 在文件 :file:`MyLib.py` 中,
+允许不带类名来引用这个库. 例如, 有一个类 ``MyLib`` 在文件 :file:`MyLib.py` 中,
 引用库时只需使用名称 :name:`MyLib` 即可. 这个机制对于子模块同样有效, 如, 
-`parent.MyLib` 模块中有个类 `MyLib`, 使用  :name:`parent.MyLib` 即可导入.
+``parent.MyLib`` 模块中有个类 ``MyLib``, 使用  :name:`parent.MyLib` 即可导入.
 但是, 如果模块名和类名不一样, 则必须同时指明, 如 :name:`mymodule.MyLibrary` 
 或者 :name:`parent.submodule.MyLib`.
 
-非默认包里的Java类也必须指定全名, 例如, 包 `com.mycompany.myproject` 里的
-类 `MyLib` 导入名称是: :name:`com.mycompany.myproject.MyLib`.
+非默认包里的Java类也必须指定全名, 例如, 包 ``com.mycompany.myproject`` 里的
+类 ``MyLib`` 导入名称是: :name:`com.mycompany.myproject.MyLib`.
 
 .. note:: 在同名模块中忽略类名只在 Robot Framework 2.8.4 及之后的版本有效.
           老的版本中仍然需要指定全名, 如 :name:`parent.MyLib.MyLib`.
 
+.. tip:: 如果库名确实太长了, 比如Java的包名太长, 推荐使用 :ref:`WITH NAME syntax` 
+         给库起个别名.
 
+.. _providing arguments to test libraries:
 
-.. note:: Dropping class names with submodules works only in Robot Framework
-          2.8.4 and newer. With earlier versions you need to include also
-          the class name like :name:`parent.MyLib.MyLib`.
-
-.. tip:: If the library name is really long, for example when the Java
-         package name is long, it is recommended to give the library a
-         simpler alias by using the `WITH NAME syntax`_.
 
 给测试库提供参数
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
 
 实现为类的测试库都可以接受参数. 这些参数在Setting表中指定, 跟在库名后面,
-当Robot Framework创建测试库的实例时, 这些参数传给构造函数. 
+当Robot Framework创建测试库的实例时, 把这些参数传给构造函数. 
 
 实现为模块的测试库不可以接受参数, 试图给其传递参数的行为将导致报错.
 
 库所需的参数的个数和库的构造函数的参数个数一样. 默认参数和不定数量参数的处理
-类似于`keyword arguments`_. Java库不支持不定数量的参数. 
+类似于 :ref:`keyword arguments`. Java库不支持不定数量的参数. 
 
-传递给库的参数, 包括库名本身, 都可以使用变量. 也就是说, 可以在命令行中修改.
-例如:
-
-The number of arguments needed by the library is the same
-as the number of arguments accepted by the library's
-constructor. The default values and variable number of arguments work
-similarly as with `keyword arguments`_, with the exception that there
-is no variable argument support for Java libraries. Arguments passed
-to the library, as well as the library name itself, can be specified
-using variables, so it is possible to alter them, for example, from the
-command line.
+传递给库的参数, 包括库名本身, 都可以使用变量. 也就是说可以在某些时候, 例如命令行, 修改它们.
 
 .. sourcecode:: robotframework
 
@@ -200,8 +146,10 @@ command line.
        }
    }
 
+.. _test library scope:
+
 测试库的作用域
-^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
 
 用类实现的库可以有内部状态, 这些状态可以被关键字或构造函数修改. 因为这些状态
 会影响到关键字实际的行为, 所以, 保证一个测试用例不会意外地影响到另一个用例显
@@ -212,33 +160,35 @@ Robot Framework 为了保证测试用例之间的独立性, 默认情况下, 它
 创建新的测试库实例. 然而, 这种方式不总是我们想要的, 比如有时测试用例需要共享
 某个状态的时候. 此外, 那些无状态的库显然也不需要每次都创建新实例.
 
-实例化测试库类的方式可以通过一个特别的属性  `ROBOT_LIBRARY_SCOPE` 来控制.
+实例化测试库类的方式可以通过一个特别的属性  ``ROBOT_LIBRARY_SCOPE`` 来控制.
 这个属性是一个字符串, 可以有以下三种取值:
 
-`TEST CASE`
+``TEST CASE``
   为每个测试用例创建新的实例. 如果有suite setup和suite teardown的话, 同样
   也会新建. 这是默认行为.
 
-`TEST SUITE`
+``TEST SUITE``
   为每个测试集创建新的实例. 最底层的测试集, 也就是由测试用例文件组成的测试集,
   拥有属于自己的测试库实例, 高层的测试集, 都有属于自己的测试库实例.
 
-`GLOBAL`
+``GLOBAL``
   整个测试执行过程中只有一个实例被创建. 所有的测试集和测试用例共享这个实例.
   通过模块创建的测试库都是全局的.
 
-.. note:: 如果一个测试库被导入多次, 每次使用不同的参数, 则不管有没有定义
-          作用域, 每次都会新建一个实例.
 
-当有状态的测试库定义了作用域为 `TEST SUITE` 或 `GLOBAL` , 建议测试库要
+.. note:: 如果一个测试库被导入多次, 每次使用不同的
+          :ref:`参数 <providing arguments to test libraries>`, 
+          则不管有没有定义作用域, 每次都会新建一个实例.
+
+当有状态的测试库定义了作用域为 ``TEST SUITE`` 或 ``GLOBAL`` , 建议测试库要
 包含能清除这些状态的关键字. 这样, 在测试集 setup 或 teardown 时, 可以
 调用这些关键字以保证下面的测试用例从一个明确的已知状态开始.
 
-例如, :name:`SeleniumLibrary` 使用了 `GLOBAL` 作用域, 使得不同的测试
+例如, :name:`SeleniumLibrary` 使用了 ``GLOBAL`` 作用域, 使得不同的测试
 用例使用相同的浏览器, 而不是每次重新打开. 同时, 它还提供了关键字
 :name:`Close All Browsers` 关闭所有浏览器.
 
-下面是使用了 `TEST SUITE` 作用域的Python库的示例:
+下面是使用了 ``TEST SUITE`` 作用域的Python库的示例:
 
 .. sourcecode:: python
 
@@ -256,7 +206,7 @@ Robot Framework 为了保证测试用例之间的独立性, 默认情况下, 它
         def clear_counter(self):
             self._counter = 0
 
-使用了 `GLOBAL` 作用域的Java库的示例:
+使用了 ``GLOBAL`` 作用域的Java库的示例:
 
 .. sourcecode:: java
 
@@ -276,20 +226,20 @@ Robot Framework 为了保证测试用例之间的独立性, 默认情况下, 它
         }
     }
 
-__ `Providing arguments to test libraries`_
+.. _specifying library version:
 
 指定测试库的版本
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
 
 当一个测试库投入使用, Robot Framework 会尝试获取它的版本号, 将该信息
 写入到 日志_ 中以供调试. 库文档工具 Libdoc_ 在生成文档时也会写入该信息.
 
-版本号信息在属性 `ROBOT_LIBRARY_VERSION` 中定义, 类似 `测试库的作用域`_ 
-中的 `ROBOT_LIBRARY_SCOPE`. 如果 `ROBOT_LIBRARY_VERSION` 属性不存在,
-则会尝试从 `__version__` 属性获取. 这些属性必须是类或者模块的属性.
-对于Java库, 这个属性必须声明为 `static final`.
+版本号信息在属性 `ROBOT_LIBRARY_VERSION` 中定义, 类似 :ref:`test library scope` 
+中的 ``ROBOT_LIBRARY_SCOPE``. 如果 ``ROBOT_LIBRARY_VERSION`` 属性不存在,
+则会尝试从 ``__version__`` 属性获取. 这些属性必须是类或者模块的属性.
+对于Java库, 这个属性必须声明为 ``static final``.
 
-使用 `__version__` 的Python模块示例:
+使用 ``__version__`` 的Python模块示例:
 
 .. sourcecode:: python
 
@@ -298,7 +248,7 @@ __ `Providing arguments to test libraries`_
     def keyword():
         pass
 
-使用 `ROBOT_LIBRARY_VERSION` 的Java类示例:
+使用 ``ROBOT_LIBRARY_VERSION`` 的Java类示例:
 
 .. sourcecode:: java
 
@@ -310,20 +260,21 @@ __ `Providing arguments to test libraries`_
         }
     }
 
+.. _specifying documentation format:
+
 指定文档格式
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^
 
 从 Robot Framework 2.7.5版本开始, 库文档工具 Libdoc_ 开始支持多种格式.
-如果不想使用 Robot Framework's 自己的 `文档格式`_, 可以通过在源码中定义
-属性 `ROBOT_LIBRARY_DOC_FORMAT` 来指定格式, 就跟指定 作用域__ 和 版本__ 
-一样.
+如果不想使用 Robot Framework's 自己的 :ref:`documentation formatting`, 可以通过在源码中定义
+属性 ``ROBOT_LIBRARY_DOC_FORMAT`` 来指定格式, 就跟指定 :ref:`作用域 <test library scope>` 和 :ref:`版本 <specifying library version>` 一样.
 
-文档格式可指定的值包括: `ROBOT` (默认), `HTML`, `TEXT` (纯文本),
-和 `reST` (reStructuredText_). 这些值不区分大小写. 如果要使用 `reST`
+文档格式可指定的值包括: ``ROBOT`` (默认), ``HTML``, ``TEXT`` (纯文本),
+和 ``reST`` (reStructuredText_). 这些值不区分大小写. 如果要使用 ``reST``
 格式需要安装 docutils_ 模块.
 
 下面使用Python和Java设置文档格式的例子分别使用了 reStructuredText 和 HTML
-格式. 关于给测试库写文档的更多内容, 请参考 `Documenting libraries`_ 和 
+格式. 关于给测试库写文档的更多内容, 请参考 :ref:`Documenting libraries` 和 
 Libdoc_ 章节.
 
 .. sourcecode:: python
@@ -371,29 +322,29 @@ Libdoc_ 章节.
         }
     }
 
-__ `测试库的作用域`_
-__ `指定测试库的版本`_
 
+.. _Library acting as listener:
 
-作为监听器的测试库 Library acting as listener
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+作为监听器的测试库
+^^^^^^^^^^^^^^^^^^
 
-`监听器接口`_ 可以让外部的监听器在测试执行过程中得到关于执行状态的通知.
+:ref:`listener interface` 可以让外部的监听器在测试执行过程中得到关于执行状态的通知.
 例如, 当测试集, 测试用例和关键字开始执行或结束. 有时候这些通知对测试库
-来说很有用, 可以使用 `ROBOT_LIBRARY_LISTENER` 注册一个自定义的监听器.
+来说很有用, 可以使用 ``ROBOT_LIBRARY_LISTENER`` 注册一个自定义的监听器.
 该属性的值应该是要使用的监听器的示例, 有可能是测试库本身. 更多内容和示例,
-请参考 `Test libraries as listeners`_ section.
+请参考 :ref:`test libraries as listeners` section.
 
 创建静态关键字
-------------------------
+--------------
 
-什么方法被认作关键字 What methods are considered keywords
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. _what methods are considered keywords:
 
-当使用静态库API时, Robot Framework 利用反射机制获得类或模块实现的公有\
-方法(public methods). 所有以下划线(_)开始的方法被排除, 在Java库里, 只
-在 `java.lang.Object` 里实现的方法也被忽略. 所有没被忽略的方法都被视为
-关键字. 例如, 下面的Python和Java示例实现了关键字  :name:`My Keyword`.
+充当关键字的方法
+^^^^^^^^^^^^^^^^
+
+当使用静态库API时, Robot Framework 利用反射机制获得类或模块实现的公有方法(public methods). 所有以下划线(_)开始的方法被排除, 在Java库里, 只在 ``java.lang.Object`` 里实现的方法也被忽略. 所有没被忽略的方法都被视为关键字. 
+
+例如, 下面的Python和Java示例实现了关键字  :name:`My Keyword`.
 
 .. sourcecode:: python
 
@@ -418,8 +369,8 @@ __ `指定测试库的版本`_
         }
     }
 
-当库是Python模块实现的, 可以使用Python的 `__all__` 属性来限制到底
-哪些方法是关键字. 如果使用了 `__all__`, 只有列在其中的才会被当作
+当库是Python模块实现的, 可以使用Python的 ``__all__`` 属性来限制到底
+哪些方法是关键字. 如果使用了 ``__all__``, 只有列在其中的才会被当作
 关键字, 例如下面的例子中, 实现了关键字 :name:`Example Keyword` 和 
 :name:`Second Example`. 如果这个例子中没有 `__all__`, 那么其中的
 :name:`Not Exposed As Keyword` 和 :name:`Current Thread` 也会
@@ -442,14 +393,15 @@ __ `指定测试库的版本`_
    def not_exposed_as_keyword():
        pass
 
+
 关键字名称
-^^^^^^^^^^^^
+^^^^^^^^^^
 
 测试数据(test data)中使用的关键字名称, 与方法名称对比, 最终确定是哪个
 方法实现了这个关键字. 名称的比较是忽略大小写的, 并且其中的空格和下划线
-也都忽略掉. 例如, 方法名 `hello` 最终可以映射为的关键字名称可以是:
+也都忽略掉. 例如, 方法名 ``hello`` 最终可以映射为的关键字名称可以是:
 :name:`Hello`, :name:`hello` 甚至 :name:`h e l l o`. 反过来也类似,
-例如, `do_nothing` 和 `doNothing` 这两个方法都可被当作 :name:`Do Nothing`
+例如, ``do_nothing`` 和 ``doNothing`` 这两个方法都可被当作 :name:`Do Nothing`
 关键字的实现.
 
 Python模块实现的测试库示例如下, :file:`MyLibrary.py`:
@@ -478,7 +430,7 @@ Java类实现的测试库示例如下, :file:`MyLibrary.java` file:
   }
 
 下面的例子用来说明如何使用上面的测试库. 如果你想自己试一下, 首先要确保库的
-位置在 `module search path`_.
+位置在 :ref:`module search path`.
 
 .. sourcecode:: robotframework
 
@@ -490,14 +442,14 @@ Java类实现的测试库示例如下, :file:`MyLibrary.java` file:
        Do Nothing
        Hello    world
 
-.. Using a custom keyword name
+.. _using a custom keyword name:
 
 使用自定义的关键字名称
-'''''''''''''''''''''''''''
+''''''''''''''''''''''
 
 如果一个方法不想使用默认映射的关键字名称, 也可以明确指定为自定义的关键字名称.
-这是通过设置方法的  `robot_name` 属性来实现的. 可以使用装饰器方法
- `robot.api.deco.keyword` 方便快捷的设置. 例如:
+这是通过设置方法的  ``robot_name`` 属性来实现的. 可以使用装饰器方法
+ ``robot.api.deco.keyword`` 方便快捷的设置. 例如:
 
 .. sourcecode:: python
 
@@ -513,25 +465,21 @@ Java类实现的测试库示例如下, :file:`MyLibrary.java` file:
    My Test
        Login Via User Panel    ${username}    ${password}
 
-如果使用装饰器时不带任何参数, 则这个装饰器对改变关键字名称不起作用, 但是仍然
-会创建  `robot_name` 属性. 这种情况对 `标记方法为关键字`_ , 同时又不改变
-关键字名称的时候很有用. 
+如果使用装饰器时不带任何参数, 则这个装饰器不会改变关键字名称, 但是仍然
+会创建  ``robot_name`` 属性. 这种情况对 :ref:`标记方法为关键字 <marking methods to expose as keywords>` , 同时又不改变关键字名称的时候很有用. 
 
-Using this decorator without an argument will have no effect on the exposed
-keyword name, but will still create the `robot_name` attribute.  This can be useful
-for `Marking methods to expose as keywords`_ without actually changing
-keyword names.
+设置自定义的关键字名称还使得库关键字可以接受使用 :ref:`嵌入参数 <embedding arguments into keyword names>` 语法的参数.
 
-设置自定义的关键字名称还使得库关键字可以接受使用 `嵌入参数`__ 语法的参数.
 
-__ `Embedding arguments into keyword names`_
+.. _keyword tags:
 
 关键字标签
-^^^^^^^^^^^^^^^
+^^^^^^^^^^
 
-从 Robot Framework 2.9 版本开始, 库关键字和  `用户关键字`__ 可以有标签.
-库关键字通过设置方法的 `robot_tags` 属性实现, 该属性的值是要设置的标签的列表.
-装饰器 `robot.api.deco.keyword` 可以按如下的方法来方便的指定这个属性:
+从 Robot Framework 2.9 版本开始, 库关键字和  :ref:`用户关键字 <user keyword tags>` 都可以有标签.
+
+库关键字通过设置方法的 ``robot_tags`` 属性实现, 该属性的值是要设置的标签的列表.
+装饰器 ``robot.api.deco.keyword`` 可以按如下的方法来方便的指定这个属性:
 
 .. sourcecode:: python
 
@@ -545,8 +493,7 @@ __ `Embedding arguments into keyword names`_
   def another_example():
       # ...
 
-设置标签的另一个方法是在 `关键字文档`__ 的最后一行给出, 以 `Tags:` 作为前缀
-开始, 后面跟着按逗号分开的标签. 例如: 
+设置标签的另一个方法是在 :ref:`关键字文档 <documenting libraries>` 的最后一行给出, 以 ``Tags:`` 作为前缀开始, 后面跟着按逗号分开的标签. 例如: 
 
 .. sourcecode:: python
 
@@ -557,15 +504,13 @@ __ `Embedding arguments into keyword names`_
       """
       # ...
 
-__ `User keyword tags`_
-__ `Documenting libraries`_
+.. _keyword arguments:
 
 关键字参数
-^^^^^^^^^^^^^^^^^
+^^^^^^^^^^
 
 对于静态和混合API, 关于一个关键字的参数表信息是直接从实现它的方法上获取的.
-而使用了 `动态库API`_ 的库则使用其它的方式来传递这些信息, 所以本章不适用
-于动态库.
+而使用了 :ref:`dynamic library API` 的库则使用其它的方式来传递这些信息, 所以本章不适用于动态库.
 
 最常见也是最简单的情况是关键字需要确定数目的参数. 在这种情况下, Python和Java
 方法简单地接受这些参数即可. 例如, 没有参数的方法对应的关键字也不需要参数, 只需
@@ -584,14 +529,14 @@ __ `Documenting libraries`_
   def three_arguments(a1, a2, a3):
       print "Keyword got three arguments '%s', '%s' and '%s'." % (a1, a2, a3)
 
-.. note:: 使用静态库API实现的Java库有一个很大的限制, 即不支持 `命名参数语法`_. 如果
-          你觉得这是一个障碍, 那要么改使用Python来实现, 要么切换到 `动态库API`_
+.. note:: 使用静态库API实现的Java库有一个很大的限制, 即不支持 :ref:`named argument syntax`. 如果
+          你觉得这是一个障碍, 那要么改使用Python来实现, 要么切换到 :ref:`dynamic library API`
 
 
 .. Default values to keywords
 
 关键字的缺省值
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
 
 和函数类似, 关键字的有些参数有时需要有缺省值. Python 和 Java 对于处理方法的缺省值
 使用不同的语法, 
