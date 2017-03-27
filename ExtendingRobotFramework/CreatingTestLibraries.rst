@@ -541,23 +541,14 @@ Java类实现的测试库示例如下, :file:`MyLibrary.java` file:
 和函数类似, 关键字的有些参数有时需要有缺省值. Python 和 Java 对于处理方法的缺省值
 使用不同的语法, 
 
-It is often useful that some of the arguments that a keyword uses have
-default values. Python and Java have different syntax for handling default
-values to methods, and the natural syntax of these languages can be
-used when creating test libraries for Robot Framework.
-
 
 .. Default values with Python
 
 Python中的缺省值
-''''''''''''''''''''''''''
+''''''''''''''''
 
-Python中, 方法总是只有一个实现, 但是方法的签名中可能会指定缺省值.
+Python中, 方法总是只有一个实现, 在方法的签名中可能指定若干缺省值.
 这种语法对Python程序员来说应该非常熟悉, 例如:
-
-In Python a method has always exactly one implementation and possible
-default values are specified in the method signature. The syntax,
-which is familiar to all Python programmers, is illustrated below:
 
 .. sourcecode:: python
 
@@ -567,8 +558,8 @@ which is familiar to all Python programmers, is illustrated below:
    def multiple_defaults(arg1, arg2='default 1', arg3='default 2'):
        print "Got arguments %s, %s and %s" % (arg1, arg2, arg3)
 
-上例中的第一个关键字, 可以接受 0 个或 1 个参数, 当 0 个参数时, 参数 `arg`
-使用缺省值 `default`; 当有 1 个参数时, 参数 `arg` 就使用这个传入的值; 
+上例中的第一个关键字, 可以接受 0 个或 1 个参数, 当 0 个参数时, 参数 ``arg``
+使用缺省值 ``default``; 当有 1 个参数时, 参数 ``arg`` 就使用这个传入的值; 
 而如果参数个数大于 1 , 则调用该关键字会报错失败.
 
 第二个关键字中, 第1个参数总是需要指定的, 但是 第2和第3个都有缺省值, 所以,
@@ -588,9 +579,9 @@ which is familiar to all Python programmers, is illustrated below:
 .. Default values with Java
 
 Java中的缺省值
-''''''''''''''''''''''''
+''''''''''''''
 
-Java中, 一个方法可以有多个实现, 分别是不同的签名. Robot Framework 将所有
+Java中, 一个方法可以有多个实现, 分别是不同的签名(重载). Robot Framework 将所有
 这些实现都视作一个关键字, 这个关键字可以接受不同的参数, 以此实现了缺省值的
 支持. 下面的例子在功能上和上面的Python例子完全一样:
 
@@ -619,17 +610,14 @@ Java中, 一个方法可以有多个实现, 分别是不同的签名. Robot Fram
 .. Variable number of arguments (`*varargs`)
 
 可变数量的参数
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
 
-Robot Framework 还支持接受任何数量的参数的关键字. 类似于缺省值,
+Robot Framework 的关键字还支持接受任何数量的参数. 类似于缺省值,
 实际的语法在Python和Java中有所差异.
 
-Robot Framework supports also keywords that take any number of
-arguments. Similarly as with the default values, the actual syntax to use
-in test libraries is different in Python and Java.
 
 Python中的可变数量的参数
-''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''
 
 Python的语法本身就支持让方法可以接受任意数量的参数. 相同的语法同样作用于
 测试库, 同时, 还可以与指定缺省值结合, 如下面的例子:
@@ -662,9 +650,11 @@ Python的语法本身就支持让方法可以接受任意数量的参数. 相同
        Also Defaults    required    these two    have defaults
        Also Defaults    1    2    3    4    5    6
 
+.. _Variable number of arguments with Java:
+
 Java中的可变数量的参数
-''''''''''''''''''''''''''''''''''''''
-Robot Framework 支持 `Java可变数量参数的语法`__. 下面的例子和上面Python的例子
+''''''''''''''''''''''
+Robot Framework 支持 :ref:`Java可变数量参数的语法 <http://docs.oracle.com/javase/1.5.0/docs/guide/language/varargs.html>`. 下面的例子和上面Python的例子
 在功能上是一样的:
 
 .. sourcecode:: java
@@ -683,9 +673,9 @@ Robot Framework 支持 `Java可变数量参数的语法`__. 下面的例子和�
       }
   }
 
-Robot Framework 从 2.8.3 版本开始, 还支持另一种方式来实现相同的结果, 即
-使用数组或者 `java.util.List` 作为最后一个参数, 或者倒数第二个参数(如果使用了
-`任意关键字参数`_). 例如, 下面的示例和上面的功能是相同的:
+Robot Framework 从 2.8.3 版本开始, 还支持另一种方式来实现可变数量参数, 即
+使用数组或者 ``java.util.List`` 作为最后一个参数, 或倒数第二个参数(如果最后一个参数是
+ :ref:`任意关键字参数 <free keyword arguments>` **kwargs). 例如, 下面的示例和上面的功能是相同的:
 
 .. sourcecode:: java
 
@@ -707,19 +697,18 @@ Robot Framework 从 2.8.3 版本开始, 还支持另一种方式来实现相同�
 
 对于Java关键字来说, 支持可变数量的参数有一个限制: 只在方法只有一个签名时有效.
 也就是说, Java实现的关键字不可能既使用缺省值又使用varargs. 而且, 只有 2.8 或
-更新版本的 Robot Framework 支持在 `库的构造器`__ 中使用varargs.
-
-__ http://docs.oracle.com/javase/1.5.0/docs/guide/language/varargs.html
-__ `Providing arguments to test libraries`_
+更新版本的 Robot Framework 支持在 :ref:`库的构造器 <providing arguments to test libraries>` 中使用varargs.
 
 
-.. Free keyword arguments (`**kwargs`)
+.. _free keyword arguments:
+.. _**kwargs:
 
 任意关键字参数
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
 
-Robot Framework 2.8版本增加了任意关键字参数的支持, 使用的是Python的 `**kwargs` 语法.
-如何在测试用例中使用这种语法的讨论在 `创建测试用例`_ 章节下的 `Free keyword arguments`_ 小节中. 
+Robot Framework 2.8版本增加了任意关键字参数, 即Python中的 ``**kwargs`` 语法.
+如何在测试用例中使用这种语法的讨论在 :ref:`creating test cases` 章节下的 :ref:`free keyword arguments` 小节中. 
+
 本章我们来看一下如何在测试库中使用它.
 
 Robot Framework 2.8 added the support for free keyword arguments using Python's
@@ -728,7 +717,7 @@ in `Free keyword arguments`_ section under `Creating test cases`_. In this
 section we take a look at how to actually use it in custom test libraries.
 
 Python中的任意关键字参数
-''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''
 
 如果你对Python中的 kwargs 如何工作比较熟悉, 那么理解Robot Framework中的测试库是如何实现的就非常简单了. 下面的例子展示了最基础的功能:
 
@@ -745,8 +734,8 @@ Python中的任意关键字参数
        Example Keyword    hello=world        # Logs 'hello world'.
        Example Keyword    foo=1    bar=42    # Logs 'foo 1' and 'bar 42'.
 
-基本上, 所有以 `命名参数语法`_ `name=value` 形式跟在关键字调用最后面, 且不匹配其它任何参数的参数, 将以 kwargs 传入给关键字. 
-如果想要避免一个字面字符串被当作任意关键字参数, 则其中的等号 `=` 必须被 `转义`_ , 例如 `foo=quux` 要写作 `foo\=quux`.
+基本上, 所有以 :ref:`named argument syntax` ``name=value`` 形式跟在关键字调用最后面, 且不匹配其它任何参数的参数, 将以 kwargs 传入给关键字. 
+如果想要避免一个字面字符串被当作任意关键字参数, 则其中的等号 ``=`` 必须被 :ref:`转义 <escaping>`, 例如 ``foo=quux`` 要写作 ``foo\=quux``.
 
 下面的例子展示了综合使用普通参数, 可变数量参数(varargs), 和任意关键字参数(kwargs)的情况:
 
@@ -779,20 +768,19 @@ Python中的任意关键字参数
        Various Args    arg=value      hello=world    # Logs 'arg: value' and 'kwarg: hello world'.
        Various Args    hello=world    arg=value      # Same as above. Order does not matter.
 
-要查看真实测试库中相同的示例的, 参考 Process_ 库中的关键字 :name:`Run Process` 和 :name:`Start Keyword`.
+要查看真实测试库中相同示例, 请参考 Process_ 库中的关键字 :name:`Run Process` 和 :name:`Start Keyword`.
 
 For a real world example of using a signature exactly like in the above
 example, see :name:`Run Process` and :name:`Start Keyword` keywords in the
 Process_ library.
 
-__ 转义_
 
 Java中的任意关键字参数
-''''''''''''''''''''''''''''''''
+''''''''''''''''''''''
 
-从Robot Framework 2.8.3版本开始, Java测试库也开始支持这种语法. Java语言本身是不支持kwargs语法的, 但是关键字可以利用 `java.util.Map` 类型作为最后一个参数, 来接受 kwargs.
+从Robot Framework 2.8.3版本开始, Java测试库也开始支持这种语法. Java语言本身是不支持kwargs语法的, 但是关键字可以利用 ``java.util.Map`` 类型作为最后一个参数, 来接受 kwargs.
 
-如果一个Java关键字接受 kwargs, Robot Framework 会自动将关键字调用的末尾所有形如  `name=value` 的参数打包放入一个 `Map` , 然后传递给关键字方法. 例如, 下面的例子中的关键字使用起来和前面的Python示例完全一样:
+如果一个Java关键字接受 kwargs, Robot Framework 会自动将关键字调用的末尾所有形如  ``name=value`` 的参数打包放入一个 ``Map`` , 然后传递给关键字方法. 例如, 下面的例子中的关键字使用起来和前面的Python示例完全一样:
 
 .. sourcecode:: java
 
@@ -809,34 +797,22 @@ Java中的任意关键字参数
 
 .. note:: kwargs 参数的类型必须是 `java.util.Map`, 而不是其子类.
 
-.. note:: 和 `Java中的varargs`__ 一样, kwargs的关键字也只能有一个方法签名. 
+.. note:: 和 :ref:`Java中的varargs <Variable number of arguments with Java>` 一样, kwargs的关键字也只能有一个方法签名. 
 
-__ `Java中的可变数量的参数`_
+
+.. _argument types:
 
 参数类型
-^^^^^^^^^^^^^^
+^^^^^^^^
 
-正常情况下, 关键字的参数以字符串的形式传递给 Robot Framework. 如果关键字需要其它的类型, 可以使用 变量_ 或者在关键字的内部将字符串转换为所需的类型. 
-使用了 `Java关键字`_, 基础类型会自动的强制转换.
+正常情况下, 关键字的参数以字符串的形式传递给 Robot Framework. 如果关键字需要其它的类型, 可以使用 :ref:`variables` 或者在关键字的内部将字符串转换为所需的类型. 
+使用 :ref:`Java关键字 <Argument types with Java>`, 基础类型会自动的强制转换.
 
-Normally keyword arguments come to Robot Framework as strings. If
-keywords require some other types, it is possible to either use
-variables_ or convert strings to required types inside keywords. With
-`Java keywords`__ base types are also coerced automatically.
-
-__ `Java中的参数类型`_
 
 Python中的参数类型
-''''''''''''''''''''''''''
+''''''''''''''''''
 
-因为Python的参数并没有任何的类型信息, 所以使用Python的库时不可能自动的将字符串转换为其它类型. 调用Python方法实现的关键字, 只要参数的数量正确, 调用就总是能够成功, 只不过如果参数不兼容, 后面的执行会失败. 幸运的是, 在Python中转换参数类型是很简单的事情:
-
-Because arguments in Python do not have any type information, there is
-no possibility to automatically convert strings to other types when
-using Python libraries. Calling a Python method implementing a keyword
-with a correct number of arguments always succeeds, but the execution
-fails later if the arguments are incompatible. Luckily with Python it
-is simple to convert arguments to suitable types inside keywords:
+因为Python的参数并没有任何的类型信息, 所以使用Python的库时不可能自动的将字符串转换为其它类型. 调用Python方法实现的关键字, 只要参数的数量正确, 调用就总是能够成功, 只不过如果参数不兼容, 后面的执行会失败. 幸运地是, 在Python中转换参数类型是很简单的事情:
 
 .. sourcecode:: python
 
@@ -844,27 +820,19 @@ is simple to convert arguments to suitable types inside keywords:
       port = int(port)
       # ...
 
+.. _Argument types with Java:
+
 Java中的参数类型
-''''''''''''''''''''''''
+''''''''''''''''
 
 Java方法的参数都有类型, 而且所有基础类型会自动处理. 这意味着, test data 中的字符串类型的参数, 在运行时刻强制转换为正确的类型. 可以转换的类型有:
 
-Arguments to Java methods have types, and all the base types are
-handled automatically. This means that arguments that are normal
-strings in the test data are coerced to correct type at runtime. The
-types that can be coerced are:
+- 整数型 (``byte``, ``short``, ``int``, ``long``)
+- 浮点数 (``float`` 和 ``double``)
+- 布尔型 (``boolean``)
+- 上述类型的对象版本, 如. ``java.lang.Integer``
 
-- 整数型 (`byte`, `short`, `int`, `long`)
-- 浮点数 (`float` 和 `double`)
-- 布尔型 (`boolean`)
-- 上述类型的对象版本, 如. `java.lang.Integer`
-
-Java的关键字方法可能会有多个签名, 强制转换只有在有相同的或兼容的签名才会发生. 下面的例子中, 关键字  `doubleArgument` 和 `compatibleTypes` 可以强制转换, 但是 `conflictingTypes` 会发生冲突.
-
-The coercion is done for arguments that have the same or compatible
-type across all the signatures of the keyword method. In the following
-example, the conversion can be done for keywords `doubleArgument`
-and `compatibleTypes`, but not for `conflictingTypes`.
+Java的关键字方法可能会有多个签名, 强制转换只有在有相同的或兼容的签名才会发生. 下面的例子中, 关键字  ``doubleArgument`` 和 ``compatibleTypes`` 可以强制转换, 但是 ``conflictingTypes`` 会发生冲突.
 
 .. sourcecode:: java
 
@@ -876,16 +844,9 @@ and `compatibleTypes`, but not for `conflictingTypes`.
    public void conflictingTypes(String arg1, int arg2) {}
    public void conflictingTypes(int arg1, String arg2) {}
 
-对于数值型的类型, 如果测试数据中的字符串包含数字, 就可以强制转换, 对于布尔型, 则必须包含字符串 `true` 或者 `false`. 
-强制转换只在测试数据的原始值是字符串的情况下才会发生, 当然还可以使用包含了正确数据类型的变量. 要应对冲突的方法签名, 使用变量是唯一的选择.
+对于数值型的类型, 如果测试数据中的字符串包含数字, 就可以强制转换, 对于布尔型, 则必须包含字符串 ``true`` 或者 ``false``. 
 
-The coercion works with the numeric types if the test data has a
-string containing a number, and with the boolean type the data must
-contain either string `true` or `false`. Coercion is only
-done if the original value was a string from the test data, but it is
-of course still possible to use variables containing correct types with
-these keywords. Using variables is the only option if keywords have
-conflicting signatures.
+强制转换只在测试数据的原始值是字符串的情况下才会发生, 当然还可以使用包含了正确数据类型的变量. 要应对冲突的方法签名, 使用变量是唯一的选择.
 
 .. sourcecode:: robotframework
 
@@ -901,41 +862,22 @@ conflicting signatures.
        Conflicting Types    1       ${2}    # must use variables
        Conflicting Types    ${1}    2
 
-从 Robot Framework 2.8 版本开始, 参数类型的强制转换在 `Java库的构造函数`__ 中也起作用.
+从 Robot Framework 2.8 版本开始, 参数类型的强制转换在 :ref:`Java库的构造函数 <Providing arguments to test libraries>` 中也起作用.
 
-Starting from Robot Framework 2.8, argument type coercion works also with
-`Java library constructors`__.
 
-__ `Providing arguments to test libraries`_
 
 使用装饰器
-^^^^^^^^^^^^^^^^
+^^^^^^^^^^
 
-当编写静态关键字时, 有时候使用Python的装饰器修改它们会很方便. 但是, 装饰器修改了函数的签名, 这会让 Robot Framework 在判断关键字能接受什么参数时产生混乱. 特别是用 Libdoc_ 创建库文档和使用 RIDE_ 时. 为了避免这种情况, 要么就不要用装饰器, 要么使用方便的 `装饰器模块`__ 创建保留签名的装饰器. 
+当编写静态关键字时, 有时候使用Python的装饰器修改它们会很方便. 但是, 装饰器修改了函数的签名, 这会让 Robot Framework 在判断关键字能接受什么参数时产生混乱. 特别是用 Libdoc_ 创建库文档和使用 RIDE_ 时. 为了避免这种情况, 要么就不要用装饰器, 要么使用方便的 :ref:`装饰器模块 <http://micheles.googlecode.com/hg/decorator/documentation.html>` 创建保留签名的装饰器. 
 
-When writing static keywords, it is sometimes useful to modify them with
-Python's decorators. However, decorators modify function signatures,
-and can confuse Robot Framework's introspection when determining which
-arguments keywords accept. This is especially problematic when creating
-library documentation with Libdoc_ and when using  RIDE_. To avoid this
-issue, either do not use decorators, or use the handy `decorator module`__
-to create signature-preserving decorators.
+.. hint:: 译注: 上面的链接貌似已经失效.
 
-.. 要翻墙啊...
-__ http://micheles.googlecode.com/hg/decorator/documentation.html
 
 关键字中嵌入参数
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
 
-库关键字还能接受使用 `嵌入参数语法`__ 传递的参数. 装饰器 `robot.api.deco.keyword` 被用来创建 `自定义关键字名称`__, 其中包括所需语法.
-
-Library keywords can also accept arguments which are passed using
-`Embedded Argument syntax`__.  The `robot.api.deco.keyword` decorator
-can be used to create a `custom keyword name`__ for the keyword
-which includes the desired syntax.
-
-__ `Embedding arguments into keyword name`_
-__ `Using a custom keyword name`_
+库关键字还能接受使用 :ref:`嵌入参数语法 <embedding arguments into keyword name>` 传递的参数. 可以使用装饰器 ``robot.api.deco.keyword`` 来创建 :ref:`自定义关键字名称 <using a custom keyword name>`, 其中包括所需语法.
 
 .. sourcecode:: python
 
@@ -954,26 +896,17 @@ __ `Using a custom keyword name`_
 .. Communicating with Robot Framework
 
 与Robot Framework通讯
-----------------------------------
+----------------------
 
-当实现关键字的方法被调用后, 它可以使用任何机制去和被测系统通讯. 同时, 它还可以发送消息给 Robot Framework的日志文件, 返回可以保存到变量中的结果, 最重要的, 报告该关键字是否通过了(passed).
+当关键字方法被调用后, 它可以使用任何机制去和被测系统通讯. 同时, 它还可以发送消息给 Robot Framework的日志文件, 返回结果以保存到变量中, 最重要的, 报告该关键字是否通过了(passed).
 
-After a method implementing a keyword is called, it can use any
-mechanism to communicate with the system under test. It can then also
-send messages to Robot Framework's log file, return information that
-can be saved to variables and, most importantly, report if the
-keyword passed or not.
 
 报告关键字状态
-^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
 
-使用异常(exceptions)即可报告关键字状态. 如果一个方法的执行抛出了一个异常, 这个关键字的状态就是 `FAIL`, 如果正常返回, 则状态是 `PASS`.
+使用异常(exceptions)即可报告关键字状态. 如果一个方法的执行抛出了一个异常, 这个关键字的状态就是 ``FAIL``, 如果正常返回, 则状态是 ``PASS``.
 
-Reporting keyword status is done simply using exceptions. If an executed
-method raises an exception, the keyword status is `FAIL`, and if it
-returns normally, the status is `PASS`.
-
-错误消息会写入日志和报告文件. 控制台也会显示异常类型和异常消息. 一般的异常(如 `AssertionError`, `Exception`, 和 `RuntimeError`), 只显示异常消息; 其它的异常, 消息的格式是 `异常类型: 异常消息`.
+错误消息会写入日志和报告文件. 控制台也会显示异常类型和异常消息. 一般的异常(如 ``AssertionError``, ``Exception``, 和 ``RuntimeError``), 只显示异常消息; 其它的异常, 消息的格式是 ``异常类型: 异常消息``.
 
 The error message shown in logs, reports and the console is created
 from the exception type and its message. With generic exceptions (for
@@ -982,12 +915,7 @@ example, `AssertionError`, `Exception`, and
 others, the message is created in the format `ExceptionType:
 Actual message`.
 
-从 Robot Framework 2.8.2 版本开始, 也可以让自己的异常类型和一般异常一样, 失败消息中没有异常类型作为前缀. 要实现这个效果, 为自定义异常类添加一个特殊属性 `ROBOT_SUPPRESS_NAME`, 并将值置为 `True`.
-
-Starting from Robot Framework 2.8.2, it is possible to avoid adding the
-exception type as a prefix to failure message also with non generic exceptions.
-This is done by adding a special `ROBOT_SUPPRESS_NAME` attribute with
-value `True` to your exception.
+从 Robot Framework 2.8.2 版本开始, 也可以让自己的异常类型和一般异常一样, 失败消息中没有异常类型作为前缀. 要实现这个效果, 为自定义异常类添加一个特殊属性 ``ROBOT_SUPPRESS_NAME``, 并将值置为 ``True``.
 
 Python:
 
@@ -1004,14 +932,13 @@ Java:
         public static final boolean ROBOT_SUPPRESS_NAME = true;
     }
 
-这种情况下, 异常消息的内容要尽量明确, 提供足够的信息给用户.
+无论什么情况下, 异常消息的内容都应该尽量明确, 提供足够的信息给用户.
 
-In all cases, it is important for the users that the exception message is as
-informative as possible.
+
+.. HTML in error messages
 
 错误消息中使用HTML
-HTML in error messages
-''''''''''''''''''''''
+''''''''''''''''''
 
 从 Robot Framework 2.8 版本开始, 在错误消息中以 `*HTML*` 开头, 就可以直接使用HTML格式的消息内容. 例如:
 
