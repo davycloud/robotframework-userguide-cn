@@ -908,13 +908,6 @@ Java的关键字方法可能会有多个签名, 强制转换只有在有相同�
 
 错误消息会写入日志和报告文件. 控制台也会显示异常类型和异常消息. 一般的异常(如 ``AssertionError``, ``Exception``, 和 ``RuntimeError``), 只显示异常消息; 其它的异常, 消息的格式是 ``异常类型: 异常消息``.
 
-The error message shown in logs, reports and the console is created
-from the exception type and its message. With generic exceptions (for
-example, `AssertionError`, `Exception`, and
-`RuntimeError`), only the exception message is used, and with
-others, the message is created in the format `ExceptionType:
-Actual message`.
-
 从 Robot Framework 2.8.2 版本开始, 也可以让自己的异常类型和一般异常一样, 失败消息中没有异常类型作为前缀. 要实现这个效果, 为自定义异常类添加一个特殊属性 ``ROBOT_SUPPRESS_NAME``, 并将值置为 ``True``.
 
 Python:
@@ -940,54 +933,36 @@ Java:
 错误消息中使用HTML
 ''''''''''''''''''
 
-从 Robot Framework 2.8 版本开始, 在错误消息中以 `*HTML*` 开头, 就可以直接使用HTML格式的消息内容. 例如:
-
-Starting from Robot Framework 2.8, it is also possible have HTML formatted
-error messages by starting the message with text `*HTML*`:
+从 Robot Framework 2.8 版本开始, 在错误消息中以 ``*HTML*`` 开头, 就可以直接使用HTML格式的消息内容. 例如:
 
 .. sourcecode:: python
 
    raise AssertionError("*HTML* <a href='robotframework.org'>Robot Framework</a> rulez!!")
 
-这种方式不但可以像上面例子一样, 在测试库中抛出一个异常时使用, 还可以在测试数据中, 由用户提供错误信息.
+不但可以像上面例子一样, 在测试库中抛出一个异常, 还可以 :ref:`在测试数据中提供错误信息 <failures>`.
 
-This method can be used both when raising an exception in a library, like
-in the example above, and `when users provide an error message in the test data`__.
-
-__ `Failures`_
+.. _Cutting long messages automatically:
 
 自动截断长消息
-Cutting long messages automatically
-'''''''''''''''''''''''''''''''''''
+''''''''''''''
 
 如果一个错误消息超过了40行, 就会被自动截断以防止报告变得太长而难以阅读. 完整的错误信息总会在失败关键字的相关日志中显示.
 
-If the error message is longer than 40 lines, it will be automatically
-cut from the middle to prevent reports from getting too long and
-difficult to read. The full error message is always shown in the log
-message of the failed keyword.
 
-错误回溯
-Tracebacks
-''''''''''
+.. _tracebacks:
 
-异常的回溯(traceback)信息在 `日志级别`_ 为 `DEBUG` 时也会被写入日志. 这些信息默认在日志文件中不可见, 普通用户对这些消息一般也不感兴趣. 在开发测试库时, 则一般会使用 `--loglevel DEBUG` 选项来运行测试以方便定位问题.
+错误回溯(Tracebacks)
+''''''''''''''''''''
 
-The traceback of the exception is also logged using `DEBUG` `log level`_.
-These messages are not visible in log files by default because they are very
-rarely interesting for normal users. When developing libraries, it is often a
-good idea to run tests using `--loglevel DEBUG`.
+异常的回溯(traceback)信息在 :ref:`log level` 为 ``DEBUG`` 时也会被写入日志. 这些信息默认在日志文件中不可见, 普通用户对这些消息一般也不感兴趣. 在开发测试库时, 则一般会使用 ``--loglevel DEBUG`` 选项来运行测试以方便定位问题.
+
+
+.. _stopping test execution:
 
 停止测试执行
-Stopping test execution
-^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^
 
-有时候一个异常的出现意味着 `整个测试的结束`__. 要实现这种效果, 为异常类设置一个特殊的  `ROBOT_EXIT_ON_FAILURE` 属性 , 并将其值设为 `True`. 例如:
-
-It is possible to fail a test case so that `the whole test execution is
-stopped`__. This is done simply by having a special `ROBOT_EXIT_ON_FAILURE`
-attribute with `True` value set on the exception raised from the keyword.
-This is illustrated in the examples below.
+有时候出现异常意味着要 :ref:`结束整个测试 <stopping test execution gracefully>`. 要实现这种效果, 为抛出的异常类设置一个特殊的  ``ROBOT_EXIT_ON_FAILURE`` 属性 , 并将其值设为 ``True``. 例如:
 
 Python:
 
@@ -1004,18 +979,14 @@ Java:
         public static final boolean ROBOT_EXIT_ON_FAILURE = true;
     }
 
-__ `优雅地停止整个测试`_
+
+
+.. _continuing test execution despite of failures:
 
 失败后继续测试执行
-Continuing test execution despite of failures
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
-有时候, 即使出现了错误仍然需要测试继续往下执行. 为异常类设置特殊属性 `ROBOT_CONTINUE_ON_FAILURE`, 并将值设为 `True`. 例如:
-
-It is possible to `continue test execution even when there are failures`__.
-The way to signal this from test libraries is adding a special
-`ROBOT_CONTINUE_ON_FAILURE` attribute with `True` value to the exception
-used to communicate the failure. This is demonstrated by the examples below.
+有时候, 即使出现了错误仍然希望测试 :ref:`继续执行 <continue on failure>`. 这时要为异常类设置特殊属性 ``ROBOT_CONTINUE_ON_FAILURE``, 并将值设为 ``True``. 例如:
 
 Python:
 
@@ -1032,91 +1003,57 @@ Java:
         public static final boolean ROBOT_CONTINUE_ON_FAILURE = true;
     }
 
-__ `Continue on failure`_
+
 
 日志信息
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^
 
-异常消息不是为用户提供信息的唯一途径. 方法可以通过向标准输出流(stdout)或者标准错误流(stderr)写入的方式来写 `日志文件`_, 同时这种写入还可以使用不同的 `日志级别`_. 当然, 更好的写日志的方式是使用 `日志API`_.
+异常消息不是为用户提供信息的唯一途径. 可以通过向标准输出流(stdout)或者标准错误流(stderr)写入的方式来写 :ref:`log files`, 同时这种写入还可以使用不同的 :ref:`log levels`.  另一种通常更好的写日志方式是使用 :ref:`programmatic logging APIs`.
 
-Exception messages are not the only way to give information to the
-users. In addition to them, methods can also send messages to `log
-files`_ simply by writing to the standard output stream (stdout) or to
-the standard error stream (stderr), and they can even use different
-`log levels`_. Another, and often better, logging possibility is using
-the `programmatic logging APIs`_.
+默认情况下, 向标准输出中写入的所有内容都会以一条``INFO`` 级别的日志被写入到日志文件. 向标准错误流中写入的消息处理也类似, 不过它们会在关键字结束时, 在初始的stderr中回显. 因此, 如果你需要在测试执行的时候在控制台显示消息, 可以使用stderr.
 
-默认情况下, 向标准输出中写入的所有内容都会以一条`INFO` 级别的日志被写入到日志文件. 向标准错误流中写入的消息处理也类似, 不过它们会在关键字结束时, 在初始的stderr中回显. 因此, 如果你需要在测试执行的时候在控制台显示消息, 可以使用stderr.
+.. _using log levels:
 
-By default, everything written by a method into the standard output is
-written to the log file as a single entry with the log level
-`INFO`. Messages written into the standard error are handled
-similarly otherwise, but they are echoed back to the original stderr
-after the keyword execution has finished. It is thus possible to use
-the stderr if you need some messages to be visible on the console where
-tests are executed.
-
-Using log levels
 使用日志级别
-''''''''''''''''
+''''''''''''
 
-要使用其它的日志级别, 可以将明确的日志级别嵌入到日志消息中, 以 `*级别* 实际内容` 的格式提供. 其中 `*级别*` 必须在行首, 而且必须是下列日志级别的其中之一:  `TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR` 和 `HTML`.
+要使用其它的日志级别, 可以在日志消息中指明日志级别, 格式是 ``*LEVEL* 日志消息``. 其中 ``*LEVEL*`` 必须在行首, 而且必须是下列日志级别的其中之一:  ``TRACE``, ``DEBUG``, ``INFO``, ``WARN``, ``ERROR`` 和 ``HTML``.
 
 
-To use other log levels than `INFO`, or to create several
-messages, specify the log level explicitly by embedding the level into
-the message in the format `*LEVEL* Actual log message`, where
-`*LEVEL*` must be in the beginning of a line and `LEVEL` is
-one of the available logging levels `TRACE`, `DEBUG`,
-`INFO`, `WARN`, `ERROR` and `HTML`.
 
 错误与警告
-'''''''''''''''''''
+''''''''''
 
-`ERROR` 或 `WARN` 级别的消息会自动写入控制台, 并在日志文件中写入单独的 `测试执行错误章节`__. 这些都是为了让这些消息提示更加显著
+``ERROR`` 或 ``WARN`` 级别的消息会自动写入控制台, 并在日志文件中写入单独的 :ref:`测试执行错误章节 <errors and warnings during execution>`. 这都是为了让错误消息提示更加显著, 以便向用户报告那些重要的问题.
 
-Messages with `ERROR` or `WARN` level are automatically written to the
-console and a separate `Test Execution Errors section`__ in the log
-files. This makes these messages more visible than others and allows
-using them for reporting important but non-critical problems to users.
-
-.. note:: 在 Robot Framework 2.9 版本中, 把 ERRORs 自动写入测试执行错误章节
+.. note:: 在 Robot Framework 2.9 版本中, ERROR 日志自动写入测试执行错误章节
           作为新功能被加入.
 
 
-.. note:: In Robot Framework 2.9, new functionality was added to automatically
-          add ERRORs logged by keywords to the Test Execution Errors section.
+.. _Logging HTML:
 
-__ `测试执行中的错误和警告`_
+HTML日志
+''''''''
 
-Logging HTML
-''''''''''''
+测试库写日志的所有内容, 默认情况下都会被转换为 可被安全表示为HTML 的格式. 例如, ``<b>foo</b>`` 在日志中会完全按原样展示, 而不是粗体的 **foo**. 
+如果测试库希望显示格式化的内容, 或者链接, 图片等等, 就可以使用一种特殊的伪测试级别 ``HTML``. Robot Framework 仍将这些消息按 ``INFO`` 级别写入日志, 但是可以使用任意的 HTML 语法. 
 
-测试库写日志的所有内容, 默认情况下都会被转换为 可被安全表示为HTML 的格式. 例如, `<b>foo</b>` 在日志中会完全按原样展示, 而不是粗体的 **foo**. 
-如果测试库希望显示格式化的内容, 或者链接, 图片等等, 就可以使用一种特殊的伪测试级别 `HTML`. Robot Framework 仍将这些消息按 `INFO` 级别写入日志, 但是可以使用任意的 HTML 语法. 
-注意, 这个特性功能需要小心使用, 因为一个错误的 `</table>` 标签就有可能使整个日志文件变得非常糟糕.
+注意, 这个特性功能需要小心使用, 因为一个错误的 ``</table>`` 标签就有可能使整个日志文件变得非常糟糕.
 
-当使用 `日志API`_ 时, 不同日志级别的方法都提供了一个可选选项 `html`, 如果想使用HTML格式的内容, 可以将其设置为 `True`
+当使用 :ref:`public logging API` 时, 不同日志级别的方法都提供了一个可选选项 ``html``, 如果想使用HTML格式的内容, 可以将其设置为 ``True``
 
 
 时间戳
-''''''''''
+''''''
 
 默认情况下, 通过stdout或stderr记录的日志消息的时间戳是在关键字结束后获取到的. 这就意味着这个时间戳是不准确的, 特别是在一个长时间执行的关键字中, 想借此定位问题是有问题的.
 
-如果有需要的话, 关键字可以为日志消息添加精确的时间戳. 这个时间戳必须以 `Unix时间戳`__ 的格式提供, 紧跟 `日志级别`_ 后面, 两者以冒号(:)隔开, 例如::
+如果有需要的话, 关键字可以为日志消息添加精确的时间戳. 这个时间戳必须以 :ref:`Unix时间戳 <http://en.wikipedia.org/wiki/Unix_epoch>` 的格式提供, 紧跟 :ref:`日志级别 <using log levels>` 后面, 两者以冒号(:)隔开, 例如::
 
    *INFO:1308435758660* Message with timestamp
    *HTML:1308435758661* <b>HTML</b> message with timestamp
 
-参考下面的示例, 添加这种时间戳对于Python和Java来说都是很容易的事情. 如果使用的是Python, 通过使用 `日志API`_ 会格外简单. 添加明确的时间戳的一个好处是其在 `远程库接口`_ 中仍然有效.
-
-
-As illustrated by the examples below, adding the timestamp is easy
-both using Python and Java. If you are using Python, it is, however,
-even easier to get accurate timestamps using the `programmatic logging
-APIs`_. A big benefit of adding timestamps explicitly is that this
-approach works also with the `remote library interface`_.
+如下例所示, 添加这种时间戳对于Python和Java来说都是很容易的事情. 如果使用的是Python, 通过使用 :ref:`programmatic logging APIs` 会格外简单. 添加明确的时间戳的一个好处是其在 :ref:`远程库接口 <remote library interface>` 中仍然有效.
 
 Python:
 
@@ -1135,17 +1072,16 @@ Java:
         System.out.println("*INFO:" + System.currentTimeMillis() + "* Message with timestamp");
     }
 
-__ http://en.wikipedia.org/wiki/Unix_epoch
-__ `Using log levels`_
+.. _logging to console:
 
 控制台日志
-Logging to console
-''''''''''''''''''
+''''''''''
 
-测试库如果想向控制台写入一些内容, 可以有几种选择. 前面已经讨论过的, 警告消息, 以及所有写入到stderr中内容会同时写入日志文件和控制台. 
-这两种方式都有一个限制, 那就是消息只有等当前的关键字执行完毕后才会打印出来. 但是有个好处是, 这两种方法在Python和Java中都可用.
+测试库如果想向控制台写入一些内容, 可以有好几种选择. 前面已经讨论过, 警告消息, 以及所有写入到stderr中内容会同时写入日志文件和控制台. 
 
-另一个方式只有Python支持, 那就是把消息写入  `sys.__stdout__` 或 `sys.__stderr__`. 这种方式, 消息会立即在控制台显示, 并且不会写入到日志文件. 例如:
+这两种方式都有一个限制, 那就是消息只有等当前的关键字执行完毕后才会打印出来. 而好处是, 这两种方法在Python和Java中都可用.
+
+另一个方式只有Python支持, 那就是把消息写入  ``sys.__stdout__`` 或 ``sys.__stderr__``. 这种方式, 消息会立即在控制台显示, 并且不会写入到日志文件. 例如:
 
 .. sourcecode:: python
 
@@ -1154,7 +1090,7 @@ Logging to console
    def my_keyword(arg):
       sys.__stdout__.write('Got arg %s\n' % arg)
 
-最后一个选择就是使用 `Public日志API`_:
+最后一个选择就是使用 :ref:`public logging API`:
 
 .. sourcecode:: python
 
@@ -1166,13 +1102,13 @@ Logging to console
    def log_to_console_and_log_file(arg)
       logger.info('Got arg %s' % arg, also_console=True)
 
-.. Logging example
+.. logging example:
 日志示例
-'''''''''''''''
+''''''''
 
-`INFO` 级别的日志可以胜任大多数情况. 比它更低的级别, `DEBUG` 和 `TRACE`, 用来打印调试信息. 这两种消息平常不怎么展示, 但在debugging测试库自身的问题时很有用. `WARN` 或 `ERROR` 级别可以使得消息提示更显著. 而 `HTML` 在需要多种格式的时候很有用.
+``INFO`` 级别的日志可以满足大多数情况. 比它更低的级别, ``DEBUG`` 和 ``TRACE``, 用来打印调试信息. 这两种消息平常不怎么展示, 但在debugging测试库自身的问题时很有用. ``WARN`` 或 ``ERROR`` 级别可以使得消息提示更显著. 而 ``HTML`` 在需要多种格式的时候很有用.
 
-下面的示例阐明了不同的日志级别是如何工作的. 对于Java程序员来说, 下面代码中的 `print 'message'` 可以认为是 `System.out.println("message");`.
+下面的示例阐明了不同的日志级别是如何工作的. 对于Java程序员来说, 下面代码中的 ``print 'message'`` 可以认为是 ``System.out.println("message");``.
 
 .. sourcecode:: python
 
@@ -1232,19 +1168,22 @@ Logging to console
    </table>
 
 
-.. Programmatic logging APIs
-编程日志API
-^^^^^^^^^^^^^^^^^^^^^^^^^
+.. _programmatic logging APIs:
 
-日志API, 相对于往stdout和stderr中写入内容, 提供了更清晰的写日志方式. 但是, 当前这些接口只对基于Python的库可用.
+编程式日志API
+^^^^^^^^^^^^^
 
-Public logging API
-''''''''''''''''''
-Robot Framework 提供了基于Python的日志API, 可以用来写日志文件和控制台. 测试库可以按照类似 `logger.info('My message')` 的方式来调用API, 以替代直接写stdout的方式 `print '*INFO* My message'`. 使用API接口不但看上去更清楚, 还有个好处是可以提供精确的 `时间戳`_.
+用于编程写日志的API, 相对于往stdout和stderr中写入内容, 提供了更清晰的写日志方式. 但是, 当前这些API只对基于Python的库可用.
 
-The public logging API `is thoroughly documented`__ as part of the API
-documentation at https://robot-framework.readthedocs.org. Below is
-a simple usage example:
+.. _Public logging API:
+
+日志API
+'''''''
+Robot Framework 提供了基于Python的日志API, 可以用来写日志文件和控制台. 测试库可以按照类似 ``logger.info('My message')`` 的方式来调用API, 以替代直接写stdout的方式 ``print '*INFO* My message'``. 
+
+使用API接口不但看上去更清楚, 还有个好处是可以提供精确的 :ref:`timestamps`.
+
+日志API作为Robot Framework `API文档 <https://robot-framework.readthedocs.org>`_ 的一部分, 详见 `这里 <https://robot-framework.readthedocs.org/en/latest/autodoc/robot.api.html#module-robot.api.logger>`_. 下面是一个简单的示例:
 
 .. sourcecode:: python
 
@@ -1256,22 +1195,14 @@ a simple usage example:
        logger.info('<i>This</i> is a boring example', html=True)
        logger.console('Hello, console!')
 
-使用这个日志API的一个明显的限制是会使测试库依赖于 Robot Framework. 在 2.8.7 版本之前, Robot还必须是运行状态才可用. 从 2.8.7 版本开始, 如果Robot不在运行中, 消息会自动重定向到Python的标准 logging__ 模块.
+使用这个日志API的一个明显的限制是会使测试库依赖于 Robot Framework. 在 2.8.7 版本之前, Robot还必须是运行状态才可用. 从 2.8.7 版本开始, 如果Robot不在运行中, 消息会自动重定向到Python的标准 `logging <http://docs.python.org/library/logging.html>`_ 模块.
 
-An obvious limitation is that test libraries using this logging API have
-a dependency to Robot Framework. Before version 2.8.7 Robot also had
-to be running for the logging to work. Starting from Robot Framework 2.8.7
-if Robot is not running the messages are redirected automatically to Python's
-standard logging__ module.
-
-__ https://robot-framework.readthedocs.org/en/latest/autodoc/robot.api.html#module-robot.api.logger
-__ http://docs.python.org/library/logging.html
+.. _using Python's standard `logging` module:
 
 使用Python标准 `logging` 模块
-Using Python's standard `logging` module
-''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''
 
-除了 `public logging API`_, Robot Framework 提供对Python标准日志模块 logging__ 的支持. 使用这个模块后, 所有root logger收到的消息都会自动传递给 Robot Framework的日志文件. 同样, 该API提供了精确 时间戳_ 的支持. 但是不支持HTML格式, 以及向控制台打印日志. 
+除了 :ref:`public logging API`, Robot Framework 提供对Python标准日志模块 `logging <http://docs.python.org/library/logging.html>`_ 的支持. 使用这个模块后, 所有root logger收到的消息都会自动传递给 Robot Framework的日志文件. 同样, 该API提供了精确 :ref:`timestamps` 的支持. 但是不支持HTML格式, 以及向控制台打印日志. 
 最大的好处是, 使用这种日志API不会对 Robot Framework 产生依赖.
 
 .. sourcecode:: python
@@ -1283,32 +1214,22 @@ Using Python's standard `logging` module
        do_something()
        logging.info('This is a boring example')
 
-`logging` 模块的日志级别和Robot Framework的相比略有不同, 其中 `DEBUG`, `INFO`, `WARNING` 和 `ERROR` 直接对应Robot Framework相应的日志级别, `CRITICAL` 对应 `ERROR`. 
-自定义的日志级别映射为 "和它最接近, 同时低于它" 的标准级别. 例如, 介于 `INFO` 和 `WARNING` 之间的级别最终映射为 `INFO` 级别.
+``logging`` 模块的日志级别和Robot Framework的相比略有不同, 其中 ``DEBUG``, ``INFO``, ``WARNING`` 和 ``ERROR`` 直接对应Robot Framework相应的日志级别, ``CRITICAL`` 对应 ``ERROR``. 
 
-__ http://docs.python.org/library/logging.html
+自定义的日志级别映射为 "和它最接近, 同时低于它" 的标准级别. 例如, 介于 ``INFO`` 和 ``WARNING`` 之间的级别最终映射为 `INFO` 级别.
+
 
 .. Logging during library initialization
+
 库初始化时写日志
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
 
-库在导入和初始化时也可以写日志. 这部分日志不会和普通日志消息一样写入 `日志文件`_, 而是写入 `syslog`_. 这种日志可以将任何关于库的初始化的debug信息记录下来. 级别设置为 `WARN` 或者 `ERROR` 的日志同时也可在 `测试执行错误`_ 章节中看到.
+库在导入和初始化时也可以写日志. 这部分日志不会和普通日志消息一样写入 :ref:`log file`, 而是写入 :ref:`syslog`. 这种日志可以将任何关于库的初始化的debug信息记录下来. 级别为 ``WARN`` 或者 ``ERROR`` 的日志同时也可在 :ref:`test execution errors` 章节中看到.
 
-Libraries can also log during the test library import and initialization.
-These messages do not appear in the `log file`_ like the normal log messages,
-but are instead written to the `syslog`_. This allows logging any kind of
-useful debug information about the library initialization. Messages logged
-using the `WARN` or `ERROR` levels are also visible in the `test execution errors`_
-section in the log file.
 
-这种日志既可以使用 `标准输出和错误流`__ 的方式, 也可以使用 `编程日志API`_. 下面的例子都做了说明:
+这种日志既可以使用 :ref:`标准输出和错误流 <logging information>` 的方式, 也可以使用 :ref:`programmatic logging APIs`. 下面的例子都做了说明:
 
-Logging during the import and initialization is possible both using the
-`standard output and error streams`__ and the `programmatic logging APIs`_.
-Both of these are demonstrated below.
-
-Java库在初始化时通过stdout写日志
-Java library logging via stdout during initialization:
+Java库在初始化时通过stdout写日志:
 
 .. sourcecode:: java
 
@@ -1324,7 +1245,6 @@ Java library logging via stdout during initialization:
    }
 
 Python库在导入时通过logging API写日志:
-Python library logging using the logging API during import:
 
 .. sourcecode:: python
 
@@ -1335,38 +1255,19 @@ Python library logging using the logging API during import:
    def keyword():
        # ...
 
-.. note:: 如果你在初始化阶段写日志, 例如, 在Python的 `__init__` 方法中或者Java的构造函数中, 这些日志按 `测试库作用域`_ 的不同, 可能会记录多次.
+.. note:: 如果你在初始化阶段写日志, 例如, 在Python的 ``__init__`` 方法中或者Java的构造函数中, 这些日志按 :ref:`test library scope` 的不同, 可能会记录多次.
 
-
-.. note:: If you log something during initialization, i.e. in Python
-          `__init__` or in Java constructor, the messages may be
-          logged multiple times depending on the `test library scope`_.
-
-__ `Logging information`_
 
 .. Returning values
+
 返回值
-^^^^^^^^^^^^^^^^
+^^^^^^
 
-关键字与核心框架间交互的最后一步就是返回值, 该值可以是从被测系统获取, 也可能是其它方式生成的. 这个返回值可以被 `赋值给变量`__, 然后作为其它关键字的输入, 这些关键字可以是属于不同的测试库的. 
+关键字与核心框架间交互的最后一步就是返回值, 该值可以是从被测系统获取的, 也可能是其它方式生成的. 
 
-The final way for keywords to communicate back to the core framework
-is returning information retrieved from the system under test or
-generated by some other means. The returned values can be `assigned to
-variables`__ in the test data and then used as inputs for other keywords,
-even from different test libraries.
+返回值可以被 :ref:`赋值给变量 <return values from keywords>`, 然后作为其它关键字的输入, 而这些关键字可以是属于不同的测试库的. 
 
-在Python和Java方法中, 都使用 `return` 语句来返回值. 一般情况下,  一个值会赋给一个 `标量变量`__, 如下例所示. 该示例还展现了返回值可以是任意对象, 并且使用 `扩展变量语法`_ 来获取对象的属性.
-
-
-Values are returned using the `return` statement both from
-the Python and Java methods. Normally, one value is assigned into one
-`scalar variable`__, as illustrated in the example below. This example
-also illustrates that it is possible to return any objects and to use
-`extended variable syntax`_ to access object attributes.
-
-__ `Return values from keywords`_
-__ `Scalar variables`_
+在Python和Java方法中, 都使用 ``return`` 语句来返回值. 一般情况下,  一个值会赋给一个 :ref:`标量变量 <scalar variables>`, 如下例所示. 该示例还展现了返回值可以是任意对象, 并且使用 :ref:`extended variable syntax` 来获取对象的属性.
 
 .. sourcecode:: python
 
@@ -1387,15 +1288,7 @@ __ `Scalar variables`_
        ${object} =    Return Object    Robot
        Should Be Equal    ${object.name}    Robot
 
-关键字还可以一次返回多个值, 这些值可以一次性的赋值给多个 `标量变量`_, 或者是一个 `列表变量`__, 亦或者是若干标量变量加上一个列表变量. 所有这些用法要求返回的值是Python的列表(lists)或者元组(tuples), 或者是Java中的数组(arrays), 列表(Lists)或迭代器(Iterators).
-
-Keywords can also return values so that they can be assigned into
-several `scalar variables`_ at once, into `a list variable`__, or
-into scalar variables and a list variable. All these usages require
-that returned values are Python lists or tuples or
-in Java arrays, Lists, or Iterators.
-
-__ `List variables`_
+关键字还可以一次返回多个值, 这些值可以一次性的赋值给多个 :ref:`scalar variables`, 或者是 :ref:`一个列表变量 <list variables>`, 亦或者是若干标量变量加上一个列表变量. 所有这些用法要求返回的值是Python的列表(lists)或者元组(tuples), 或者是Java中的数组(arrays), 列表(Lists)或迭代器(Iterators).
 
 .. sourcecode:: python
 
@@ -1422,59 +1315,32 @@ __ `List variables`_
 
 .. Communication when using threads
 使用多线程
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^
 
 如果库使用了多线程, 通常应该只在主线程中与框架通讯. 如果一个工作线程需要发送错误报告或者其它日志, 它应该首先将信息传给主线程. 主线程使用异常或本章介绍的其它机制来与框架通讯.
 
-If a library uses threads, it should generally communicate with the
-framework only from the main thread. If a worker thread has, for
-example, a failure to report or something to log, it should pass the
-information first to the main thread, which can then use exceptions or
-other mechanisms explained in this section for communication with the
-framework.
+当线程在后台运行, 同时其它关键字在运行时这点显得尤为重要. 这种情况下, (子线程)和框架间的通讯是未定义的(undefined), 在最坏的情况下甚至会导致程序崩溃, 或者输出文件损坏. 
 
-当线程在后台运行, 同时其它关键字在运行时这点显得尤为重要. 这种情况下, (子线程)和框架间的通讯是未定义的(undefined), 甚至在最坏的情况下会导致程序崩溃, 或者输出文件损坏. 
 如果一个关键字启动了后台任务, 那么要想检查后台线程的状态, 或者搜集相应的信息上报, 需要使用另外的关键字来完成.
 
-This is especially important when threads are run on background while
-other keywords are running. Results of communicating with the
-framework in that case are undefined and can in the worst case cause a
-crash or a corrupted output file. If a keyword starts something on
-background, there should be another keyword that checks the status of
-the worker thread and reports gathered information accordingly.
+在非主线程中使用 :ref:`programmatic logging APIs` 写日志会被默默忽略.
 
-非主线程中使用 `编程日志API`_ 提供的普通写日志方法, 内容会被默默地忽略.
+不过, 有个单独的 `robot后台日志 <https://github.com/robotframework/robotbackgroundlogger>`_ 项目, 提供了  ``BackgroundLogger`` , 拥有和标准 ``robot.api.logger`` 类似的API. 使用 ``BackgroundLogger`` , 非主线程的日志消息也会被保存下来.
 
-Messages logged by non-main threads using the normal logging methods from
-`programmatic logging APIs`_  are silently ignored.
 
-不过, 有个单独的 robot后台日志__ 项目, 提供了  `BackgroundLogger` , 拥有和标准 `robot.api.logger` 类似的API. 使用 `BackgroundLogger` , 非主线程的日志消息也会被保存下来.
-
-There is also a `BackgroundLogger` in separate robotbackgroundlogger__ project,
-with a similar API as the standard `robot.api.logger`. Normal logging
-methods will ignore messages from other than main thread, but the
-`BackgroundLogger` will save the background messages so that they can be later
-logged to Robot's log.
-
-__ https://github.com/robotframework/robotbackgroundlogger
+.. _distributing test libraries:
 
 测试库的分发
-Distributing test libraries
----------------------------
+------------
+
+.. _documenting libraries:
 
 测试库的文档
-Documenting libraries
-^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^
 
-一个测试库如果没有提供文档来说明其中包含了哪些关键字, 以及这些关键字的用途的话, 那么不如说这个测试库是没用的(useless). 为了容易维护, 强烈建议把测试库的文档内容直接写在源代码里, 并从中生成文档. 基本上, 这意味着在Python中要使用 docstrings_, 在Java中使用  Javadoc_. 如下例所示:
+一个测试库如果没有提供文档来说明其中包含了哪些关键字, 以及这些关键字的用途的话, 那么不如说这个测试库是没用的(useless). 
 
-
-A test library without documentation about what keywords it
-contains and what those keywords do is rather useless. To ease
-maintenance, it is highly recommended that library documentation is
-included in the source code and generated from it. Basically, that
-means using docstrings_ with Python and Javadoc_ with Java, as in
-the examples below.
+为了容易维护, 强烈建议把测试库的文档内容直接写在源代码里, 并从中生成文档. 基本上, 这意味着在Python中要使用 docstrings_, 在Java中使用  Javadoc_. 如下例所示:
 
 .. sourcecode:: python
 
@@ -1517,37 +1383,17 @@ the examples below.
 
     }
 
-对于如上所示的库文档, Python和Java都有各自的工具来生成API文档. 不过, 这些工具的输出对某些用户来说显得稍微有些专业. 
-另一种方式是使用 Robot Framework自带的文档工具 Libdoc_. 这个工具不但可以创建使用静态库API的库文档, 不管是使用Python还是Java, 同时还能处理使用了 `动态库API`_ 和 `混合库API`_
+对于如上所示的源码中的库文档, Python和Java都有各自的工具来生成API文档. 不过, 这些工具的使用对某些用户来说显得稍微有些专业. 
 
-Both Python and Java have tools for creating an API documentation of a
-library documented as above. However, outputs from these tools can be slightly
-technical for some users. Another alternative is using Robot
-Framework's own documentation tool Libdoc_. This tool can
-create a library documentation from both Python and Java libraries
-using the static library API, such as the ones above, but it also handles
-libraries using the `dynamic library API`_ and `hybrid library API`_.
+另一种方式是使用 Robot Framework自带的文档工具 Libdoc_. 这个工具不但可以创建使用静态库API的库文档, 不管是使用Python还是Java, 同时还能处理使用了 :ref:`dynamic library API` 和 :ref:`hybrid library API`
 
-关键字文档的第一行用于特殊用途, 一般包含对该关键字的简短概述. 它在某些情况下被当作是 *短文档* 来使用, 例如在 Libdoc_ 中可作为工具提示, 也可以在日志中展示. 不过在日志中展示对Java静态库不适用, 因为Java源码中的文档会在编译时去掉, 自然也不能在运行时获取到了.  
+关键字文档的第一行用于特殊用途, 一般包含对该关键字的简短概述. 它在某些情况下被当作是 *短文档* (即摘要)来使用, 例如在 Libdoc_ 中将作为工具提示(tool tip), 也在日志中展示( 在日志中展示对Java静态库不适用, 因为Java源码中的文档会在编译时去掉, 自然也不能在运行时获取到了).  
 
-The first line of a keyword documentation is used for a special
-purpose and should contain a short overall description of the
-keyword. It is used as a *short documentation*, for example as a tool
-tip, by Libdoc_ and also shown in the test logs. However, the latter
-does not work with Java libraries using the static API,
-because their documentations are lost in compilation and not available
-at runtime.
+默认情况下, 文档内容被认为是遵从 Robot Framework的 :ref:`documentation formatting` 规则的. 这份简单的格式允许使用常用的样式, 如 ``*粗体*`` 和 ``_斜体_``, 表格, 列表, 链接等.
 
-默认情况下, 文档内容被认为是遵从 Robot Framework的 `文档格式`__ 规则的. 这份简单的格式允许使用常用的样式, 如 `*粗体*` 和 `_斜体_`, 表格, 列表, 链接等.
-从 Robot Framework 2.7.5版本开始, 还可以使用HTML, 纯文本和 reStructuredText_ 格式.
+从 Robot Framework 2.7.5版本开始, 还可以使用HTML, 纯文本和 reStructuredText_ 格式. 
 
-By default documentation is considered to follow Robot Framework's
-`documentation formatting`_ rules. This simple format allows often used
-styles like `*bold*` and `_italic_`, tables, lists, links, etc.
-Starting from Robot Framework 2.7.5, it is possible to use also HTML, plain
-text and reStructuredText_ formats. See `Specifying documentation format`_
-section for information how to set the format in the library source code and
-Libdoc_ chapter for more information about the formats in general.
+关于如何设置库源码的格式请参见 :ref:`specifying documentation format`, 关于格式的更多信息请参阅 Libdoc_ 相关章节.
 
 .. note:: If you want to use non-ASCII characters in the documentation of
           Python libraries, you must either use UTF-8 as your `source code
@@ -1557,9 +1403,11 @@ Libdoc_ chapter for more information about the formats in general.
 .. _javadoc: http://java.sun.com/j2se/javadoc/writingdoccomments/index.html
 __ http://www.python.org/dev/peps/pep-0263
 
+
+.. Testing libraries
+
 库的测试
-Testing libraries
-^^^^^^^^^^^^^^^^^
+^^^^^^^^
 
 所有正式应用的测试库自身都需要彻底的被测试, 以避免其中的bug. 当然, 这些测试应该是自动化的, 这样当库有所改变时可以快速的回归测试.
 
@@ -1698,11 +1546,11 @@ __ `Documenting libraries`_
 __ `User keyword name and documentation`_
 __ `Creating static keywords`_
 
-.. _Dynamic library:
+.. _dynamic library:
+.. _dynamic library API:
 
 动态库API
-Dynamic library API
--------------------
+----------
 
 动态库API大部分情况和静态API类似. 例如, 报告关键字状态, 写日志, 以及返回值, 都是以完全相同的方式工作. 最重要的是, 和其它测试库相比, 导入动态库并使用其中的关键字,
 完全没有区别. 换句话说, 用户无需知道测试库是使用何种API实现的.
@@ -2178,8 +2026,10 @@ are completely optional.
 A good example of using the dynamic API is Robot Framework's own
 `Remote library`_.
 
+.. _hybrid library API:
+
 混合库API
-------------------
+---------
 
 顾名思义, 混合库API是介于静态API和动态API之间的混合. 和动态API一样, 混合API只能以类的方式实现.
 
