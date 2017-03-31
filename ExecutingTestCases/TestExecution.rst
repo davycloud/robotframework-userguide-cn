@@ -185,7 +185,7 @@ teardown总是继续
 
 当使用 :ref:`测试模板 <test templates>` 时, 所有的数据行都会被执行到, 以确保所有的数据组合都被测试到. 这种用法仅限于顶层关键字, 也就是说, 如果这些关键字中间发生了不可继续执行的错误, 这个过程还是会和正常的一样结束.
 
-.. Stopping test execution gracefully
+.. _stopping test execution gracefully:
 
 优雅地结束测试执行
 ------------------

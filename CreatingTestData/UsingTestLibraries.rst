@@ -109,6 +109,8 @@ is the library imported using the :setting:`Library` setting or the
 
 .. Setting custom name to test library
 
+.. _with name syntax:
+
 测试库设置别名
 --------------
 
@@ -185,7 +187,7 @@ is the library imported using the :setting:`Library` setting or the
 .. _Telnet: ../libraries/Telnet.html
 .. _XML: ../libraries/XML.html
 
-.. Remote library
+.. _remote library:
 
 远程库
 ~~~~~~~

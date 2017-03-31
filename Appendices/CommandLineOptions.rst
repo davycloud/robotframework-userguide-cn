@@ -88,7 +88,7 @@
 .. Command line options for post-processing outputs
 
 用于后处理输出的命令行选项
-------------------------------------------------
+--------------------------
 
   -R, --merge             Changes result combining behavior to `merging <merging outputs_>`__.
   --rerunmerge            Deprecated since Robot Framework 2.8.6.
@@ -145,7 +145,7 @@
   --version               Prints the `version information`_.
 
 
-.. _Sets the name: `Setting the name`_
+.. _Sets the name: :ref:`Setting the name`
 .. _Sets the documentation: `Setting the documentation`_
 .. _Sets free metadata: `Setting free metadata`_
 .. _Sets the tag(s): `Setting tags`_
@@ -215,3 +215,8 @@ Environment variables for execution and post-processing
 
 __ `ROBOT_OPTIONS and REBOT_OPTIONS environment variables`_
 __ `Debugging problems`_
+
+
+.. option:: --prerebotmodifier
+
+   Activate `programmatic modification of results`_.

@@ -394,6 +394,7 @@ Libdoc_ 章节.
    def not_exposed_as_keyword():
        pass
 
+.. _keyword names:
 
 关键字名称
 ^^^^^^^^^^
@@ -655,7 +656,7 @@ Python的语法本身就支持让方法可以接受任意数量的参数. 相同
 
 Java中的可变数量的参数
 ''''''''''''''''''''''
-Robot Framework 支持 :ref:`Java可变数量参数的语法 <http://docs.oracle.com/javase/1.5.0/docs/guide/language/varargs.html>`. 下面的例子和上面Python的例子
+Robot Framework 支持 `Java可变数量参数的语法 <http://docs.oracle.com/javase/1.5.0/docs/guide/language/varargs.html>`_. 下面的例子和上面Python的例子
 在功能上是一样的:
 
 .. sourcecode:: java
@@ -870,10 +871,11 @@ Java的关键字方法可能会有多个签名, 强制转换只有在有相同�
 使用装饰器
 ^^^^^^^^^^
 
-当编写静态关键字时, 有时候使用Python的装饰器修改它们会很方便. 但是, 装饰器修改了函数的签名, 这会让 Robot Framework 在判断关键字能接受什么参数时产生混乱. 特别是用 Libdoc_ 创建库文档和使用 RIDE_ 时. 为了避免这种情况, 要么就不要用装饰器, 要么使用方便的 :ref:`装饰器模块 <http://micheles.googlecode.com/hg/decorator/documentation.html>` 创建保留签名的装饰器. 
+当编写静态关键字时, 有时候使用Python的装饰器修改它们会很方便. 但是, 装饰器修改了函数的签名, 这会让 Robot Framework 在判断关键字能接受什么参数时产生混乱. 特别是用 Libdoc_ 创建库文档和使用 RIDE_ 时. 为了避免这种情况, 要么就不要用装饰器, 要么使用方便的 `装饰器模块 <http://micheles.googlecode.com/hg/decorator/documentation.html>`_ 创建保留签名的装饰器. 
 
 .. hint:: 译注: 上面的链接貌似已经失效.
 
+.. _embedding arguments into keyword names:
 
 关键字中嵌入参数
 ^^^^^^^^^^^^^^^^
@@ -901,6 +903,7 @@ Java的关键字方法可能会有多个签名, 强制转换只有在有相同�
 
 当关键字方法被调用后, 它可以使用任何机制去和被测系统通讯. 同时, 它还可以发送消息给 Robot Framework的日志文件, 返回结果以保存到变量中, 最重要的, 报告该关键字是否通过了(passed).
 
+.. _reporting keyword status:
 
 报告关键字状态
 ^^^^^^^^^^^^^^
@@ -1005,6 +1008,7 @@ Java:
     }
 
 
+.. _logging information:
 
 日志信息
 ^^^^^^^^
@@ -1043,6 +1047,7 @@ HTML日志
 
 当使用 :ref:`public logging API` 时, 不同日志级别的方法都提供了一个可选选项 ``html``, 如果想使用HTML格式的内容, 可以将其设置为 ``True``
 
+.. _timestamps:
 
 时间戳
 ''''''
@@ -1259,7 +1264,7 @@ Python库在导入时通过logging API写日志:
 .. note:: 如果你在初始化阶段写日志, 例如, 在Python的 ``__init__`` 方法中或者Java的构造函数中, 这些日志按 :ref:`test library scope` 的不同, 可能会记录多次.
 
 
-.. Returning values
+.. _returning values:
 
 返回值
 ^^^^^^
@@ -1503,7 +1508,7 @@ Python和Java都有出色的单元测试工具, 很适合用来测试自己开�
 
 动态库必须总是包含这个方法, 如果没有, 或者调用该方法时发生了错误, 这个库将被视作静态库.
 
-.. Marking methods to expose as keywords
+.. _marking methods to expose as keywords:
 
 将方法标记为关键字
 ''''''''''''''''''
@@ -1618,7 +1623,8 @@ Python和Java都有出色的单元测试工具, 很适合用来测试自己开�
 今后有可能会添加单独的 ``get_keyword_tags`` 方法到动态库的API中.
 
 
-.. Getting general library documentation
+.. _getting general library documentation:
+
 获取库的综合文档
 ^^^^^^^^^^^^^^^^
 
@@ -1733,7 +1739,7 @@ Python和Java都有出色的单元测试工具, 很适合用来测试自己开�
 .. note:: 除了使用 ``List``, 还可以使用数组, 如 ``Object[]`` 或 ``String[]``.
 
 
-使用动态API的一个很好的例子是Robot Framework自带的 `Remote library`_.
+使用动态API的一个很好的例子是Robot Framework自带的 :ref:`remote library`.
 
 
 .. _hybrid library API:
