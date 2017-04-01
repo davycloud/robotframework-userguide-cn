@@ -133,7 +133,8 @@ Robot Framework 的测试用例在测试文件中使用测试用例表格来 :re
 
 高层测试套件的名称和文档都可以在执行的时候, 通过命令行选项 :option:`--name` 和 :option:`--doc` 分别覆盖. 详见 `Setting metadata`_.
 
-.. _Free test suite metadata:
+.. _ts meta:
+.. _free test suite metadata:
 
 测试套件的metadata
 ------------------
@@ -151,6 +152,9 @@ Robot Framework 的测试用例在测试文件中使用测试用例表格来 :re
 
 对于高层的测试用例集, 可以通过命令行选项 :option:`--metadata` 来设置元数据. 具体细节请参考 `Setting metadata`_.
 
+
+.. _suite setup:
+.. _suite teardown:
 .. _suite setup and teardown:
 
 套件的Setup和Teardown

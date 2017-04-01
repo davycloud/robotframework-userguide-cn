@@ -145,7 +145,7 @@
   --version               Prints the `version information`_.
 
 
-.. _Sets the name: :ref:`Setting the name`
+.. _Sets the name: `Setting the name`
 .. _Sets the documentation: `Setting the documentation`_
 .. _Sets free metadata: `Setting free metadata`_
 .. _Sets the tag(s): `Setting tags`_

@@ -1,7 +1,7 @@
 .. Extending the Robot Framework Jar
 
 扩展Robot Framework的Jar包
-=================================
+==========================
 
 为Robot Framework的jar包添加额外的测试库或支撑代码很简单, 直接使用标准JDK安装包含的 ``jar`` 命令即可. Python代码必须位于jar文件内的 :file:`Lib` 路径内, Java代码可以按包结构直接置于jar的根路径.
 

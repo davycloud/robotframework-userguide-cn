@@ -110,6 +110,7 @@ is the library imported using the :setting:`Library` setting or the
 .. Setting custom name to test library
 
 .. _with name syntax:
+.. _withsyn:
 
 测试库设置别名
 --------------

@@ -70,6 +70,10 @@ Robot Framework 在测试执行开始时实例化监听器类, 而作为模块�
 
 下面的表格中列出了监听器API版本2中的方法. 所有测试执行进度相关的方法的签名都是 ``method(name, attributes)``, 其中 ``attributes`` 是一个字典, 其中包含了事件的详细信息. 对接受到的信息, 除了不能做直接的修改, 监听器方法可以做任意的事情. 如果有修改的需求, 则应该选择 :ref:`listener version 3`.
 
+.. hint:: 译注: 下面的表格都是接口参数说明, 没有翻译, 只是修正了超链接.
+
+
+
 .. table:: Methods in the listener API 2
    :class: tabular
 
@@ -85,7 +89,8 @@ Robot Framework 在测试执行开始时实例化监听器类, 而作为模块�
    |                  |                  |   child, and so on. New in RF 2.8.5.                           |
    |                  |                  | * `longname`: Suite name including parent suites.              |
    |                  |                  | * `doc`: Suite documentation.                                  |
-   |                  |                  | * `metadata`: `Free test suite metadata`_ as a dictionary/map. |
+   |                  |                  | * `metadata`: :ref:`Free test suite metadata <ts meta>`        |
+   |                  |                  |   as a dictionary/map.                                         |
    |                  |                  | * `source`: An absolute path of the file/directory the suite   |
    |                  |                  |   was created from. New in RF 2.7.                             |
    |                  |                  | * `suites`: Names of the direct child suites this suite has    |
@@ -161,7 +166,7 @@ Robot Framework 在测试执行开始时实例化监听器类, 而作为模块�
    |                  |                  |   `Teardown` for the top level keyword used as setup/teardown, |
    |                  |                  |   `For` for for loops, and `For Item` for individual for loop  |
    |                  |                  |   iterations. **NOTE:** Keyword type reporting was changed in  |
-   |                  |                  |   RF 3.0. See issue `#2248`__ for details.                     |
+   |                  |                  |   RF 3.0. See issue `#2248`_ for details.                      |
    |                  |                  | * `kwname`: Name of the keyword without library or             |
    |                  |                  |   resource prefix. New in RF 2.9.                              |
    |                  |                  | * `libname`: Name of the library or resource the               |
@@ -171,7 +176,8 @@ Robot Framework 在测试执行开始时实例化监听器类, 而作为模块�
    |                  |                  | * `args`: Keyword's arguments as a list of strings.            |
    |                  |                  | * `assign`: A list of variable names that keyword's            |
    |                  |                  |   return value is assigned to. New in RF 2.9.                  |
-   |                  |                  | * `tags`: `Keyword tags`_ as a list of strings. New in RF 3.0. |
+   |                  |                  | * `tags`: :ref:`Keyword tags <keyword tags>` as a list         |
+   |                  |                  |   of strings. New in RF 3.0.                                   |
    |                  |                  | * `starttime`: Keyword execution start time.                   |
    +------------------+------------------+----------------------------------------------------------------+
    | end_keyword      | name, attributes | Called when a keyword ends.                                    |
@@ -200,16 +206,18 @@ Robot Framework 在测试执行开始时实例化监听器类, 而作为模块�
    |                  |                  | `message` is a dictionary with the following contents:         |
    |                  |                  |                                                                |
    |                  |                  | * `message`: The content of the message.                       |
-   |                  |                  | * `level`: `Log level`_ used in logging the message.           |
+   |                  |                  | * `level`: :ref:`Log level <log levels>` used in logging       |
+   |                  |                  |   the message.                                                 |   
    |                  |                  | * `timestamp`: Message creation time in format                 |
    |                  |                  |   `YYYY-MM-DD hh:mm:ss.mil`.                                   |
    |                  |                  | * `html`: String `yes` or `no` denoting whether the message    |
    |                  |                  |   should be interpreted as HTML or not.                        |
    |                  |                  |                                                                |
    |                  |                  | Starting from RF 3.0, this method is not called if the message |
-   |                  |                  | has level below the current `threshold level <Log levels_>`_.  |
+   |                  |                  | has level below the current :ref:`threshold level <log levels>`|
    +------------------+------------------+----------------------------------------------------------------+
-   | message          | message          | Called when the framework itself writes a syslog_ message.     |
+   | message          | message          | Called when the framework itself writes a                      |
+   |                  |                  | :ref:`syslog <syslog>` message.                                |
    |                  |                  |                                                                |
    |                  |                  | `message` is a dictionary with the same contents as with       |
    |                  |                  | `log_message` method.                                          |
@@ -217,8 +225,9 @@ Robot Framework 在测试执行开始时实例化监听器类, 而作为模块�
    | library_import   | name, attributes | Called when a library has been imported.                       |
    |                  |                  |                                                                |
    |                  |                  | `name` is the name of the imported library. If the library     |
-   |                  |                  | has been imported using the `WITH NAME syntax`_, `name` is     |
-   |                  |                  | the specified alias.                                           |
+   |                  |                  | has been imported using the :ref:`WITH NAME syntax <withsyn>`, |
+   |                  |                  | `name` is the specified alias.                                 |
+   |                  |                  |                                                                |
    |                  |                  |                                                                |
    |                  |                  | Contents of the attribute dictionary:                          |
    |                  |                  |                                                                |
@@ -263,33 +272,40 @@ Robot Framework 在测试执行开始时实例化监听器类, 而作为模块�
    |                  |                  |                                                                |
    |                  |                  | New in Robot Framework 2.9.                                    |
    +------------------+------------------+----------------------------------------------------------------+
-   | output_file      | path             | Called when writing to an `output file`_ is ready.             |
+   | output_file      | path             | Called when writing to an :ref:`output file <output file>`     |
+   |                  |                  | is ready.                                                      |
+   |                  |                  |                                                                |   
+   |                  |                  | `path` is an absolute path to the file.                        |
+   +------------------+------------------+----------------------------------------------------------------+
+   | log_file         | path             | Called when writing to a :ref:`log file <log file>`            |
+   |                  |                  | is ready.                                                      |
    |                  |                  |                                                                |
    |                  |                  | `path` is an absolute path to the file.                        |
    +------------------+------------------+----------------------------------------------------------------+
-   | log_file         | path             | Called when writing to a `log file`_ is ready.                 |
+   | report_file      | path             | Called when writing to a :ref:`report file <report file>`      |
+   |                  |                  | is ready.                                                      |
    |                  |                  |                                                                |
    |                  |                  | `path` is an absolute path to the file.                        |
    +------------------+------------------+----------------------------------------------------------------+
-   | report_file      | path             | Called when writing to a `report file`_ is ready.              |
+   | xunit_file       | path             | Called when writing to an :ref:`xunit file <xunit file>`       |
+   |                  |                  | is ready.                                                      |
    |                  |                  |                                                                |
    |                  |                  | `path` is an absolute path to the file.                        |
    +------------------+------------------+----------------------------------------------------------------+
-   | xunit_file       | path             | Called when writing to an `xunit file`_ is ready.              |
-   |                  |                  |                                                                |
-   |                  |                  | `path` is an absolute path to the file.                        |
-   +------------------+------------------+----------------------------------------------------------------+
-   | debug_file       | path             | Called when writing to a `debug file`_ is ready.               |
+   | debug_file       | path             | Called when writing to a :ref:`debug file <debug file>`        |
+   |                  |                  | is ready.                                                      |
    |                  |                  |                                                                |
    |                  |                  | `path` is an absolute path to the file.                        |
    +------------------+------------------+----------------------------------------------------------------+
    | close            |                  | Called when the whole test execution ends.                     |
    |                  |                  |                                                                |
+   |                  |                  |                                                                |
    |                  |                  | With `library listeners`_ called when the library goes out     |
    |                  |                  | of scope.                                                      |
    +------------------+------------------+----------------------------------------------------------------+
 
-下面是监听器方法和参数的Java interface定义. 其中 ``java.util.Map attributes`` 内容的定义同样参考上表. 记住, 一个监听器 *不必* 实现所有的方法.
+
+下面是监听器方法和参数的Java interface定义. 其中 ``java.util.Map attributes`` 内容的定义同样参考上表. 记住, 一个监听器 **不必** 实现所有的方法.
 
 .. sourcecode:: java
 
@@ -310,12 +326,12 @@ Robot Framework 在测试执行开始时实例化监听器类, 而作为模块�
        void close();
    }
 
-__ https://github.com/robotframework/robotframework/issues/2248
+.. _#2248: https://github.com/robotframework/robotframework/issues/2248
 
 .. _listener version 3:
 
 监听器版本3
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
 
 监听器版本3大多数方法和 `监听器版本2`_ 一样, 不过这些方法的和测试执行相关的参数不同. 该API获取到了Robot Framework框架自己在运行时刻的实际模型对象(model objects), 监听器既可以从这些对象中查询所需信息, 也可以直接做出修改.
 
@@ -326,75 +342,77 @@ __ https://github.com/robotframework/robotframework/issues/1208#issuecomment-164
 .. table:: Methods in the listener API 3
    :class: tabular
 
-   +------------------+------------------+----------------------------------------------------------------+
-   |    Method        |    Arguments     |                          Documentation                         |
-   +==================+==================+================================================================+
-   | start_suite      | data, result     | Called when a test suite starts.                               |
-   |                  |                  |                                                                |
-   |                  |                  | `data` and `result` are model objects representing             |
-   |                  |                  | the `executed test suite <running.TestSuite_>`_ and `its       |
-   |                  |                  | execution results <result.TestSuite_>`_, respectively.         |
-   +------------------+------------------+----------------------------------------------------------------+
-   | end_suite        | data, result     | Called when a test suite ends.                                 |
-   |                  |                  |                                                                |
-   |                  |                  | Same arguments as with `start_suite`.                          |
-   +------------------+------------------+----------------------------------------------------------------+
-   | start_test       | data, result     | Called when a test case starts.                                |
-   |                  |                  |                                                                |
-   |                  |                  | `data` and `result` are model objects representing             |
-   |                  |                  | the `executed test case <running.TestCase_>`_ and `its         |
-   |                  |                  | execution results <result.TestCase_>`_, respectively.          |
-   +------------------+------------------+----------------------------------------------------------------+
-   | end_test         | data, result     | Called when a test case ends.                                  |
-   |                  |                  |                                                                |
-   |                  |                  | Same arguments as with `start_test`.                           |
-   +------------------+------------------+----------------------------------------------------------------+
-   | start_keyword    | N/A              | Not implemented in RF 3.0.                                     |
-   +------------------+------------------+----------------------------------------------------------------+
-   | end_keyword      | N/A              | Not implemented in RF 3.0.                                     |
-   +------------------+------------------+----------------------------------------------------------------+
-   | log_message      | message          | Called when an executed keyword writes a log message.          |
-   |                  |                  | `message` is a model object representing the `logged           |
-   |                  |                  | message <result.Message_>`_.                                   |
-   |                  |                  |                                                                |
-   |                  |                  | This method is not called if the message has level below       |
-   |                  |                  | the current `threshold level <Log levels_>`_.                  |
-   +------------------+------------------+----------------------------------------------------------------+
-   | message          | message          | Called when the framework itself writes a syslog_ message.     |
-   |                  |                  |                                                                |
-   |                  |                  | `message` is same object as with `log_message`.                |
-   +------------------+------------------+----------------------------------------------------------------+
-   | library_import   | N/A              | Not implemented in RF 3.0.                                     |
-   +------------------+------------------+----------------------------------------------------------------+
-   | resource_import  | N/A              | Not implemented in RF 3.0.                                     |
-   +------------------+------------------+----------------------------------------------------------------+
-   | variables_import | N/A              | Not implemented in RF 3.0.                                     |
-   +------------------+------------------+----------------------------------------------------------------+
-   | output_file      | path             | Called when writing to an `output file`_ is ready.             |
-   |                  |                  |                                                                |
-   |                  |                  | `path` is an absolute path to the file.                        |
-   +------------------+------------------+----------------------------------------------------------------+
-   | log_file         | path             | Called when writing to a `log file`_ is ready.                 |
-   |                  |                  |                                                                |
-   |                  |                  | `path` is an absolute path to the file.                        |
-   +------------------+------------------+----------------------------------------------------------------+
-   | report_file      | path             | Called when writing to a `report file`_ is ready.              |
-   |                  |                  |                                                                |
-   |                  |                  | `path` is an absolute path to the file.                        |
-   +------------------+------------------+----------------------------------------------------------------+
-   | xunit_file       | path             | Called when writing to an `xunit file`_ is ready.              |
-   |                  |                  |                                                                |
-   |                  |                  | `path` is an absolute path to the file.                        |
-   +------------------+------------------+----------------------------------------------------------------+
-   | debug_file       | path             | Called when writing to a `debug file`_ is ready.               |
-   |                  |                  |                                                                |
-   |                  |                  | `path` is an absolute path to the file.                        |
-   +------------------+------------------+----------------------------------------------------------------+
-   | close            |                  | Called when the whole test execution ends.                     |
-   |                  |                  |                                                                |
-   |                  |                  | With `library listeners`_ called when the library goes out     |
-   |                  |                  | of scope.                                                      |
-   +------------------+------------------+----------------------------------------------------------------+
+   +------------------+------------------+--------------------------------------------------------------------+
+   |    Method        |    Arguments     |                          Documentation                             |
+   +==================+==================+====================================================================+
+   | start_suite      | data, result     | Called when a test suite starts.                                   |
+   |                  |                  |                                                                    |
+   |                  |                  | `data` and `result` are model objects representing                 |
+   |                  |                  | the `executed test suite <running.TestSuite_>`_ and `its           |
+   |                  |                  | execution results <result.TestSuite_>`_, respectively.             |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | end_suite        | data, result     | Called when a test suite ends.                                     |
+   |                  |                  |                                                                    |
+   |                  |                  | Same arguments as with `start_suite`.                              |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | start_test       | data, result     | Called when a test case starts.                                    |
+   |                  |                  |                                                                    |
+   |                  |                  | `data` and `result` are model objects representing                 |
+   |                  |                  | the `executed test case <running.TestCase_>`_ and `its             |
+   |                  |                  | execution results <result.TestCase_>`_, respectively.              |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | end_test         | data, result     | Called when a test case ends.                                      |
+   |                  |                  |                                                                    |
+   |                  |                  | Same arguments as with `start_test`.                               |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | start_keyword    | N/A              | Not implemented in RF 3.0.                                         |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | end_keyword      | N/A              | Not implemented in RF 3.0.                                         |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | log_message      | message          | Called when an executed keyword writes a log message.              |
+   |                  |                  | `message` is a model object representing the `logged               |
+   |                  |                  | message <result.Message_>`_.                                       |
+   |                  |                  |                                                                    |
+   |                  |                  | This method is not called if the message has level below           |
+   |                  |                  | the current :ref:`threshold level <log levels>`.                   |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | message          | message          | Called when the framework itself writes a                          |
+   |                  |                  | :ref:`syslog <syslog>` message.                                    |
+   |                  |                  |                                                                    |
+   |                  |                  | `message` is same object as with `log_message`.                    |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | library_import   | N/A              | Not implemented in RF 3.0.                                         |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | resource_import  | N/A              | Not implemented in RF 3.0.                                         |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | variables_import | N/A              | Not implemented in RF 3.0.                                         |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | output_file      | path             | Called when writing to an :ref:`output file <output file>`         |
+   |                  |                  | is ready.                                                          |
+   |                  |                  |                                                                    |
+   |                  |                  | `path` is an absolute path to the file.                            |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | log_file         | path             | Called when writing to a :ref:`log file <log file>` is ready.      |
+   |                  |                  |                                                                    |
+   |                  |                  | `path` is an absolute path to the file.                            |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | report_file      | path             | Called when writing to a :ref:`report file <report file>` is ready.|
+   |                  |                  |                                                                    |
+   |                  |                  | `path` is an absolute path to the file.                            |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | xunit_file       | path             | Called when writing to an :ref:`xunit file <xunit file>` is ready. |
+   |                  |                  |                                                                    |
+   |                  |                  | `path` is an absolute path to the file.                            |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | debug_file       | path             | Called when writing to a :ref:`debug file <debug file>` is ready.  |
+   |                  |                  |                                                                    |
+   |                  |                  | `path` is an absolute path to the file.                            |
+   +------------------+------------------+--------------------------------------------------------------------+
+   | close            |                  | Called when the whole test execution ends.                         |
+   |                  |                  |                                                                    |
+   |                  |                  | With :ref:`library listeners` called when the library              |
+   |                  |                  | goes out of scope.                                                 |
+   +------------------+------------------+--------------------------------------------------------------------+
 
 .. Listeners logging
 

@@ -282,7 +282,7 @@
        [Arguments]    ${path}=.    ${options}=
        Execute command    ls ${options} ${path}
 
-.. _Free keyword arguments:
+.. _free keyword arguments:
 
 任意命名参数
 ~~~~~~~~~~~~
@@ -507,10 +507,12 @@ Robot Framework的标签功能是一个简单而强大的分类机制. 标签本
 
 当然, 将来也许会增加更多的特殊标签.
 
+.. _test setup:
+.. _test teardown:
 .. _test setup and teardown:
 
 Setup和Teardown
------------------------
+---------------
 
 和很多其他测试自动化框架类似, Robot Framework也有setup和teardown的功能. 简而言之, setup在测试用例之前执行, 而teardown在测试用例之后执行. 
 
@@ -561,8 +563,8 @@ Setup或teardown中指定的关键字名称可以使用变量代替. 这样在�
            一个测试套件的setup在其中所有的用例以及所有子套件之前被执行, 而它的
            teardown则在最后.
 
-
-.. _Test templates:
+.. _template keyword: 
+.. _test templates:
 
 测试模板
 --------

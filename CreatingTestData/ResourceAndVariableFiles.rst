@@ -22,10 +22,10 @@
 资源文件
 --------
 
-.. _Taking resource files into use:
+.. _taking resource files into use:
 
-如何使用资源文件
-~~~~~~~~~~~~~~~~
+使用资源文件
+~~~~~~~~~~~~
 
 资源文件通过在设置表格中设定 :setting:`Resource` 来引入. 跟在设置名称后面的值就是资源文件所在的路径. 
 
@@ -104,7 +104,7 @@
 .. _variable files:
 
 变量文件
---------------
+--------
 
 顾名思义, 变量文件中包含了测试数据中的 :ref:`variables`. 虽然变量可以通过变量表格中创建, 或者通过命令行设置, 不过这些方法有所局限, 而变量文件可以动态地创建任意类型的变量.
 
@@ -120,15 +120,15 @@
 此外变量文件还可以由 `Python或Java类 <Implementing variable file as Python or Java class>` 来实现. 具体的方法类似.
 
 
-.. _Taking variable files into use:
+.. _taking variable files into use:
 
-如何使用变量文件
-~~~~~~~~~~~~~~~~
+使用变量文件
+~~~~~~~~~~~~
 
 .. _Setting table:
 
 通过Setting
-'''''''''''''
+'''''''''''
 
 所有的测试数据文件都可以在设置表中通过 :setting:`Variables` 来导入变量, 如同使用 :setting:`Resource` 来 :ref:`导入资源文件 <taking resource files into use>` 一样. 和资源文件的查找顺序类似, 待导入的变量文件路径最开始在相对于当前要导入变量的文件所在路径上寻找, 如果找不到, 则继续在 :ref:`模块搜索路径` 上搜寻. 路径名称可以使用变量, 并且在Windows中也可以使用正斜杠.
 

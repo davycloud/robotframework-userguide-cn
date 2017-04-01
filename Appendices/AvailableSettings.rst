@@ -1,24 +1,21 @@
 .. All available settings in test data
 
 可用配置项
-========================
+==========
 
 .. contents::
    :depth: 2
    :local:
 
-.. Setting table
+.. _setting table:
 
 配置表
--------------
+------
 
-Setting表格在导入测试库, 资源文件和变量文件时有用, 同时也可为测试套件和测试用例定义元数据. 该表可存在于测试用例文件和资源文件中. 注意, 在资源文件中, Setting表只能包含导入(测试库, 资源文件和变量文件)相关的配置项.
+Setting表格是用来为测试套件和测试用例导入测试库, 资源文件和变量文件, 同时也给它们定义元数据. 该表可存在于测试用例文件和资源文件中.
 
-The Setting table is used to import test libraries, resource files and
-variable files and to define metadata for test suites and test
-cases. It can be included in test case files and resource files. Note
-that in a resource file, a Setting table can only include settings for
-importing libraries, resources, and variables.
+注意, 在资源文件中, Setting表只能包含导入(测试库, 资源文件和变量文件)相关的配置项.
+
 
 .. table:: Settings available in the Setting table
    :class: tabular
@@ -26,47 +23,43 @@ importing libraries, resources, and variables.
    +-----------------+--------------------------------------------------------+
    |       Name      |                         Description                    |
    +=================+========================================================+
-   | Library         | Used for `importing libraries`_.                       |
+   | Library         | 用来 :ref:`importing libraries`.                       |
    +-----------------+--------------------------------------------------------+
-   | Resource        | Used for `taking resource files into use`_.            |
+   | Resource        | 用来 :ref:`taking resource files into use`.            |
    +-----------------+--------------------------------------------------------+
-   | Variables       | Used for `taking variable files into use`_.            |
+   | Variables       | 用来 :ref:`taking variable files into use`.            |
    +-----------------+--------------------------------------------------------+
-   | Documentation   | Used for specifying a `test suite`__ or                |
-   |                 | `resource file`__ documentation.                       |
+   | Documentation   | 用来为 :ref:`测试套件 <test suite documentation>`      |
+   |                 | :ref:`资源文件 <documenting resource files>` 设置文档. |
    +-----------------+--------------------------------------------------------+
-   | Metadata        | Used for setting `free test suite metadata`_.          |
+   | Metadata        | 用来设置 :ref:`free test suite metadata`.              |
    +-----------------+--------------------------------------------------------+
-   | Suite Setup     | Used for specifying the `suite setup`_.                |
+   | Suite Setup     | 用来指定 :ref:`suite setup <suite setup>`.             |
    +-----------------+--------------------------------------------------------+
-   | Suite Teardown  | Used for specifying the `suite teardown`_.             |
+   | Suite Teardown  | 用来指定 :ref:`suite teardown <suite setup>`.          |
    +-----------------+--------------------------------------------------------+
    | Force Tags      | Used for specifying forced values for tags when        |
-   |                 | `tagging test cases`_.                                 |
+   |                 | :ref:`tagging test cases`.                             |
    +-----------------+--------------------------------------------------------+
    | Default Tags    | Used for specifying default values for tags when       |
-   |                 | `tagging test cases`_.                                 |
+   |                 | :ref:`tagging test cases`.                             |
    +-----------------+--------------------------------------------------------+
-   | Test Setup      | Used for specifying a default `test setup`_.           |
+   | Test Setup      | 用来指定一个缺省的 :ref:`test setup <test setup>`.     |
    +-----------------+--------------------------------------------------------+
-   | Test Teardown   | Used for specifying a default `test teardown`_.        |
+   | Test Teardown   | 用来指定一个缺省的 :ref:`test teardown <test setup>`.  |
    +-----------------+--------------------------------------------------------+
-   | Test Template   | Used for specifying a default `template keyword`_      |
-   |                 | for test cases.                                        |
+   | Test Template   | 用来为测试用例指定一个缺省的 :ref:`template keyword`   |
    +-----------------+--------------------------------------------------------+
-   | Test Timeout    | Used for specifying a default `test case timeout`_.    |
+   | Test Timeout    | 用来指定一个缺省的 :ref:`test case timeout`.           |
    +-----------------+--------------------------------------------------------+
 
 .. note:: 所有的配置名字都可在结尾使用冒号, 例如: :setting:`Documentation:`.
           这个冒号是可选的, 主要是为了让配置更可读, 特别是在使用纯文本格式时.
 
-__ `Test suite documentation`_
-__ `Documenting resource files`_
-
 .. Test Case table
 
 测试用例表
----------------
+----------
 
 测试用例表中的配置总是针对的当前特定的测试用例. 其中的某些配置将会覆盖在Settings表中定义的默认值.
 
@@ -92,7 +85,7 @@ __ `Documenting resource files`_
 .. Keyword table
 
 关键字表
--------------
+--------
 
 关键字表中的配置是针对的当前特定的用户关键字.
 

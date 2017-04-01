@@ -61,6 +61,7 @@ Robot Framework是一个通用的，应用和技术无关的框架。它的高�
 
 .. _GitHub: https://github.com/robotframework/robotframework
 
+.. _mailing lists:
 
 邮件列表
 ~~~~~~~~
