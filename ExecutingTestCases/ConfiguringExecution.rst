@@ -195,8 +195,8 @@ Robot Framework 解析测试数据时, :ref:`测试套件的名字 <test suite n
 .. _module search path:
 .. _Configuring where to search libraries and other extensions:
 
-配置模块搜索路径
------------------
+模块搜索路径
+-------------
 
 当Robot Framework导入 :ref:`test library <specifying library to import>`, :ref:`listener <setting listeners>`, 或其它基于Python的扩展的时候, 它要用Python解释器从系统中导入包含扩展内容的模块(module).
 其中查找模块的一系列的位置被称之为 *模块搜索路径*, 本节将介绍几种不同的方法来配置. 当导入基于Java的库或Jython的扩展时, 除了正常的模块搜索路径, 还要加上Java的类路径(classpash).
@@ -228,6 +228,8 @@ Python, Jython和IronPython分别从环境变量 ``PYTHONPATH``, ``JYTHONPATH`` 
           ``PYTHONPATH`` 环境变量中的内容被框架自己加入到模块搜索路径中.
           现在则不会了, 必须分别使用 ``JYTHONPATH`` 和 ``IRONPYTHONPATH``.
 
+
+.. _Using --pythonpath option:
 
 ``--pythonpath`` 选项
 ~~~~~~~~~~~~~~~~~~~~~

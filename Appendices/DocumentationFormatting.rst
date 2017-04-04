@@ -1,6 +1,5 @@
 .. _documentation syntax:
-
-.. Documentation formatting
+.. _documentation formatting:
 
 文档格式
 ========================

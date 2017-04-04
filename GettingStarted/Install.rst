@@ -334,8 +334,10 @@ JAR包的名字是  ``robotframework-<version>.jar``, 可在 `Maven`_ 获取.
 除了Python标准库和Robot Framework模块, JAR包版本从 2.9.2 开始还包含了 PyYAML
 依赖包, 用来处理 ``yaml`` 格式的变量文件.
 
+.. _manual installation:
+
 手动安装
--------------------
+--------
 
 如果不想使用上述的自动安装方式, 可以手动安装将Robot Framework安装到自己指定的路径.
 按照如下步骤:
@@ -345,7 +347,7 @@ JAR包的名字是  ``robotframework-<version>.jar``, 可在 `Maven`_ 获取.
 3. 决定 怎样运行测试
 
 检查安装结果
-----------------------
+------------
 
 成功安装后, 执行 `运行脚本`_ 并带上 :option:`--version` 选项, 如果如下所示可以获取到
 Robot Framework的版本和Python解释器的版本, 则表示安装成功:
@@ -374,8 +376,9 @@ Robot Framework `运行脚本`_ 则创建并被拷贝到另一个平台相关的
 包括使用Jython 和 IronPython, 这个目录在解释器安装目录下的 :file:`Scripts`
 或 :file:`bin` 目录.
 
+
 卸载
---------------
+----
 
 最简单的卸载Robot Framework的方式也是使用 pip_:
 
