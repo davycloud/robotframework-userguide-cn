@@ -1,7 +1,7 @@
-.. External tools
+.. _external tools:
 
 外部工具
-==============
+========
 
 Robot Framework有很多可用的外部工具, 包括测试数据的编辑器 RIDE_, 各种IDE或文本编辑器的扩展, 持续集成系统的插件, 等等.
 

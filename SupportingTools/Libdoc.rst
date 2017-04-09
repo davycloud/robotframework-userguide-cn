@@ -539,7 +539,7 @@ Libdoc自动处理关键字的参数, 测试库中方法的参数和资源文件
    |                    |                            | | ``*varargs, **kwargs`` |
    +--------------------+----------------------------+--------------------------+
 
-当要在文档中引用关键字的参数时, 推荐使用 :ref:`行内代码样式 <inline styles_>`__ 来表示, 例如 ````argument````.
+当要在文档中引用关键字的参数时, 推荐使用 :ref:`行内代码样式 <inline styles_>` 来表示, 例如 ````argument````.
 
 
 .. _Libdoc example:
@@ -549,7 +549,7 @@ Libdoc示例
 
 下面的例子比较完整的展示了如何使用 `文档格式化`_ 中最有用的功能, :ref:`internal linking` 等等. 
 
-点击 :doc:`LoggingLibrary.html` 查看生成的文档是什么样.
+点击 `这里 <../examples/LoggingLibrary.html>`_ 查看生成的文档是什么样.
 
 .. literalinclude:: LoggingLibrary.py
 
@@ -557,4 +557,3 @@ Libdoc示例
 
 所有 `标准库`_ 都提供了由Libdoc生成的文档, 这些文档(以及源代码)都可作为更加真实的例子来参考学习.
 
-__ ./LoggingLibrary.html

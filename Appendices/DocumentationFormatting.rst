@@ -2,16 +2,12 @@
 .. _documentation formatting:
 
 文档格式
-========================
+========
 
-在所有文档出现的地方, 包括 `测试套件`__, `测试用例`__, `用户关键字`__, `测试套件的元数据`__, 以及 `测试库文档`__ 中, 都可以使用简单的HTML格式.
-格式和大多数wiki用到的样式类似, 被设计成不管是纯文本还是转换成HTML都很易懂.
+在所有文档出现的地方, 包括 :ref:`测试套件 <test suite documentation>`, :ref:`测试用例 <test case documentation>`, :ref:`用户关键字 <user keyword documentation>`, :ref:`测试套件的元数据 <free test suite metadata>`, 以及 :ref:`测试库文档 <documenting libraries>` 中, 都可以使用简单的HTML格式. 这个格式和大多数wiki用到的样式类似, 被设计成不管是纯文本还是转换成HTML都很易懂.
 
-__ `test suite documentation`_
-__ `test case documentation`_
-__ `user keyword documentation`_
-__ `free test suite metadata`_
-__ `Documenting libraries`_
+
+`本章原文 <http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#documentation-formatting>`_
 
 .. contents::
    :depth: 2
@@ -20,17 +16,15 @@ __ `Documenting libraries`_
 .. Representing newlines
 
 如何表示换行
----------------------
+------------
 
 .. _newlines in test data:
 
 测试数据中的换行
 ~~~~~~~~~~~~~~~~
 
-对所有的文档, 换行都可以通过手动添加 `字面换行符`__` (`\n`)来实现.
+对所有的文档, 换行都可以通过手动添加 :ref:`字面换行符 <handling whitespace>` (``\n``)来实现.
 
-
-__ `Handling whitespace`_
 
 .. sourcecode:: robotframework
 
@@ -38,7 +32,7 @@ __ `Handling whitespace`_
   Documentation    First line.\n\nSecond paragraph, this time\nwith multiple lines.
   Metadata         Example    Value\nin two lines
 
-手动添加换行符对于长篇文档来说是个负担, 并且额外的字符也使得文档内容难以阅读. 从Robot Framework 2.7版本开始, `连续的文档和元数据行`__ 中间会自动插入换行. 也就是说, 上面的例子还可以写成下面这种情况:
+手动添加换行符对于长篇文档来说是个负担, 并且额外的字符也使得文档内容难以阅读. 从Robot Framework 2.7版本开始, :ref:`连续的文档和元数据行 <dividing test data to several rows>` 中间会自动插入换行. 也就是说, 上面的例子还可以写成下面这种情况:
 
 .. sourcecode:: robotframework
 
@@ -53,12 +47,9 @@ __ `Handling whitespace`_
   ...    Value
   ...    in two lines
 
-如果一行已经以字面换行符结尾了, 或者以一个 `转义的反斜杠`__ 结尾, 则不会自动添加换行. 同一行中多列文字则使用空格拼接起来. 这种方式的拆分对 `HTML格式`_ 比较有用, 因为HTML表格的列一般比较窄. 
+如果一行已经以字面换行符结尾了, 或者以一个 :ref:`转义的反斜杠 <escaping>` 结尾, 则不会自动添加换行. 同一行中多列文字则使用空格拼接起来. 这种方式的拆分对 :ref:`HTML format` 比较有用, 因为HTML表格的列一般比较窄. 
 
 下面的例子使用不同的方法来分割文档, 所有3个用例的文档最终效果都是一样的, 都包含了两行文档.
-
-__ `Dividing test data to several rows`_
-__ Escaping_
 
 .. sourcecode:: robotframework
 
@@ -81,7 +72,7 @@ __ Escaping_
 .. Documentation in test libraries
 
 测试库的文档
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~
 
 测试库的文档使用正常的换行就可以了.
 
@@ -98,10 +89,10 @@ __ Escaping_
       pass
 
 
-.. Paragraphs
+.. _paragraphs:
 
 段落
-----------
+----
 
 从Robot Framework 2.7.2版本开始, 格式化后的HTML文档里, 所有的普通文本都表示为段落. 实际上, 不管是手动还是自动换行都会造成分段. 多个段落之间可以是空行, 也可以是其它的文本块, 比如表格, 列表等.
 
@@ -129,19 +120,17 @@ __ Escaping_
           日志和报告里面的文档不是.
 
 
-.. Inline styles
+.. _inline styles:
 
 行内样式
--------------
+--------
 
-文档语法支持的行内样式包括: **粗体**, *斜体* and `代码`. 粗体文字是用星号把一个或多个单词包住, 例如 `*this is bold*`. 类似地, 斜体是使用下划线, 例如 `_italic_`. 两者组合可以生成粗斜体 `_*bold italic*_`.
+文档语法支持的行内样式包括: **粗体**, *斜体* and ``代码``. 粗体文字是用星号把一个或多个单词包住, 例如 ``*this is bold*``. 类似地, 斜体是使用下划线, 例如 ``_italic_``. 两者组合可以生成粗斜体 ``_*bold italic*_``.
 
-行内的代码使用双反引号 :codesc:`\`\`code\`\``. 其效果是生成淡灰色背景加等宽字体. 代码样式是在2.8.6版本新加的功能.
+行内的代码使用双反引号 ````code````. 其效果是生成淡灰色背景加等宽字体. 代码样式是在2.8.6版本新加的功能.
 
-星号, 下划线, 双反引号这些字符如果单独出现, 或者出现在文字中间, 则不会起作用, 不过如果前后出现的是标点符号, 则不受影响. 当 段落__ 中有多行, 行内样式可以跨越多行.
+星号, 下划线, 双反引号这些字符如果单独出现, 或者出现在文字中间, 则不会起作用, 不过如果前后出现的是标点符号, 则不受影响. 当 :ref:`段落 <paragraphs>` 中有多行, 行内样式可以跨越多行.
 
-
-__ paragraphs_
 
 .. raw:: html
 
@@ -182,25 +171,25 @@ URLs
 
 所有看起来像URL的字符串都会自动转换为可点击的链接. 此外, 如果URL以图片类扩展名如 :file:`.jpg`, :file:`.jpeg`, :file:`.png`, :file:`.gif` 或 :file:`.bmp` (大小写无关) 结尾, 则将自动创建图片. 
 
-例如, 网址 `http://example.com` 转为链接, `http:///host/image.jpg` 和 `file:///path/chart.png` 则转为图片链接.
+例如, 网址 ``http://example.com`` 转为链接, ``http:///host/image.jpg`` 和 ``file:///path/chart.png`` 则转为图片链接.
 
 URL的自动转换对日志和报告内的所有数据都启用, 但是创建图片只对测试套件文档, 测试用例和关键字文档, 以及测试套件的元数据起作用.
 
 .. Custom links and images
 
 自定义链接和图片
------------------------
+----------------
 
-从Robot Framework 2.7版本开始, 可以通过一个特殊语法来创建自定义的链接和嵌入图片, 语法格式为 `[link|content]`. 最终生成的效果取决于  `link` 和 `content`.
+从Robot Framework 2.7版本开始, 可以通过一个特殊语法来创建自定义的链接和嵌入图片, 语法格式为 ``[link|content]``. 最终生成的效果取决于  ``link`` 和 ``content``.
 
 是否是图片同样是通过文件扩展名来判断, 和 URLs_ 中一样. 不管什么情况, 该语法中的方括号和中间的管道符都是必需的.
 
 .. Link with text content
 
 带文本内容的链接
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
-如果不管  `link` 或 `content` 都不是图片, 则结果会生成一个普通的链接, 其中 `link`  是链接目标, 而 `content` 是显示文本::
+如果不管  ``link`` 或 ``content`` 都不是图片, 则结果会生成一个普通的链接, 其中 ``link``  是链接目标, 而 ``content`` 是显示文本::
 
 
     [file.html|this file] -> <a href="file.html">this file</a>
@@ -209,9 +198,9 @@ URL的自动转换对日志和报告内的所有数据都启用, 但是创建图
 .. Link with image content
 
 带图片的链接
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~
 
-如果 `content` 是图片, 则生成的链接显示的内容是图片. 而链接的目标由 `link` 决定, 可能是普通的文本链接, 也可能是图片::
+如果 ``content`` 是图片, 则生成的链接显示的内容是图片. 而链接的目标由 ``link`` 决定, 可能是普通的文本链接, 也可能是图片::
 
     [robot.html|robot.png] -> <a href="robot.html"><img src="robot.png"></a>
     [image.jpg|thumb.jpg] -> <a href="image.jpg"><img src="thumb.jpg"></a>
@@ -219,9 +208,9 @@ URL的自动转换对日志和报告内的所有数据都启用, 但是创建图
 .. Image with title text
 
 带title文本的图片
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
-如果 `link` 是图片, 而 `content` 不是, 则生成的结果是一幅图片, 而 `content` 作为图片的title属性, 也就是当鼠标停在图片上面时显示:: 
+如果 ``link`` 是图片, 而 ``content`` 不是, 则生成的结果是一幅图片, 而 ``content`` 作为图片的title属性, 也就是当鼠标停在图片上面时显示:: 
 
 If `link` is an image but `content` is not, the syntax creates an
 image where the `content` is the title text shown when mouse is over
@@ -234,7 +223,7 @@ the image::
 章节标题
 --------------
 
-如果文档内容较长, 则通常会分为几个章节. 从Robot Framework 2.7.5 版本开始, 可以使用语法格式 `= My Title =` 设置章节标题. 其中, 等号(`=`)的数量表示标题的级别::
+如果文档内容较长, 则通常会分为几个章节. 从Robot Framework 2.7.5 版本开始, 可以使用语法格式 ``= My Title =`` 设置章节标题. 其中, 等号(``=``)的数量表示标题的级别::
 
     = First section =
 
@@ -250,15 +239,15 @@ the image::
 
     You probably got the idea.
 
-注意, 最多支持三级标题, 并且标题文本和前后的等号之间 *必须* 要留有空格.
+注意, 最多支持三级标题, 并且标题文本和前后的等号之间 **必须** 要留有空格.
 
 
 .. Tables
 
 表格
-------
+----
 
-表格通过两边留有空格的管道符(即竖线)来作为列的分隔, 用换行表示新的一行(row). 在单元内的文字两边加上等号来标记表头, 如 `= Header =` 或 `=Header=`. 
+表格通过两边留有空格的管道符(即竖线)来作为列的分隔, 用换行表示新的一行(row). 在单元内的文字两边加上等号来标记表头, 如 ``= Header =`` 或 ``=Header=``. 
 
 表格单元格内的文字同样支持行内样式以及链接格式. 例如::
 
@@ -285,7 +274,7 @@ the image::
 列表
 -----
 
-在行首用连字符(即减号`-`)开始, 后面跟空格, 然后是列表项. 列表项可以分为多行, 多行情况下, 后续行要缩进至少一个空格. 一旦遇到没有不是以 `- `开始的行且没有缩进, 则标志着列表的结束::
+在行首用连字符(即减号``-``)开始, 后面跟空格, 然后是列表项. 列表项可以分为多行, 多行情况下, 后续行要缩进至少一个空格. 一旦遇到没有以 ``- ``开始的行且没有缩进, 则标志着列表的结束::
 
   Example:
   - a list item
@@ -313,9 +302,9 @@ the image::
 .. Preformatted text
 
 预格式的文本
------------------
+------------
 
-Robot Framework 2.7 版本开始, 可以在文档中嵌入预格式的(preformatted)文本. 以 '| ' 作为一行的开始, 其中管道符后面必须要有至少一个空格(空行是个例外). 最终转换到HTML时, 行首的 '| ' 被去掉, 但是其它所有的空格都会被保留. 
+Robot Framework 2.7 版本开始, 可以在文档中嵌入预格式的(preformatted)文本. 以 ``| `` 作为一行的开始, 其中管道符后面必须要有至少一个空格(空行是个例外). 最终转换到HTML时, 行首的 ``| `` 被去掉, 但是其它所有的空格都会被保留. 
 
 在下面的文档中, 中间的两行就是预格式的文本块::
 
@@ -335,7 +324,7 @@ Robot Framework 2.7 版本开始, 可以在文档中嵌入预格式的(preformat
   <p>After block.</p>
   </div>
 
-当在Robot Framework的测试数据中编写这样包含多个空格的文档, 需要对空格进行转义, 以 `prevent ignoring spaces`_. 所以上面的例子实际会写作::
+当在Robot Framework的测试数据中编写这样包含多个空格的文档, 需要对空格进行转义, 以 :ref:`prevent ignoring spaces`. 所以上面的例子实际会写作::
 
   Doc before block:
   | inside block
@@ -345,9 +334,9 @@ Robot Framework 2.7 版本开始, 可以在文档中嵌入预格式的(preformat
 .. Horizontal ruler
 
 分割线
-----------------
+------
 
-水平分割线(即`<hr>`)常用来分隔大的章节, 在单独一行内使用3个或以上的连字符即可::
+水平分割线(``<hr>``)常用来分隔大的章节, 在单独一行内使用3个或以上的连字符即可::
 
    Some text here.
 

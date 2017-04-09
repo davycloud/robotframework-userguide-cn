@@ -1,9 +1,11 @@
-.. _testdoc:
+
 
 .. Test data documentation tool (Testdoc)
 
+.. _testdoc:
+
 测试数据文档工具(Testdoc)
-======================================
+=========================
 
 .. contents::
    :depth: 1
@@ -14,12 +16,12 @@ Testdoc是Robot Framework内置的工具, 用于从测试用例生成HTML文档.
 .. General usage
 
 用法
--------------
+----
 
 .. Synopsis
 
 总览
-~~~~~~~~
+~~~~
 
 ::
 
@@ -28,7 +30,7 @@ Testdoc是Robot Framework内置的工具, 用于从测试用例生成HTML文档.
 .. Options
 
 选项
-~~~~~~~
+~~~~
 
  -T, --title <title>           Set the title of the generated documentation.
                                Underscores in the title are converted to spaces.
@@ -43,21 +45,16 @@ Testdoc是Robot Framework内置的工具, 用于从测试用例生成HTML文档.
  -e, --exclude <tag>           Exclude tests by tags.
  -h, --help                    Print this help in the console.
 
-除了 :option:`--title` 以外的所有选项的语义都和在 `执行测试用例`__ 时使用完全一样. 
+除了 :option:`--title` 以外的所有选项的语义都和在 :ref:`执行测试用例 <configuring execution>` 时使用完全一样. 
 
-All options except :option:`--title` have exactly the same semantics as same
-options have when `executing test cases`__.
-
-__ `Configuring execution`_
-
-.. Generating documentation
+.. _generating documentation:
 
 生成文档
-------------------------
+--------
 
 生成文档的数据源可以是单个文件, 单个目录, 也可以是多个文件和目录. 所有这些情况, 最后那个参数都必须是最终文档输出要写入的文件.
 
-Testdoc适用于Robot Framework支持的所有解释器(Python, Jython and IronPython). 它可以以python模块的方式执行, 如 `python -m robot.testdoc`, 也可以当作一个脚本来执行, 例如: `python path/robot/testdoc.py`.
+Testdoc适用于Robot Framework支持的所有解释器(Python, Jython and IronPython). 它可以以python模块的方式执行, 如 ``python -m robot.testdoc``, 也可以当作一个脚本来执行, 例如: ``python path/robot/testdoc.py``.
 
 示例::
 

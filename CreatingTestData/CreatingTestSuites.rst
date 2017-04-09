@@ -113,7 +113,8 @@ Robot Framework 的测试用例在测试文件中使用测试用例表格来 :re
        Another Keyword
 
 
-.. _Test suite name and documentation:
+.. _test suite name and documentation:
+.. _test suite documentation:
 
 测试套件名称和文档
 ------------------
